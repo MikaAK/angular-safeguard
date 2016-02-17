@@ -25,7 +25,7 @@ export class MemoryStorage implements IStorage {
   }
 
   public removeItem(key) {
-    return _cache.delete(key)
+    _cache.delete(key)
   }
 
   public clear() {

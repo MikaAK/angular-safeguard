@@ -9,7 +9,7 @@ const LOCKER_TYPES = {
   MEMORY: new Driver(new MemoryStorage())
 }
 
-var makeKey = function(locker, key) {
+var makeKey = function(locker: Locker, key: string): string {
   return `${locker.namespace}:${key}`
 }
 
