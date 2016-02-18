@@ -9,21 +9,18 @@ const LOCKER_TYPES = {
   MEMORY: new Driver(new MemoryStorage())
 }
 
-var makeKey = function(locker: Locker, key: string): string {
-  return `${locker.namespace}:${key}`
-}
-
 export class Locker {
   public DRIVERS: Object = LOCKER_TYPES
 
   private driver: Driver
   private namespace: string
 
-  constructor() {
-    this.setDriver(LOCKER_TYPES.SESSION)
+  constructor({driverNamespace, defaultDriverType = LOCKER_TYPES.SESSION}) {
+    this.setNamespace(driverNamespace)
+    this.setDriver(defaultDriverType)
   }
 
-  public setNamespace(namespace) {
+  public setNamespace(namespace = '') {
     this.namespace = namespace
   }
 
@@ -35,19 +32,19 @@ export class Locker {
   }
 
   public set(key, data, expiry) {
-    this.driver.set(makeKey(this, key), data)
+    this.driver.set(this._makeKey(key), data)
   }
 
   public get(key) {
-    return this.driver.get(makeKey(this, key))
+    return this.driver.get(this._makeKey(key))
   }
 
   public has(key) {
-    return this.driver.has(makeKey(this, key))
+    return this.driver.has(this._makeKey(key))
   }
 
   public remove(key) {
-    this.driver.remove(makeKey(this, key))
+    this.driver.remove(this._makeKey(key))
   }
 
   public key(index) {
@@ -56,5 +53,9 @@ export class Locker {
 
   public clear() {
     this.driver.clear()
+  }
+
+  private _makeKey(key: string): string {
+    return `${this.namespace}:${key}`
   }
 }

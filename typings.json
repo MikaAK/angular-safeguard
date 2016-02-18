@@ -1,5 +1,6 @@
 {
   "name": "angular2-locker",
   "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {},
+  "ambientDependencies": {}
 }

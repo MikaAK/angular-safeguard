@@ -7,15 +7,21 @@ var createPath = function(nPath) {
 }
 
 var config = {
+  context: CONTEXT,
+  entry: './src/Locker.ts',
+
   output: {
     path: createPath('dist'),
     filename: 'locker.js'
   },
 
-  modules: [{
-    test: /\.ts/,
-    loader: 'babel!ts'
-  }],
+  module: {
+    loaders: [{
+      test: /\.ts/,
+      loader: 'babel!ts',
+      include: [createPath('src')]
+    }]
+  },
 
   resolve: {
     extensions: ['.ts', '.js','']
