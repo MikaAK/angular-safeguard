@@ -1,2 +1,64 @@
-# angular2-locker
+angular2-locker
+=====
+
 Wrapper around sessionStorage and localStorage for angular2. If both are unavailable will use an in memory storage.
+
+## Getting Started
+```bash
+$ npm i --save angular2-locker
+```
+
+```javascript
+import {bootsrap, provide} from 'angular2/core'
+import {Locker} from 'angular2-locker'
+
+bootstrap(App, [Locker])
+
+// If you need to specify more you can provide configuration
+bootstrap(App, [provide(Locker, {useValue: new Locker({
+  driverNamespace: 'MyNamespace',
+  defaultDriverType: Locker.DRIVERS.LOCAL
+})})])
+
+class App {
+  constructor(private locker: Locker) {}
+}
+```
+
+## Methods
+####`get`
+`locker.get('myKey')`
+
+####`set`
+`locker.set('myKey', 'value')`
+`locker.set('myKey', {object: 'value'})`
+
+####`key`
+```javascript
+locker.set('key', 'value')
+
+locker.key(0) // 'key'
+```
+
+####`has`
+`locker.has('key')`
+
+####`setNamespace`
+`locker.setNamespace('myName')`
+
+####`setDriver`
+`locker.setDriver(Locker.DRIVERS.LOCAL) // for more info on drivers look for static methods`
+
+####`remove`
+`locker.remove('key')`
+
+####`clear`
+`locker.empty()`
+
+## Static Methods
+#### `DRIVERS`
+These are the types of drivers available. If you try to set it to a driver that is unsupported it will fallback to the memory driver
+
+- `DRIVER.SESSION` - Session Cache
+- `DRIVER.LOCAL` - Local Storage
+- `DRIVER.MEMORY` - Memory Storage
