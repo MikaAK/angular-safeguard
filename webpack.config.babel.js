@@ -12,6 +12,8 @@ var config = {
 
   output: {
     path: createPath('dist'),
+    library: 'angular2-locker',
+    libraryTarget: 'umd',
     filename: 'locker.js'
   },
 

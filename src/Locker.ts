@@ -10,7 +10,7 @@ const LOCKER_TYPES = {
 }
 
 export class Locker {
-  public DRIVERS: Object = LOCKER_TYPES
+  public static DRIVERS = LOCKER_TYPES
 
   private driver: Driver
   private namespace: string
