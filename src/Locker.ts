@@ -3,19 +3,21 @@ declare var sessionStorage, localStorage
 import {Driver} from './Driver'
 import {MemoryStorage} from './MemoryStorage'
 
-const LOCKER_TYPES = {
+const DRIVERS = {
   SESSION: new Driver(sessionStorage),
   LOCAL: new Driver(localStorage),
   MEMORY: new Driver(new MemoryStorage())
 }
 
+export {DRIVERS}
+
 export class Locker {
-  public static DRIVERS = LOCKER_TYPES
+  public static DRIVERS = DRIVERS
 
   private driver: Driver
   private namespace: string
 
-  constructor({driverNamespace, defaultDriverType = LOCKER_TYPES.SESSION}) {
+  constructor({driverNamespace, defaultDriverType = DRIVERS.SESSION}) {
     this.setNamespace(driverNamespace)
     this.setDriver(defaultDriverType)
   }
@@ -28,7 +30,7 @@ export class Locker {
     this.driver = driver
 
     if (!this.driver.isSupported())
-      this.driver = LOCKER_TYPES.MEMORY
+      this.driver = DRIVERS.MEMORY
   }
 
   public set(key, data, expiry) {

@@ -62,21 +62,21 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var Driver_1 = __webpack_require__(1);
 	var MemoryStorage_1 = __webpack_require__(2);
-	var LOCKER_TYPES = {
+	var DRIVERS = {
 	    SESSION: new Driver_1.Driver(sessionStorage),
 	    LOCAL: new Driver_1.Driver(localStorage),
 	    MEMORY: new Driver_1.Driver(new MemoryStorage_1.MemoryStorage())
 	};
+	exports.DRIVERS = DRIVERS;
 
 	var Locker = function () {
 	    function Locker(_ref) {
 	        var driverNamespace = _ref.driverNamespace;
 	        var _ref$defaultDriverTyp = _ref.defaultDriverType;
-	        var defaultDriverType = _ref$defaultDriverTyp === undefined ? LOCKER_TYPES.SESSION : _ref$defaultDriverTyp;
+	        var defaultDriverType = _ref$defaultDriverTyp === undefined ? DRIVERS.SESSION : _ref$defaultDriverTyp;
 
 	        _classCallCheck(this, Locker);
 
-	        this.DRIVERS = LOCKER_TYPES;
 	        this.setNamespace(driverNamespace);
 	        this.setDriver(defaultDriverType);
 	    }
@@ -92,7 +92,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        key: 'setDriver',
 	        value: function setDriver(driver) {
 	            this.driver = driver;
-	            if (!this.driver.isSupported()) this.driver = LOCKER_TYPES.MEMORY;
+	            if (!this.driver.isSupported()) this.driver = DRIVERS.MEMORY;
 	        }
 	    }, {
 	        key: 'set',
@@ -134,6 +134,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return Locker;
 	}();
 
+	Locker.DRIVERS = DRIVERS;
 	exports.Locker = Locker;
 
 /***/ },

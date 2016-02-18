@@ -40,9 +40,18 @@ declare module 'angular2-locker/src/MemoryStorage' {
 
 }
 declare module 'angular2-locker/src/Locker' {
-	import { Driver } from 'angular2-locker/src/Driver';
+	import { Driver } from 'angular2-locker/src/Driver'; const DRIVERS: {
+	    SESSION: Driver;
+	    LOCAL: Driver;
+	    MEMORY: Driver;
+	};
+	export { DRIVERS };
 	export class Locker {
-	    DRIVERS: Object;
+	    static DRIVERS: {
+	        SESSION: Driver;
+	        LOCAL: Driver;
+	        MEMORY: Driver;
+	    };
 	    private driver;
 	    private namespace;
 	    constructor({driverNamespace, defaultDriverType}: {

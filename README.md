@@ -58,7 +58,8 @@ locker.key(0) // 'key'
 ## Static Methods
 #### `DRIVERS`
 These are the types of drivers available. If you try to set it to a driver that is unsupported it will fallback to the memory driver
+Types are available under `Locker.DRIVERS` or `import {DRIVERS} from 'angular2-locker'`
 
-- `DRIVER.SESSION` - Session Cache
-- `DRIVER.LOCAL` - Local Storage
-- `DRIVER.MEMORY` - Memory Storage
+- `DRIVERS.SESSION` - Session Cache
+- `DRIVERS.LOCAL` - Local Storage
+- `DRIVERS.MEMORY` - Memory Storage

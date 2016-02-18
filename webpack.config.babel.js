@@ -21,7 +21,8 @@ var config = {
     loaders: [{
       test: /\.ts/,
       loader: 'babel!ts',
-      include: [createPath('src')]
+      include: [createPath('src')],
+      exclude: [createPath('node_modules')]
     }]
   },
 
