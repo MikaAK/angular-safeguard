@@ -97,6 +97,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'set',
 	        value: function set(key, data, expiry) {
+	            if (expiry) console.warn('Expiry is not implimented yet');
 	            this.driver.set(this._makeKey(key), data);
 	        }
 	    }, {

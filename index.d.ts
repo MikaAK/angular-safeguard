@@ -51,7 +51,7 @@ export class Locker {
   })
   setNamespace(namespace?: string): void
   setDriver(driver: Driver): void
-  set(key: any, data: any, expiry: any): void
+  set(key: any, data: any, expiry?: any): void
   get(key: any): any
   has(key: any): boolean
   remove(key: any): void

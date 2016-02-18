@@ -33,7 +33,10 @@ export class Locker {
       this.driver = DRIVERS.MEMORY
   }
 
-  public set(key, data, expiry) {
+  public set(key, data, expiry?) {
+    if (expiry)
+      console.warn('Expiry is not implimented yet')
+
     this.driver.set(this._makeKey(key), data)
   }
 
