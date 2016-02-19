@@ -8,7 +8,7 @@ var createPath = function(nPath) {
 
 var config = {
   context: CONTEXT,
-  entry: './src/Locker.ts',
+  entry: './src/index.ts',
 
   output: {
     path: createPath('dist'),
@@ -21,7 +21,7 @@ var config = {
     loaders: [{
       test: /\.ts/,
       loader: 'babel!ts',
-      include: [createPath('src')],
+      include: [createPath('src'), createPath('test')],
       exclude: [createPath('node_modules')]
     }]
   },

@@ -17,7 +17,7 @@ export class Locker {
   private driver: Driver
   private namespace: string
 
-  constructor({driverNamespace, defaultDriverType = DRIVERS.SESSION}) {
+  constructor({driverNamespace, defaultDriverType = DRIVERS.SESSION}: {driverNamespace?: string, defaultDriverType?: Driver}) {
     this.setNamespace(driverNamespace)
     this.driver = defaultDriverType
   }
@@ -52,7 +52,7 @@ export class Locker {
     this.driver.remove(this._makeKey(key))
   }
 
-  public key(index) {
+  public key(index?) {
     return this.driver.key(index)
   }
 
@@ -61,6 +61,6 @@ export class Locker {
   }
 
   private _makeKey(key: string): string {
-    return `${this.namespace}:${key}`
+    return this.namespace ? `${this.namespace}:${key}` : key
   }
 }
