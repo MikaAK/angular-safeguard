@@ -56,89 +56,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 	var Driver_1 = __webpack_require__(1);
-	var MemoryStorage_1 = __webpack_require__(2);
-	var DRIVERS = {
-	    SESSION: new Driver_1.Driver(sessionStorage),
-	    LOCAL: new Driver_1.Driver(localStorage),
-	    MEMORY: new Driver_1.Driver(new MemoryStorage_1.MemoryStorage())
-	};
-	exports.DRIVERS = DRIVERS;
-
-	var Locker = function () {
-	    function Locker(_ref) {
-	        var driverNamespace = _ref.driverNamespace;
-	        var _ref$defaultDriverTyp = _ref.defaultDriverType;
-	        var defaultDriverType = _ref$defaultDriverTyp === undefined ? DRIVERS.SESSION : _ref$defaultDriverTyp;
-
-	        _classCallCheck(this, Locker);
-
-	        this.setNamespace(driverNamespace);
-	        this.driver = defaultDriverType;
-	    }
-
-	    _createClass(Locker, [{
-	        key: 'setNamespace',
-	        value: function setNamespace() {
-	            var namespace = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
-
-	            this.namespace = namespace;
-	        }
-	    }, {
-	        key: 'useDriver',
-	        value: function useDriver(driver) {
-	            return new Locker({
-	                defaultDriverType: driver.isSupported() ? driver : DRIVERS.MEMORY,
-	                driverNamespace: this.namespace
-	            });
-	        }
-	    }, {
-	        key: 'set',
-	        value: function set(key, data, expiry) {
-	            if (expiry) console.warn('Expiry is not implimented yet');
-	            this.driver.set(this._makeKey(key), data);
-	        }
-	    }, {
-	        key: 'get',
-	        value: function get(key) {
-	            return this.driver.get(this._makeKey(key));
-	        }
-	    }, {
-	        key: 'has',
-	        value: function has(key) {
-	            return this.driver.has(this._makeKey(key));
-	        }
-	    }, {
-	        key: 'remove',
-	        value: function remove(key) {
-	            this.driver.remove(this._makeKey(key));
-	        }
-	    }, {
-	        key: 'key',
-	        value: function key(index) {
-	            return this.driver.key(index);
-	        }
-	    }, {
-	        key: 'clear',
-	        value: function clear() {
-	            this.driver.clear();
-	        }
-	    }, {
-	        key: '_makeKey',
-	        value: function _makeKey(key) {
-	            return this.namespace + ':' + key;
-	        }
-	    }]);
-
-	    return Locker;
-	}();
-
-	Locker.DRIVERS = DRIVERS;
-	exports.Locker = Locker;
+	exports.Driver = Driver_1.Driver;
+	var Locker_1 = __webpack_require__(2);
+	exports.Locker = Locker_1.Locker;
+	exports.DRIVERS = Locker_1.DRIVERS;
 
 /***/ },
 /* 1 */
@@ -223,6 +145,96 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 2 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var Driver_1 = __webpack_require__(1);
+	var MemoryStorage_1 = __webpack_require__(3);
+	var DRIVERS = {
+	    SESSION: new Driver_1.Driver(sessionStorage),
+	    LOCAL: new Driver_1.Driver(localStorage),
+	    MEMORY: new Driver_1.Driver(new MemoryStorage_1.MemoryStorage())
+	};
+	exports.DRIVERS = DRIVERS;
+
+	var Locker = function () {
+	    function Locker(_ref) {
+	        var driverNamespace = _ref.driverNamespace;
+	        var _ref$defaultDriverTyp = _ref.defaultDriverType;
+	        var defaultDriverType = _ref$defaultDriverTyp === undefined ? DRIVERS.SESSION : _ref$defaultDriverTyp;
+
+	        _classCallCheck(this, Locker);
+
+	        this.setNamespace(driverNamespace);
+	        this.driver = defaultDriverType;
+	    }
+
+	    _createClass(Locker, [{
+	        key: 'setNamespace',
+	        value: function setNamespace() {
+	            var namespace = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
+
+	            this.namespace = namespace;
+	        }
+	    }, {
+	        key: 'useDriver',
+	        value: function useDriver(driver) {
+	            return new Locker({
+	                defaultDriverType: driver.isSupported() ? driver : DRIVERS.MEMORY,
+	                driverNamespace: this.namespace
+	            });
+	        }
+	    }, {
+	        key: 'set',
+	        value: function set(key, data, expiry) {
+	            if (expiry) console.warn('Expiry is not implimented yet');
+	            this.driver.set(this._makeKey(key), data);
+	        }
+	    }, {
+	        key: 'get',
+	        value: function get(key) {
+	            return this.driver.get(this._makeKey(key));
+	        }
+	    }, {
+	        key: 'has',
+	        value: function has(key) {
+	            return this.driver.has(this._makeKey(key));
+	        }
+	    }, {
+	        key: 'remove',
+	        value: function remove(key) {
+	            this.driver.remove(this._makeKey(key));
+	        }
+	    }, {
+	        key: 'key',
+	        value: function key(index) {
+	            return this.driver.key(index);
+	        }
+	    }, {
+	        key: 'clear',
+	        value: function clear() {
+	            this.driver.clear();
+	        }
+	    }, {
+	        key: '_makeKey',
+	        value: function _makeKey(key) {
+	            return this.namespace ? this.namespace + ':' + key : key;
+	        }
+	    }]);
+
+	    return Locker;
+	}();
+
+	Locker.DRIVERS = DRIVERS;
+	exports.Locker = Locker;
+
+/***/ },
+/* 3 */
 /***/ function(module, exports) {
 
 	"use strict";
