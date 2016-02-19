@@ -32,8 +32,10 @@ class App {
 `locker.get('myKey')`
 
 ####`set`
-`locker.set('myKey', 'value')`
-`locker.set('myKey', {object: 'value'})`
+```javascript
+locker.set('myKey', 'value')
+locker.set('myKey', {object: 'value'})
+```
 
 ####`key`
 ```javascript
