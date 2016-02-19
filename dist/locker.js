@@ -78,7 +78,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        _classCallCheck(this, Locker);
 
 	        this.setNamespace(driverNamespace);
-	        this.setDriver(defaultDriverType);
+	        this.driver = defaultDriverType;
 	    }
 
 	    _createClass(Locker, [{
@@ -89,10 +89,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	            this.namespace = namespace;
 	        }
 	    }, {
-	        key: 'setDriver',
-	        value: function setDriver(driver) {
-	            this.driver = driver;
-	            if (!this.driver.isSupported()) this.driver = DRIVERS.MEMORY;
+	        key: 'useDriver',
+	        value: function useDriver(driver) {
+	            return new Locker({
+	                defaultDriverType: driver.isSupported() ? driver : DRIVERS.MEMORY,
+	                driverNamespace: this.namespace
+	            });
 	        }
 	    }, {
 	        key: 'set',

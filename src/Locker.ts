@@ -1,4 +1,4 @@
-declare var sessionStorage, localStorage
+declare const sessionStorage, localStorage
 
 import {Driver} from './Driver'
 import {MemoryStorage} from './MemoryStorage'
@@ -19,18 +19,18 @@ export class Locker {
 
   constructor({driverNamespace, defaultDriverType = DRIVERS.SESSION}) {
     this.setNamespace(driverNamespace)
-    this.setDriver(defaultDriverType)
+    this.driver = defaultDriverType
   }
 
   public setNamespace(namespace = '') {
     this.namespace = namespace
   }
 
-  public setDriver(driver: Driver) {
-    this.driver = driver
-
-    if (!this.driver.isSupported())
-      this.driver = DRIVERS.MEMORY
+  public useDriver(driver: Driver) {
+    return new Locker({
+      defaultDriverType: driver.isSupported() ? driver : DRIVERS.MEMORY,
+      driverNamespace: this.namespace
+    })
   }
 
   public set(key, data, expiry?) {

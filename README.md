@@ -46,8 +46,13 @@ locker.key(0) // 'key'
 ####`setNamespace`
 `locker.setNamespace('myName')`
 
-####`setDriver`
-`locker.setDriver(Locker.DRIVERS.LOCAL) // for more info on drivers look for static methods`
+####`useDriver`
+```javascript
+// for more info on drivers look for static methods
+var driver = locker.useDriver(Locker.DRIVERS.LOCAL)
+
+driver.set('keey', 'value')
+```
 
 ####`remove`
 `locker.remove('key')`
