@@ -27,6 +27,7 @@
   },
   "homepage": "https://github.com/MikaAK/angular2-locker#readme",
   "devDependencies": {
+    "angular2": "^2.0.0-beta.7",
     "babel-core": "^6.5.2",
     "babel-loader": "^6.2.3",
     "babel-preset-es2015": "^6.5.0",
