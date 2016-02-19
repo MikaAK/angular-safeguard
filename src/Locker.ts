@@ -19,7 +19,7 @@ export class Locker {
 
   constructor({driverNamespace, defaultDriverType = DRIVERS.SESSION}: {driverNamespace?: string, defaultDriverType?: Driver}) {
     this.setNamespace(driverNamespace)
-    this.driver = defaultDriverType
+    this.driver = defaultDriverType.isSupported() ? defaultDriverType : DRIVERS.MEMORY
   }
 
   public setNamespace(namespace = '') {
@@ -27,6 +27,7 @@ export class Locker {
   }
 
   public useDriver(driver: Driver) {
+    console.log(driver, driver.isSupported())
     return new Locker({
       defaultDriverType: driver.isSupported() ? driver : DRIVERS.MEMORY,
       driverNamespace: this.namespace
