@@ -1,5 +1,7 @@
 angular2-locker
 =====
+[![Build Status](https://travis-ci.org/MikaAK/angular2-locker.svg?branch=master)](https://travis-ci.org/MikaAK/angular2-locker)
+[![Code Climate](https://codeclimate.com/github/MikaAK/angular2-locker/badges/gpa.svg)](https://codeclimate.com/github/MikaAK/angular2-locker)
 
 Wrapper around sessionStorage and localStorage for angular2. If both are unavailable will use an in memory storage.
 
