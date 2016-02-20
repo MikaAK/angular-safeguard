@@ -1,16 +1,20 @@
 declare const sessionStorage, localStorage
 
+import {Injectable} from 'angular2/core'
 import {Driver} from './Driver'
 import {MemoryStorage} from './MemoryStorage'
+import {CookieStorage} from './CookieStorage'
 
 const DRIVERS = {
-  SESSION: new Driver(sessionStorage),
   LOCAL: new Driver(localStorage),
-  MEMORY: new Driver(new MemoryStorage())
+  SESSION: new Driver(sessionStorage),
+  MEMORY: new Driver(new MemoryStorage()),
+  COOKIE: new Driver(new CookieStorage())
 }
 
 export {DRIVERS}
 
+@Injectable()
 export class Locker {
   public static DRIVERS = DRIVERS
 
@@ -27,7 +31,6 @@ export class Locker {
   }
 
   public useDriver(driver: Driver) {
-    console.log(driver, driver.isSupported())
     return new Locker({
       defaultDriverType: driver.isSupported() ? driver : DRIVERS.MEMORY,
       driverNamespace: this.namespace

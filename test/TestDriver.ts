@@ -1,9 +1,8 @@
 import {
   it,
   inject,
-  injectAsync,
   beforeEachProviders,
-  TestComponentBuilder,
+  afterEach
 } from 'angular2/testing'
 
 import {provide} from 'angular2/core'
@@ -16,15 +15,12 @@ const SEPERATOR = ':'
 
 const TestDriver = function(driverName, driver: Driver) {
   describe(driverName, function() {
-    describe('Default Config', function() {
+    describe('With DefaultDriverType', function() {
       const TEST_KEY = `${CUSTOM_NAMESPACE}-${Math.random() * 1000}`
 
       beforeEachProviders(() => [provide(Locker, {useValue: new Locker({defaultDriverType: driver})})])
+      afterEach(() => driver.clear())
 
-      //afterEach(inject([Locker], function(locker: Locker) {
-        //locker.clear()
-      //))
-      
       it(`sets driver to ${driverName}`, inject([Locker], function(locker: Locker) {
         expect(locker['driver']).toEqual(driver)
       }))
@@ -97,24 +93,6 @@ const TestDriver = function(driverName, driver: Driver) {
         expect(locker.key()).toEqual(CUSTOM_NAMESPACE + SEPERATOR + dummy.key)
       }))
     })
-
-    if (driver !== DRIVERS.MEMORY) {
-      describe('With unsupported driver', function() {
-        beforeEachProviders(() => {
-          spyOn(driver, 'isSupported').and.callFake(() => false)
-
-          return provide(Locker, {useValue: new Locker({defaultDriverType: driver})})
-        })
-
-        it('backs up to MemoryStorage if driver is not supported', inject([Locker], function(locker: Locker) {
-          expect(locker['driver']).toEqual(DRIVERS.MEMORY)
-        }))
-
-        //it('gives memory driver if trying to switch drivers', inject([Locker], function(locker: Locker) {
-          //expect(locker.useDriver(DRIVERS.LOCAL)['driver']).toEqual(DRIVERS.MEMORY)
-        //}))
-      })
-    }
   })
 }
 

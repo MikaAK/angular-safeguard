@@ -1,8 +1,8 @@
 import {IStorage} from './IStorage'
 
-var _cache = new Map()
+const _cache = new Map()
 
-var getKeys = function() {
+const getKeys = function() {
   var keys = []
 
   for (let key of _cache.keys())

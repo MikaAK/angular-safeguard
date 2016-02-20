@@ -1,6 +1,8 @@
 import path from 'path'
+import {DefinePlugin} from 'webpack'
 
-const CONTEXT = path.resolve(__dirname)
+const CONTEXT = path.resolve(__dirname),
+      {NODE_ENV} = process.env
 
 var createPath = function(nPath) {
   return path.resolve(CONTEXT, nPath)
@@ -16,6 +18,12 @@ var config = {
     libraryTarget: 'umd',
     filename: 'locker.js'
   },
+
+  plugins: [
+    new DefinePlugin({
+      __DEV__: NODE_ENV === 'development' || NODE_ENV === 'test'
+    })
+  ],
 
   module: {
     loaders: [{

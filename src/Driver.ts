@@ -1,8 +1,10 @@
+declare const __DEV__
+
 import {IStorage} from './IStorage'
 
 const LOCKER_TEST_KEY = 'LOCKER_TEST_KEY'
 
-var convertToJSON = function(data: any) {
+const convertFromJSON = function(data: any) {
   if (typeof data !== 'string')
     return data
   else {
@@ -22,7 +24,7 @@ class Driver {
   }
 
   public get(key: string): any {
-    return convertToJSON(this.storage.getItem(key))
+    return convertFromJSON(this.storage.getItem(key))
   }
 
   public has(key: string): boolean {
@@ -47,6 +49,9 @@ class Driver {
       this.get(LOCKER_TEST_KEY)
       this.remove(LOCKER_TEST_KEY)
     } catch (e) {
+      if (__DEV__)
+        console.error(e)
+
       return false
     }
 
