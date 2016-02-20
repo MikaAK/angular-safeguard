@@ -64,7 +64,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 1 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
@@ -132,7 +132,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                this.get(LOCKER_TEST_KEY);
 	                this.remove(LOCKER_TEST_KEY);
 	            } catch (e) {
-	                if (__DEV__) console.error(e);
+	                if (false) console.error(e);
 	                return false;
 	            }
 	            return true;
@@ -17891,22 +17891,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    }, {
 	        key: 'setItem',
-	        value: function setItem(key, value, config) {
-	            Cookie_1.Cookie.set(key, value, config);
+	        value: function setItem(key, value) {
+	            Cookie_1.Cookie.set(key, value, {});
 	        }
 	    }, {
 	        key: 'removeItem',
 	        value: function removeItem(key) {
-	            var cookie = Cookie_1.Cookie.get(key);
-	            if (cookie) Cookie_1.Cookie.set(key, 'DELETE', { maxAge: 0 });
+	            Cookie_1.Cookie.remove(key);
 	        }
 	    }, {
 	        key: 'clear',
 	        value: function clear() {
-	            var _this = this;
-
 	            Object.keys(Cookie_1.Cookie.getAll()).forEach(function (key) {
-	                return _this.removeItem(key);
+	                return Cookie_1.Cookie.remove(key);
 	            });
 	        }
 	    }, {
@@ -17979,10 +17976,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	            var cookie = encode(key) + '=' + encode(value);
 	            if (secure) cookie += ';secure';
-	            if (maxAge) cookie += ';max-age=' + maxAge;
+	            if (!isNaN(maxAge)) cookie += ';max-age=' + maxAge;
 	            if (domain) cookie += ';domain=' + domain;
 	            if (expires) cookie += ';expires=' + expires.toUTCString();
 	            document.cookie = cookie;
+	        }
+	    }, {
+	        key: 'remove',
+	        value: function remove(key) {
+	            this.set(key, this.get(key), { maxAge: 0 });
 	        }
 	    }]);
 
