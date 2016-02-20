@@ -31,6 +31,16 @@ export class MemoryStorage implements IStorage {
   length: number
 }
 
+export class CookieStorage implements IStorage {
+  hasOwnProperty(key: any): boolean
+  getItem(key: any): any
+  setItem(key: any, value: any): void
+  removeItem(key: any): void
+  clear(): void
+  key(index: any): any
+  length: number
+}
+
 export const DRIVERS: {
   SESSION: Driver
   LOCAL: Driver
