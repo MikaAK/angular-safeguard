@@ -72,3 +72,4 @@ Types are available under `Locker.DRIVERS` or `import {DRIVERS} from 'angular2-l
 - `DRIVERS.SESSION` - Session Cache
 - `DRIVERS.LOCAL` - Local Storage
 - `DRIVERS.MEMORY` - Memory Storage
+- `DRIVERS.COOKIE` - Cookies
