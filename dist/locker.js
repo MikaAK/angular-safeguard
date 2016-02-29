@@ -61,6 +61,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Locker_1 = __webpack_require__(2);
 	exports.Locker = Locker_1.Locker;
 	exports.DRIVERS = Locker_1.DRIVERS;
+	exports.LockerConfig = Locker_1.LockerConfig;
 
 /***/ },
 /* 1 */
@@ -182,11 +183,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    MEMORY: new Driver_1.Driver(new MemoryStorage_1.MemoryStorage()),
 	    COOKIE: new Driver_1.Driver(new CookieStorage_1.CookieStorage())
 	};
-
 	var AbstractLockerConfig = function AbstractLockerConfig() {
 	    _classCallCheck(this, AbstractLockerConfig);
 	};
-
+	AbstractLockerConfig = __decorate([core_1.Injectable(), __metadata('design:paramtypes', [])], AbstractLockerConfig);
+	exports.AbstractLockerConfig = AbstractLockerConfig;
 	var LockerConfig = function LockerConfig() {
 	    var driverNamespace = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
 	    var defaultDriverType = arguments.length <= 1 || arguments[1] === undefined ? exports.DRIVERS.SESSION : arguments[1];
@@ -196,12 +197,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.driverNamespace = driverNamespace;
 	    this.defaultDriverType = defaultDriverType;
 	};
-
+	LockerConfig = __decorate([core_1.Injectable(), __param(0, core_1.Optional()), __param(1, core_1.Optional()), __metadata('design:paramtypes', [String, Driver_1.Driver])], LockerConfig);
 	exports.LockerConfig = LockerConfig;
 	var _Locker = function () {
-	    function Locker() {
-	        var _ref = arguments.length <= 0 || arguments[0] === undefined ? new LockerConfig() : arguments[0];
-
+	    function Locker(_ref) {
 	        var driverNamespace = _ref.driverNamespace;
 	        var defaultDriverType = _ref.defaultDriverType;
 
@@ -267,7 +266,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return Locker;
 	}();
 	_Locker.DRIVERS = exports.DRIVERS;
-	_Locker = __decorate([core_1.Injectable(), __param(0, core_1.Optional()), __metadata('design:paramtypes', [Object])], _Locker);
+	_Locker = __decorate([core_1.Injectable(), __param(0, core_1.Optional()), __metadata('design:paramtypes', [LockerConfig])], _Locker);
 	exports.Locker = _Locker;
 
 /***/ },
