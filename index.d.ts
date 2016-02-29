@@ -20,6 +20,10 @@ export class Driver {
   isSupported(): boolean
 }
 
+export abstract class AbstractLockerConfig {
+  public driverNamespace: string
+  public defaultDriverType: Driver
+}
 
 export class MemoryStorage implements IStorage {
   hasOwnProperty(key: any): boolean
@@ -47,6 +51,13 @@ export const DRIVERS: {
   MEMORY: Driver
 }
 
+export class LockerConfig {
+  driverNamespace: string
+  defaultDriverType: Driver
+
+  constructor(driverNamespace?: string, defaultDriverType?: Driver)
+}
+
 export class Locker {
   static DRIVERS: {
       SESSION: Driver
@@ -55,10 +66,7 @@ export class Locker {
   }
   private driver
   private namespace
-  constructor({driverNamespace, defaultDriverType}: {
-      driverNamespace: any
-      defaultDriverType?: Driver
-  })
+  constructor({driverNamespace, defaultDriverType}: LockerConfig)
   setNamespace(namespace?: string): void
   useDriver(driver: Driver): Locker
   set(key: any, data: any, expiry?: any): void

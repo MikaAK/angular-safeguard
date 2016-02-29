@@ -13,7 +13,7 @@ export const DRIVERS = {
 }
 
 @Injectable()
-abstract class AbstractLockerConfig {
+export abstract class AbstractLockerConfig {
   public driverNamespace: string
   public defaultDriverType: Driver
 }
