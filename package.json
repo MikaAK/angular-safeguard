@@ -1,6 +1,6 @@
 {
   "name": "angular2-locker",
-  "version": "0.1.8",
+  "version": "0.2.0",
   "description": "angular2 library for managing session and locker storage, has backup for inmemory if neither are supported",
   "main": "index.js",
   "scripts": {
