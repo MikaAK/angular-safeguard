@@ -12,15 +12,14 @@ $ npm i --save angular2-locker
 
 ```javascript
 import {bootsrap, provide} from 'angular2/core'
-import {Locker} from 'angular2-locker'
+import {Locker, LockerConfig} from 'angular2-locker'
 
 bootstrap(App, [Locker])
 
 // If you need to specify more you can provide configuration
-bootstrap(App, [provide(Locker, {useValue: new Locker({
-  driverNamespace: 'MyNamespace',
-  defaultDriverType: Locker.DRIVERS.LOCAL
-})})])
+bootstrap(App, [provide(LockerConfig, {
+  useValue: new LockerConfig('MyNamespace', Locker.DRIVERS.LOCAL)
+})), Locker])
 
 class App {
   constructor(private locker: Locker) {}

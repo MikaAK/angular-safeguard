@@ -34,6 +34,11 @@ var config = {
     }]
   },
 
+  externals: NODE_ENV === 'test' ? [] : [
+    'angular2/core',
+    'angular2/http'
+  ],  
+
   resolve: {
     extensions: ['.ts', '.js','']
   }

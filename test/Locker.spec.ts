@@ -1,7 +1,7 @@
 import {provide} from 'angular2/core'
 import {it, inject, beforeEachProviders} from 'angular2/testing'
 import {TestDriver} from './TestDriver'
-import {DRIVERS, Locker} from '../src/Locker'
+import {DRIVERS, Locker, LockerConfig} from '../src/Locker'
 
 describe('Locker', function() {
   describe('With Default Config', function() {
@@ -25,7 +25,12 @@ describe('Locker', function() {
       spyOn(DRIVERS.LOCAL, 'isSupported').and.callFake(() => false)
       spyOn(DRIVERS.SESSION, 'isSupported').and.callFake(() => false)
 
-      return [provide(Locker, {useValue: new Locker({defaultDriverType: DRIVERS.LOCAL})})]
+      return [
+        provide(LockerConfig, {
+          useValue: new LockerConfig(null, DRIVERS.LOCAL)
+        }), 
+        Locker
+      ]
     })
 
     it('backs up to MemoryStorage', inject([Locker], function(locker: Locker) {

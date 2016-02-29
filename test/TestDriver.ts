@@ -8,7 +8,7 @@ import {
 import {provide} from 'angular2/core'
 
 import {Driver} from '../src/Driver'
-import {Locker, DRIVERS} from '../src/Locker'
+import {LockerConfig, Locker, DRIVERS} from '../src/Locker'
 
 const CUSTOM_NAMESPACE = 'angular2-locker'
 const SEPERATOR = ':'
@@ -18,10 +18,10 @@ const TestDriver = function(driverName, driver: Driver) {
     describe('With DefaultDriverType', function() {
       const TEST_KEY = `${CUSTOM_NAMESPACE}-${Math.random() * 1000}`
 
-      beforeEachProviders(() => [provide(Locker, {useValue: new Locker({defaultDriverType: driver})})])
+      beforeEachProviders(() => [provide(LockerConfig, {useValue: new LockerConfig(null, driver)}), Locker])
       afterEach(() => driver.clear())
 
-      it(`sets driver to ${driverName}`, inject([Locker], function(locker: Locker) {
+      it(`sets driver to ${driverName}`, inject([Locker, LockerConfig], function(locker: Locker) {
         expect(locker['driver']).toEqual(driver)
       }))
 
@@ -80,9 +80,9 @@ const TestDriver = function(driverName, driver: Driver) {
     })
 
     describe('Custom Namespace', function() {
-      beforeEachProviders(() => provide(Locker, {useValue: new Locker({driverNamespace: CUSTOM_NAMESPACE})}))
+      beforeEachProviders(() => [provide(LockerConfig, {useValue: new LockerConfig(CUSTOM_NAMESPACE)}), Locker])
 
-      it('uses namespace in keys', inject([Locker], function(locker: Locker) {
+      it('uses namespace in keys', inject([LockerConfig, Locker], function(config: LockerConfig, locker: Locker) {
         var dummy = {
           key: 'TEST',
           data: `TEST-${Math.random() * 1000}`
