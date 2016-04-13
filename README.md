@@ -61,7 +61,7 @@ driver.set('keey', 'value')
 `locker.remove('key')`
 
 ####`clear`
-`locker.empty()`
+`locker.clear()`
 
 ## Static Methods
 #### `DRIVERS`
