@@ -49,6 +49,7 @@ export const DRIVERS: {
   SESSION: Driver
   LOCAL: Driver
   MEMORY: Driver
+  COOKIE: Driver
 }
 
 export class LockerConfig {
@@ -63,6 +64,7 @@ export class Locker {
       SESSION: Driver
       LOCAL: Driver
       MEMORY: Driver
+      COOKIE: Driver
   }
   private driver
   private namespace
