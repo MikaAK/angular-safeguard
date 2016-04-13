@@ -3,6 +3,7 @@
     "target": "ES6",
     "module": "commonjs",
     "sourceMap": true,
+    "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true
   },
@@ -10,5 +11,7 @@
     "node_modules",
     "typings/browser.d.ts",
     "typings/browser"
-  ]
+  ],
+  "compileOnSave": false,
+  "buildOnSave": false
 }
