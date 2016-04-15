@@ -54,7 +54,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	var Driver_1 = __webpack_require__(1);
 	exports.Driver = Driver_1.Driver;
@@ -67,7 +67,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
@@ -199,7 +199,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 	LockerConfig = __decorate([core_1.Injectable(), __param(0, core_1.Optional()), __param(1, core_1.Optional()), __metadata('design:paramtypes', [String, Driver_1.Driver])], LockerConfig);
 	exports.LockerConfig = LockerConfig;
-	var _Locker = function () {
+	var Locker_1 = void 0;
+	var Locker = Locker_1 = function () {
 	    function Locker(_ref) {
 	        var driverNamespace = _ref.driverNamespace;
 	        var defaultDriverType = _ref.defaultDriverType;
@@ -220,7 +221,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: "useDriver",
 	        value: function useDriver(driver) {
-	            return new _Locker({
+	            return new Locker_1({
 	                defaultDriverType: driver.isSupported() ? driver : exports.DRIVERS.MEMORY,
 	                driverNamespace: this.namespace
 	            });
@@ -265,9 +266,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    return Locker;
 	}();
-	_Locker.DRIVERS = exports.DRIVERS;
-	_Locker = __decorate([core_1.Injectable(), __param(0, core_1.Optional()), __metadata('design:paramtypes', [LockerConfig])], _Locker);
-	exports.Locker = _Locker;
+	Locker.DRIVERS = exports.DRIVERS;
+	Locker = Locker_1 = __decorate([core_1.Injectable(), __param(0, core_1.Optional()), __metadata('design:paramtypes', [LockerConfig])], Locker);
+	exports.Locker = Locker;
 
 /***/ },
 /* 3 */
@@ -367,7 +368,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -381,40 +382,40 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    _createClass(CookieStorage, [{
-	        key: 'hasOwnProperty',
+	        key: "hasOwnProperty",
 	        value: function hasOwnProperty(key) {
 	            return Cookie_1.Cookie.get(key);
 	        }
 	    }, {
-	        key: 'getItem',
+	        key: "getItem",
 	        value: function getItem(key) {
 	            return Cookie_1.Cookie.get(key);
 	        }
 	    }, {
-	        key: 'setItem',
+	        key: "setItem",
 	        value: function setItem(key, value) {
 	            Cookie_1.Cookie.set(key, value, {});
 	        }
 	    }, {
-	        key: 'removeItem',
+	        key: "removeItem",
 	        value: function removeItem(key) {
 	            Cookie_1.Cookie.remove(key);
 	        }
 	    }, {
-	        key: 'clear',
+	        key: "clear",
 	        value: function clear() {
 	            Object.keys(Cookie_1.Cookie.getAll()).forEach(function (key) {
 	                return Cookie_1.Cookie.remove(key);
 	            });
 	        }
 	    }, {
-	        key: 'key',
+	        key: "key",
 	        value: function key(index) {
 	            var cookies = Object.keys(Cookie_1.Cookie.getAll());
 	            return cookies[index];
 	        }
 	    }, {
-	        key: 'length',
+	        key: "length",
 	        get: function get() {
 	            return Object.keys(Cookie_1.Cookie.getAll()).length;
 	        }
@@ -429,7 +430,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 6 */
 /***/ function(module, exports) {
 
-	'use strict';
+	"use strict";
 
 	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
