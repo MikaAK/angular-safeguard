@@ -1,2 +1,3 @@
 *.ts
-!*.d.tstest/
+!*.d.ts
+test/
