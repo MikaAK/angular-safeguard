@@ -17,6 +17,7 @@ describe('Locker', function() {
       expect(locker.has(TEST_DATA.key)).toBeTruthy()
       expect(locker.get(TEST_DATA.key)).toEqual(TEST_DATA.value)
       expect(locker.key()).toEqual(TEST_DATA.key)
+      debugger
     }))
   })
 

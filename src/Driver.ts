@@ -1,20 +1,9 @@
 declare const __DEV__
 
 import {IStorage, IStorageSetConfig} from './IStorage'
+import {convertFromJSON} from './helpers'
 
 const LOCKER_TEST_KEY = 'LOCKER_TEST_KEY'
-
-const convertFromJSON = function(data: any) {
-  if (typeof data !== 'string')
-    return data
-  else {
-    try {
-      return JSON.parse(data)
-    } catch (e) {
-      return data
-    }
-  }
-}
 
 class Driver {
   constructor(private storage: IStorage) {}

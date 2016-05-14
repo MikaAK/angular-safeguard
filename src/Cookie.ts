@@ -1,10 +1,6 @@
 import {IStorageSetConfig} from './IStorage'
+import {COOKIE_SEP, encode, decode, toString, isString} from './helpers'
 
-const COOKIE_SEP = '; '
-
-// Convenience
-const encode = encodeURIComponent
-const decode = decodeURIComponent
 const DEFAULT_CONFIG: IStorageSetConfig = {}
 
 export class Cookie {
@@ -35,7 +31,7 @@ export class Cookie {
       cookie += `;domain=${domain}`
 
     if (expires)
-      cookie += `;expires=${expires.toUTCString()}`
+      cookie += `;expires=${isString(expires) ? expires : toString(expires)}`
 
     document.cookie = cookie
   }

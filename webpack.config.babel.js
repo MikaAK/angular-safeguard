@@ -38,7 +38,7 @@ var config = {
     }]
   },
 
-  externals: IS_TEST ? [] : Object.values(devDependencies),  
+  externals: IS_TEST ? [] : Object.keys(devDependencies),  
 
   resolve: {
     extensions: ['.ts', '.js','']

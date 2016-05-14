@@ -46,8 +46,8 @@ export class Locker {
     })
   }
 
-  public set(key, data, config?: IStorageSetConfig) {
-    this.driver.set(this._makeKey(key), data, config)
+  public set(key, data) { // , config?: IStorageSetConfig
+    this.driver.set(this._makeKey(key), data, {})
   }
 
   public get(key) {

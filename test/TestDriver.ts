@@ -82,7 +82,7 @@ export const TestDriver = function(driverName, driver: Driver) {
     describe('Custom Namespace', function() {
       beforeEachProviders(() => [provide(LockerConfig, {useValue: new LockerConfig(CUSTOM_NAMESPACE)}), Locker])
 
-      it('uses namespace in keys', inject([LockerConfig, Locker], function(config: LockerConfig, locker: Locker) {
+      it('uses namespace in keys', inject([Locker], function(locker: Locker) {
         var dummy = {
           key: 'TEST',
           data: `TEST-${Math.random() * 1000}`
