@@ -20,7 +20,7 @@ export class MemoryStorage implements IStorage {
     return _cache.get(key)
   }
 
-  public setItem(key, value) {
+  public setItem(key, value, config) {
     _cache.set(key, value)
   }
 

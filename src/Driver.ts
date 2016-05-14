@@ -1,6 +1,6 @@
 declare const __DEV__
 
-import {IStorage} from './IStorage'
+import {IStorage, IStorageSetConfig} from './IStorage'
 
 const LOCKER_TEST_KEY = 'LOCKER_TEST_KEY'
 
@@ -19,8 +19,10 @@ const convertFromJSON = function(data: any) {
 class Driver {
   constructor(private storage: IStorage) {}
 
-  public set(key: string, data: any): void {
-    this.storage.setItem(key, typeof data === 'object' ? JSON.stringify(data) : data)
+  public set(key: string, data: any, config?: IStorageSetConfig): void {
+    const cookieData: string = typeof data === 'object' ? JSON.stringify(data) : data.toString()
+
+    this.storage.setItem(key, cookieData, config)
   }
 
   public get(key: string): any {

@@ -3,9 +3,9 @@ import {
   inject,
   beforeEachProviders,
   afterEach
-} from 'angular2/testing'
+} from '@angular/core/testing'
 
-import {provide} from 'angular2/core'
+import {provide} from '@angular/core'
 
 import {Driver} from '../src/Driver'
 import {LockerConfig, Locker, DRIVERS} from '../src/Locker'
@@ -13,7 +13,7 @@ import {LockerConfig, Locker, DRIVERS} from '../src/Locker'
 const CUSTOM_NAMESPACE = 'angular2-locker'
 const SEPERATOR = ':'
 
-const TestDriver = function(driverName, driver: Driver) {
+export const TestDriver = function(driverName, driver: Driver) {
   describe(driverName, function() {
     describe('With DefaultDriverType', function() {
       const TEST_KEY = `${CUSTOM_NAMESPACE}-${Math.random() * 1000}`
@@ -95,5 +95,3 @@ const TestDriver = function(driverName, driver: Driver) {
     })
   })
 }
-
-export {TestDriver}

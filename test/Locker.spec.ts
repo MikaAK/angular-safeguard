@@ -1,23 +1,23 @@
-import {provide} from 'angular2/core'
-import {it, inject, beforeEachProviders} from 'angular2/testing'
+import {provide} from '@angular/core'
+import {it, inject, beforeEachProviders} from '@angular/core/testing'
 import {TestDriver} from './TestDriver'
 import {DRIVERS, Locker, LockerConfig} from '../src/Locker'
 
 describe('Locker', function() {
   describe('With Default Config', function() {
-    beforeEachProviders(() => [Locker])
+    beforeEachProviders(() => [LockerConfig, Locker])
 
-    //it('initializes in angular2', inject([Locker], function(locker: Locker) {
-      //const TEST_DATA = {
-        //key: 'key',
-        //value: 'value'
-      //}
+    it('initializes in angular2', inject([Locker], function(locker: Locker) {
+      const TEST_DATA = {
+        key: 'key',
+        value: 'value'
+      }
 
-      //locker.set(TEST_DATA.key, TEST_DATA.value)
-      //expect(locker.has(TEST_DATA.key)).toBeTruthy()
-      //expect(locker.get(TEST_DATA.key)).toEqual(TEST_DATA.value)
-      //expect(locker.key()).toEqual(TEST_DATA.key)
-    //}))
+      locker.set(TEST_DATA.key, TEST_DATA.value)
+      expect(locker.has(TEST_DATA.key)).toBeTruthy()
+      expect(locker.get(TEST_DATA.key)).toEqual(TEST_DATA.value)
+      expect(locker.key()).toEqual(TEST_DATA.key)
+    }))
   })
 
   describe('With Unsupported driver', function() {

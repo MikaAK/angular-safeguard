@@ -1,8 +1,11 @@
+import {IStorageSetConfig} from './IStorage'
+
 const COOKIE_SEP = '; '
 
 // Convenience
-var encode = encodeURIComponent
-var decode = decodeURIComponent
+const encode = encodeURIComponent
+const decode = decodeURIComponent
+const DEFAULT_CONFIG: IStorageSetConfig = {}
 
 export class Cookie {
   public static getAll(): Object {
@@ -17,7 +20,9 @@ export class Cookie {
     return this.getAll()[key]
   }
 
-  public static set(key, value, {secure, maxAge, domain, expires}: {secure?: boolean, maxAge?: number, domain?: string, expires?: Date}): void {
+  public static set(key, value, config = DEFAULT_CONFIG): void {
+    const {secure, maxAge, domain, expires} = config
+
     var cookie = `${encode(key)}=${encode(value)}`
 
     if (secure)

@@ -10,8 +10,8 @@ export class CookieStorage implements IStorage {
     return Cookie.get(key)
   }
 
-  public setItem(key, value) {
-    Cookie.set(key, value, {})
+  public setItem(key, value, config) {
+    Cookie.set(key, value, config)
   }
 
   public removeItem(key) {

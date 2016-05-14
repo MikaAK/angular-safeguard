@@ -1,8 +1,11 @@
 import path from 'path'
 import {DefinePlugin} from 'webpack'
+import {devDependencies} from './package.json'
 
 const CONTEXT = path.resolve(__dirname),
-      {NODE_ENV} = process.env
+      {NODE_ENV} = process.env,
+      IS_DEV = NODE_ENV === 'development',
+      IS_TEST = NODE_ENV === 'test'
 
 var createPath = function(nPath) {
   return path.resolve(CONTEXT, nPath)
@@ -11,6 +14,7 @@ var createPath = function(nPath) {
 var config = {
   context: CONTEXT,
   entry: './src/index.ts',
+  devtool: IS_TEST ? '#inline-source-map' : false,
 
   output: {
     path: createPath('dist'),
@@ -21,7 +25,7 @@ var config = {
 
   plugins: [
     new DefinePlugin({
-      __DEV__: NODE_ENV === 'development' || NODE_ENV === 'test'
+      __DEV__: IS_DEV || IS_TEST
     })
   ],
 
@@ -34,10 +38,7 @@ var config = {
     }]
   },
 
-  externals: NODE_ENV === 'test' ? [] : [
-    'angular2/core',
-    'angular2/http'
-  ],  
+  externals: IS_TEST ? [] : Object.values(devDependencies),  
 
   resolve: {
     extensions: ['.ts', '.js','']

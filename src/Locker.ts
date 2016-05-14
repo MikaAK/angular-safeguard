@@ -1,6 +1,7 @@
 declare const sessionStorage, localStorage
 
-import {Injectable, Optional} from 'angular2/core'
+import {Injectable, Optional} from '@angular/core'
+import {IStorageSetConfig} from './IStorage'
 import {Driver} from './Driver'
 import {MemoryStorage} from './MemoryStorage'
 import {CookieStorage} from './CookieStorage'
@@ -10,12 +11,6 @@ export const DRIVERS = {
   SESSION: new Driver(sessionStorage),
   MEMORY: new Driver(new MemoryStorage()),
   COOKIE: new Driver(new CookieStorage())
-}
-
-@Injectable()
-export abstract class AbstractLockerConfig {
-  public driverNamespace: string
-  public defaultDriverType: Driver
 }
 
 @Injectable()
@@ -33,7 +28,9 @@ export class Locker {
   private driver: Driver
   private namespace: string
 
-  constructor(@Optional() {driverNamespace, defaultDriverType}: LockerConfig) {
+  constructor(@Optional() lockerConfig: LockerConfig) {
+    const {driverNamespace, defaultDriverType} = lockerConfig
+
     this.setNamespace(driverNamespace)
     this.driver = defaultDriverType.isSupported() ? defaultDriverType : DRIVERS.MEMORY
   }
@@ -49,11 +46,8 @@ export class Locker {
     })
   }
 
-  public set(key, data, expiry?) {
-    if (expiry)
-      console.warn('Expiry is not implimented yet')
-
-    this.driver.set(this._makeKey(key), data)
+  public set(key, data, config?: IStorageSetConfig) {
+    this.driver.set(this._makeKey(key), data, config)
   }
 
   public get(key) {
