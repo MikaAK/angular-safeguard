@@ -18,7 +18,7 @@ export class LockerConfig {
   constructor(
     @Optional() public driverNamespace: string = '',
     @Optional() public defaultDriverType: Driver = DRIVERS.SESSION,
-	@Optional() public namespaceSeperator: string = ':'
+    @Optional() public namespaceSeperator: string = ':'
   ) {}
 }
 
@@ -39,14 +39,14 @@ export class Locker {
 
   public setNamespace(namespace = '', seperator = ':') {
     this.namespace = namespace
-	this.seperator = seperator
+    this.seperator = seperator
   }
 
   public useDriver(driver: Driver) {
     return new Locker({
       defaultDriverType: driver.isSupported() ? driver : DRIVERS.MEMORY,
       driverNamespace: this.namespace,
-	  namespaceSeperator: this.seperator
+      namespaceSeperator: this.seperator
     })
   }
 
