@@ -220,13 +220,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	var LockerConfig = function LockerConfig() {
 	    var driverNamespace = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
 	    var defaultDriverType = arguments.length <= 1 || arguments[1] === undefined ? exports.DRIVERS.SESSION : arguments[1];
+	    var namespaceSeperator = arguments.length <= 2 || arguments[2] === undefined ? ':' : arguments[2];
 
 	    _classCallCheck(this, LockerConfig);
 
 	    this.driverNamespace = driverNamespace;
 	    this.defaultDriverType = defaultDriverType;
+	    this.namespaceSeperator = namespaceSeperator;
 	};
-	LockerConfig = __decorate([core_1.Injectable(), __param(0, core_1.Optional()), __param(1, core_1.Optional()), __metadata('design:paramtypes', [String, Driver_1.Driver])], LockerConfig);
+	LockerConfig = __decorate([core_1.Injectable(), __param(0, core_1.Optional()), __param(1, core_1.Optional()), __param(2, core_1.Optional()), __metadata('design:paramtypes', [String, Driver_1.Driver, String])], LockerConfig);
 	exports.LockerConfig = LockerConfig;
 	var Locker_1 = void 0;
 	var Locker = Locker_1 = function () {
@@ -235,8 +237,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        var driverNamespace = lockerConfig.driverNamespace;
 	        var defaultDriverType = lockerConfig.defaultDriverType;
+	        var namespaceSeperator = lockerConfig.namespaceSeperator;
 
-	        this.setNamespace(driverNamespace);
+	        this.setNamespace(driverNamespace, namespaceSeperator);
 	        this.driver = defaultDriverType.isSupported() ? defaultDriverType : exports.DRIVERS.MEMORY;
 	    }
 
@@ -244,15 +247,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	        key: "setNamespace",
 	        value: function setNamespace() {
 	            var namespace = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
+	            var seperator = arguments.length <= 1 || arguments[1] === undefined ? ':' : arguments[1];
 
 	            this.namespace = namespace;
+	            this.seperator = seperator;
 	        }
 	    }, {
 	        key: "useDriver",
 	        value: function useDriver(driver) {
 	            return new Locker_1({
 	                defaultDriverType: driver.isSupported() ? driver : exports.DRIVERS.MEMORY,
-	                driverNamespace: this.namespace
+	                driverNamespace: this.namespace,
+	                namespaceSeperator: this.seperator
 	            });
 	        }
 	    }, {
@@ -288,7 +294,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: "_makeKey",
 	        value: function _makeKey(key) {
-	            return this.namespace ? this.namespace + ":" + key : key;
+	            return this.namespace ? "" + this.namespace + this.seperator + key : key;
 	        }
 	    }]);
 
