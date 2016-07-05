@@ -21,6 +21,11 @@ bootstrap(App, [provide(LockerConfig, {
   useValue: new LockerConfig('MyNamespace', Locker.DRIVERS.LOCAL)
 })), Locker])
 
+// LockerConfig also has an optional namespace separator (defaults to :)
+bootstrap(App, [provide(LockerConfig, {
+  useValue: new LockerConfig('MyNamespace', Locker.DRIVERS.LOCAL, '.')	// Values will be stored as **MyNamespace.myKey**
+})), Locker])
+
 class App {
   constructor(private locker: Locker) {}
 }

@@ -17,7 +17,8 @@ export const DRIVERS = {
 export class LockerConfig {
   constructor(
     @Optional() public driverNamespace: string = '',
-    @Optional() public defaultDriverType: Driver = DRIVERS.SESSION
+    @Optional() public defaultDriverType: Driver = DRIVERS.SESSION,
+    @Optional() public namespaceSeparator: string = ':'
   ) {}
 }
 
@@ -27,22 +28,25 @@ export class Locker {
 
   private driver: Driver
   private namespace: string
+  private separator: string
 
   constructor(@Optional() lockerConfig: LockerConfig) {
-    const {driverNamespace, defaultDriverType} = lockerConfig
+    const {driverNamespace, defaultDriverType, namespaceSeparator} = lockerConfig
 
-    this.setNamespace(driverNamespace)
+    this.setNamespace(driverNamespace, namespaceSeparator)
     this.driver = defaultDriverType.isSupported() ? defaultDriverType : DRIVERS.MEMORY
   }
 
-  public setNamespace(namespace = '') {
+  public setNamespace(namespace = '', separator = ':') {
     this.namespace = namespace
+    this.separator = separator
   }
 
   public useDriver(driver: Driver) {
     return new Locker({
       defaultDriverType: driver.isSupported() ? driver : DRIVERS.MEMORY,
-      driverNamespace: this.namespace
+      driverNamespace: this.namespace,
+      namespaceSeparator: this.separator
     })
   }
 
@@ -71,6 +75,6 @@ export class Locker {
   }
 
   private _makeKey(key: string): string {
-    return this.namespace ? `${this.namespace}:${key}` : key
+    return this.namespace ? `${this.namespace}${this.separator}${key}` : key
   }
 }
