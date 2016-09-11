@@ -1,3 +1,4 @@
 *.ts
 !*.d.ts
 test/
+src/

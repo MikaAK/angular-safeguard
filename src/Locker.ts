@@ -2,16 +2,7 @@ declare const sessionStorage, localStorage
 
 import {Injectable, Optional} from '@angular/core'
 import {IStorageSetConfig} from './IStorage'
-import {Driver} from './Driver'
-import {MemoryStorage} from './MemoryStorage'
-import {CookieStorage} from './CookieStorage'
-
-export const DRIVERS = {
-  LOCAL: new Driver(localStorage),
-  SESSION: new Driver(sessionStorage),
-  MEMORY: new Driver(new MemoryStorage()),
-  COOKIE: new Driver(new CookieStorage())
-}
+import {Driver, DRIVERS} from './Driver'
 
 @Injectable()
 export class LockerConfig {
@@ -30,14 +21,14 @@ export class Locker {
   private namespace: string
   private separator: string
 
-  constructor(@Optional() lockerConfig: LockerConfig) {
+  constructor(lockerConfig: LockerConfig) {
     const {driverNamespace, defaultDriverType, namespaceSeparator} = lockerConfig
 
     this.setNamespace(driverNamespace, namespaceSeparator)
     this.driver = defaultDriverType.isSupported() ? defaultDriverType : DRIVERS.MEMORY
   }
 
-  public setNamespace(namespace = '', separator = ':') {
+  public setNamespace(namespace, separator) {
     this.namespace = namespace
     this.separator = separator
   }

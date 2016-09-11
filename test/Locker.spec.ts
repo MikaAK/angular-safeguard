@@ -1,12 +1,14 @@
-import {provide} from '@angular/core'
-import {it, inject, beforeEachProviders} from '@angular/core/testing'
+import {inject} from '@angular/core/testing'
 import {TestDriver} from './TestDriver'
-import {DRIVERS, Locker, LockerConfig} from '../src/Locker'
+import {DRIVERS} from 'Driver'
+import {Locker} from 'Locker'
+import {initTestBed} from './testHelpers'
 
 describe('Locker', function() {
-  describe('With Default Config', function() {
-    beforeEachProviders(() => [LockerConfig, Locker])
+  beforeEach(() => initTestBed())
+  afterEach(() => sessionStorage.clear())
 
+  describe('With Default Config', function() {
     it('initializes in angular2', inject([Locker], function(locker: Locker) {
       const TEST_DATA = {
         key: 'key',
@@ -14,24 +16,18 @@ describe('Locker', function() {
       }
 
       locker.set(TEST_DATA.key, TEST_DATA.value)
+
       expect(locker.has(TEST_DATA.key)).toBeTruthy()
       expect(locker.get(TEST_DATA.key)).toEqual(TEST_DATA.value)
       expect(locker.key()).toEqual(TEST_DATA.key)
-      debugger
     }))
   })
 
   describe('With Unsupported driver', function() {
-    beforeEachProviders(function() {
+    beforeEach(function() {
       spyOn(DRIVERS.LOCAL, 'isSupported').and.callFake(() => false)
       spyOn(DRIVERS.SESSION, 'isSupported').and.callFake(() => false)
-
-      return [
-        provide(LockerConfig, {
-          useValue: new LockerConfig(null, DRIVERS.LOCAL)
-        }), 
-        Locker
-      ]
+      spyOn(DRIVERS.COOKIE, 'isSupported').and.callFake(() => false)
     })
 
     it('backs up to MemoryStorage', inject([Locker], function(locker: Locker) {

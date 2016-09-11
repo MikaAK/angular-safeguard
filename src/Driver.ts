@@ -2,10 +2,12 @@ declare const __DEV__
 
 import {IStorage, IStorageSetConfig} from './IStorage'
 import {convertFromJSON} from './helpers'
+import {MemoryStorage} from './MemoryStorage'
+import {CookieStorage} from './CookieStorage'
 
 const LOCKER_TEST_KEY = 'LOCKER_TEST_KEY'
 
-class Driver {
+export class Driver {
   constructor(private storage: IStorage) {}
 
   public set(key: string, data: any, config?: IStorageSetConfig): void {
@@ -50,4 +52,9 @@ class Driver {
   }
 }
 
-export {Driver}
+export const DRIVERS = {
+  LOCAL: new Driver(localStorage),
+  SESSION: new Driver(sessionStorage),
+  MEMORY: new Driver(new MemoryStorage()),
+  COOKIE: new Driver(new CookieStorage())
+}
