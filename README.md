@@ -35,7 +35,7 @@ class AppModule {
 ```
 
 ### With Custom Config
-```
+```typescript
 import {LockerModule, LockerConfig, DRIVERS} from 'angular2-locker'
 
 const lockerConfig = new LockerConfig('nameSpace', DRIVERS.MEMORY, '-')
