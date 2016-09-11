@@ -34,6 +34,11 @@ var config = {
       loader: 'babel!ts',
       include: [SRC_PATH, createPath('test')],
       exclude: [NODE_MODULES_PATH]
+    }, {
+      test: /\.js/,
+      loader: 'babel',
+      include: [createPath('karma-shim')],
+      exclude: [NODE_MODULES_PATH]
     }]
   },
 
