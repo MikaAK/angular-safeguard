@@ -5,11 +5,10 @@ import {devDependencies} from './package.json'
 const CONTEXT = path.resolve(__dirname),
       {NODE_ENV} = process.env,
       IS_DEV = NODE_ENV === 'development',
-      IS_TEST = NODE_ENV === 'test'
-
-var createPath = function(nPath) {
-  return path.resolve(CONTEXT, nPath)
-}
+      IS_TEST = NODE_ENV === 'test',
+      createPath = (nPath) => path.resolve(CONTEXT, nPath),
+      SRC_PATH = createPath('src'),
+      NODE_MODULES_PATH = createPath('node_modules')
 
 var config = {
   context: CONTEXT,
@@ -33,15 +32,16 @@ var config = {
     loaders: [{
       test: /\.ts/,
       loader: 'babel!ts',
-      include: [createPath('src'), createPath('test')],
-      exclude: [createPath('node_modules')]
+      include: [SRC_PATH, createPath('test')],
+      exclude: [NODE_MODULES_PATH]
     }]
   },
 
-  externals: IS_TEST ? [] : Object.keys(devDependencies),  
+  externals: IS_TEST ? [] : Object.keys(devDependencies),
 
   resolve: {
-    extensions: ['.ts', '.js','']
+    extensions: ['.ts', '.js',''],
+    root: SRC_PATH
   }
 }
 

@@ -1,7 +1,7 @@
-import {provide} from '@angular/core'
-import {it, inject, beforeEachProviders} from '@angular/core/testing'
-import {TestDriver} from './TestDriver'
-import {DRIVERS, Locker, LockerConfig} from '../src/Locker'
+// import {provide} from '@angular/core'
+// import {it, inject, beforeEachProviders} from '@angular/core/testing'
+// import {TestDriver} from './TestDriver'
+// import {DRIVERS, Locker, LockerConfig} from '../src/Locker'
 
 // describe('Locker Set Config', function() {
 //   beforeEachProviders(() => [LockerConfig, Locker])

@@ -1,24 +1,19 @@
-import {
-  it,
-  inject,
-  beforeEachProviders,
-  afterEach
-} from '@angular/core/testing'
-
-import {provide} from '@angular/core'
-
-import {Driver} from '../src/Driver'
-import {LockerConfig, Locker, DRIVERS} from '../src/Locker'
+import {inject} from '@angular/core/testing'
+import {Driver} from 'Driver'
+import {LockerConfig, Locker} from 'Locker'
+import {initTestBed} from './testHelpers'
 
 const CUSTOM_NAMESPACE = 'angular2-locker'
 const SEPERATOR = ':'
+
+const createLockerConfig = (defaultNamespace: string, driver?: Driver) => new LockerConfig(defaultNamespace, driver, SEPERATOR)
 
 export const TestDriver = function(driverName, driver: Driver) {
   describe(driverName, function() {
     describe('With DefaultDriverType', function() {
       const TEST_KEY = `${CUSTOM_NAMESPACE}-${Math.random() * 1000}`
 
-      beforeEachProviders(() => [provide(LockerConfig, {useValue: new LockerConfig(null, driver)}), Locker])
+      beforeEach(() => initTestBed(createLockerConfig('', driver)))
       afterEach(() => driver.clear())
 
       it(`sets driver to ${driverName}`, inject([Locker, LockerConfig], function(locker: Locker) {
@@ -80,7 +75,7 @@ export const TestDriver = function(driverName, driver: Driver) {
     })
 
     describe('Custom Namespace', function() {
-      beforeEachProviders(() => [provide(LockerConfig, {useValue: new LockerConfig(CUSTOM_NAMESPACE)}), Locker])
+      beforeEach(() => initTestBed(createLockerConfig(CUSTOM_NAMESPACE)))
 
       it('uses namespace in keys', inject([Locker], function(locker: Locker) {
         var dummy = {

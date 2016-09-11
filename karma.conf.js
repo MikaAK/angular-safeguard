@@ -1,6 +1,7 @@
 // Karma configuration
 // Generated on Wed Feb 17 2016 22:26:46 GMT-0800 (PST)
 require('babel-register')
+
 var preprocessors = {}
 var testEntry = './karma-shim.js'
 var webpackConfig = require('./webpack.config.babel')

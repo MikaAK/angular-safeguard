@@ -1,5 +1,11 @@
-import {IStorage} from './IStorage'
-import {Driver} from './Driver'
-import {Locker, DRIVERS, LockerConfig} from './Locker'
+import {Locker, LockerConfig} from './Locker'
 
-export {DRIVERS, Locker, Driver, IStorage, LockerConfig}
+// angular-cli
+export default {
+  providers: [LockerConfig, Locker]
+}
+
+export * from './Driver'
+export * from './IStorage'
+export * from './Locker.module'
+export * from './Locker'

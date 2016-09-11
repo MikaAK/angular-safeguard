@@ -10,24 +10,42 @@ Wrapper around sessionStorage and localStorage for angular2. If both are unavail
 $ npm i --save angular2-locker
 ```
 
-```javascript
-import {bootsrap, provide} from 'angular2/core'
-import {Locker, LockerConfig} from 'angular2-locker'
+```typescript
+import {NgModule} from '@angular/core'
+import {LockerModule, Locker, LockerConfig} from 'angular2-locker'
 
-bootstrap(App, [Locker])
-
-// If you need to specify more you can provide configuration
-bootstrap(App, [provide(LockerConfig, {
-  useValue: new LockerConfig('MyNamespace', Locker.DRIVERS.LOCAL)
-})), Locker])
-
-// LockerConfig also has an optional namespace separator (defaults to :)
-bootstrap(App, [provide(LockerConfig, {
-  useValue: new LockerConfig('MyNamespace', Locker.DRIVERS.LOCAL, '.')	// Values will be stored as **MyNamespace.myKey**
-})), Locker])
-
+@Component({
+  selector: 'app',
+  template: `...`
+})
 class App {
+  constructor(locker: Locker) {
+    locker.set('something', value)
+  }
+}
+
+@NgModule({
+  providers: [LockerModule],
+  declarations: [App],
+  bootstrap: [App]
+})
+class AppModule {
   constructor(private locker: Locker) {}
+}
+```
+
+### With Custom Config
+```
+import {LockerModule, LockerConfig, DRIVERS} from 'angular2-locker'
+
+const lockerConfig = new LockerConfig('nameSpace', DRIVERS.MEMORY, '-')
+
+@NgModule({
+  providers: [LockModule.forRoot(lockerConfig)]
+  ...
+})
+class SomeModule {
+
 }
 ```
 
@@ -36,13 +54,13 @@ class App {
 `locker.get('myKey')`
 
 ####`set`
-```javascript
+```typescript
 locker.set('myKey', 'value')
 locker.set('myKey', {object: 'value'})
 ```
 
 ####`key`
-```javascript
+```typescript
 locker.set('key', 'value')
 
 locker.key(0) // 'key'
@@ -55,7 +73,7 @@ locker.key(0) // 'key'
 `locker.setNamespace('myName')`
 
 ####`useDriver`
-```javascript
+```typescript
 // for more info on drivers look for static methods
 var driver = locker.useDriver(Locker.DRIVERS.LOCAL)
 
