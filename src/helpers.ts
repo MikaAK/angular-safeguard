@@ -1,5 +1,5 @@
 
-interface ExpiryData {
+export interface ExpiryData {
   expires?: Date|string
   data: any
 }
@@ -12,6 +12,7 @@ export const COOKIE_SEP = '; '
 export const isAfterToday = (date: Date) => date > new Date()
 export const isString = (str: string|Date): boolean => typeof str === 'string'
 export const toString = (obj: any): string => typeof obj.toUTCString === 'function' ? obj.toUTCString() : obj.toString()
+export const isNil = (item: any) => item === undefined || item === null
 export const getDataWithExpiry = (expData) => isExpired(expData) ? undefined : expData.data
 
 export const setDataWithExpiry = (data, expires?: Date|string): ExpiryData => {

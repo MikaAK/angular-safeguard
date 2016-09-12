@@ -80,3 +80,6 @@ export class Locker {
   private _makeKey(key)
 }
 
+export class LockerModule {
+  static forRoot(lockerConfig: LockerConfig): any
+}

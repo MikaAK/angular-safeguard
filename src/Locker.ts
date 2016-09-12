@@ -3,14 +3,24 @@ declare const sessionStorage, localStorage
 import {Injectable, Optional} from '@angular/core'
 import {IStorageSetConfig} from './IStorage'
 import {Driver, DRIVERS} from './Driver'
+import {isNil} from './helpers'
 
 @Injectable()
 export class LockerConfig {
   constructor(
-    @Optional() public driverNamespace: string = '',
-    @Optional() public defaultDriverType: Driver = DRIVERS.SESSION,
-    @Optional() public namespaceSeparator: string = ':'
-  ) {}
+    @Optional() public driverNamespace?: string,
+    @Optional() public defaultDriverType?: Driver,
+    @Optional() public namespaceSeparator?: string
+  ) {
+    if (isNil(this.driverNamespace))
+      this.driverNamespace = ''
+
+    if (isNil(this.defaultDriverType))
+      this.defaultDriverType = DRIVERS.SESSION
+
+    if (isNil(this.namespaceSeparator))
+      this.namespaceSeparator = ':'
+  }
 }
 
 @Injectable()
