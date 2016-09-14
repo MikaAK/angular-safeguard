@@ -55,8 +55,9 @@ export const DRIVERS: {
 export class LockerConfig {
   driverNamespace: string
   defaultDriverType: Driver
+  namespaceSeparator: string
 
-  constructor(driverNamespace?: string, defaultDriverType?: Driver)
+  constructor(driverNamespace?: string, defaultDriverType?: Driver, namespaceSeparator?: string)
 }
 
 export class Locker {
@@ -68,8 +69,8 @@ export class Locker {
   }
   private driver
   private namespace
-  constructor({driverNamespace, defaultDriverType}: LockerConfig)
-  setNamespace(namespace?: string): void
+  constructor({driverNamespace, defaultDriverType, namespaceSeparator}: LockerConfig)
+  setNamespace(namespace: string, separator?: string): void
   useDriver(driver: Driver): Locker
   set(key: any, data: any, expiry?: any): void
   get(key: any): any

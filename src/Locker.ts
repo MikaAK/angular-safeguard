@@ -31,16 +31,14 @@ export class Locker {
   private namespace: string
   private separator: string
 
-  constructor(lockerConfig: LockerConfig) {
-    const {driverNamespace, defaultDriverType, namespaceSeparator} = lockerConfig
-
-    this.setNamespace(driverNamespace, namespaceSeparator)
-    this.driver = defaultDriverType.isSupported() ? defaultDriverType : DRIVERS.MEMORY
+  constructor(private lockerConfig: LockerConfig) {
+    this.setNamespace(this.lockerConfig.driverNamespace, this.lockerConfig.namespaceSeparator)
+    this.driver = this.lockerConfig.defaultDriverType.isSupported() ? this.lockerConfig.defaultDriverType : DRIVERS.MEMORY
   }
 
-  public setNamespace(namespace, separator) {
+  public setNamespace(namespace: string, separator?: string) {
     this.namespace = namespace
-    this.separator = separator
+    this.separator = separator ? separator : this.lockerConfig.namespaceSeparator
   }
 
   public useDriver(driver: Driver) {
