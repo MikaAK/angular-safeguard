@@ -71,6 +71,12 @@ locker.key(0) // 'key'
 
 ####`setNamespace`
 `locker.setNamespace('myName')`
+`locker.setNamespace()` - Resets to lockerConfig default
+
+####`setSeparator`
+`locker.setSeparator('-')`
+`locker.setSeparator()` - Resets to lockerConfig default
+
 
 ####`useDriver`
 ```typescript

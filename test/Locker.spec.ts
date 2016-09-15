@@ -5,16 +5,16 @@ import {Locker} from 'Locker'
 import {initTestBed} from './testHelpers'
 
 describe('Locker', function() {
+  const TEST_DATA = {
+    key: 'key',
+    value: 'value'
+  }
+
   beforeEach(() => initTestBed())
   afterEach(() => sessionStorage.clear())
 
   describe('With Default Config', function() {
     it('initializes in angular2', inject([Locker], function(locker: Locker) {
-      const TEST_DATA = {
-        key: 'key',
-        value: 'value'
-      }
-
       locker.set(TEST_DATA.key, TEST_DATA.value)
 
       expect(locker.has(TEST_DATA.key)).toBeTruthy()
@@ -36,6 +36,47 @@ describe('Locker', function() {
 
     it('gives memory driver if trying to switch drivers', inject([Locker], function(locker: Locker) {
       expect(locker.useDriver(DRIVERS.LOCAL)['driver']).toEqual(DRIVERS.MEMORY)
+    }))
+  })
+
+  describe('#setNamespace', function() {
+    beforeEach(inject([Locker], function(locker: Locker) {
+      locker.setNamespace('test')
+    }))
+
+    it('can take in a custom namespace', inject([Locker], function(locker: Locker) {
+      locker.set(TEST_DATA.key, TEST_DATA.value)
+
+      expect(locker.key()).toMatch(/^test/)
+    }))
+
+    it('can be passed undefined and uses default namespace', inject([Locker], function(locker: Locker) {
+      locker.setNamespace()
+      locker.set(TEST_DATA.key, TEST_DATA.value)
+
+      expect(locker.key()).toEqual(TEST_DATA.key)
+    }))
+  })
+
+  describe('#setSeperator', function() {
+    const NAMESPACE = 'test'
+
+    beforeEach(inject([Locker], function(locker: Locker) {
+      locker.setNamespace(NAMESPACE)
+      locker.setSeparator('-')
+    }))
+
+    it('can take in a custom seperator', inject([Locker], function(locker: Locker) {
+      locker.set(TEST_DATA.key, TEST_DATA.value)
+
+      expect(locker.key()).toEqual(`${NAMESPACE}-${TEST_DATA.key}`)
+    }))
+
+    it('can be passed undefined and uses default seperator', inject([Locker], function(locker: Locker) {
+      locker.setSeparator()
+      locker.set(TEST_DATA.key, TEST_DATA.value)
+
+      expect(locker.key()).toEqual(`${NAMESPACE}:${TEST_DATA.key}`)
     }))
   })
 
