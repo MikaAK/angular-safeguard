@@ -70,18 +70,21 @@ locker.key(0) // 'key'
 `locker.has('key')`
 
 ####`setNamespace`
-`locker.setNamespace('myName')`
-`locker.setNamespace()` - Resets to lockerConfig default
+```typescript
+locker.setNamespace('myName')
+locker.setNamespace() // Resets to lockerConfig default
+```
 
 ####`setSeparator`
-`locker.setSeparator('-')`
-`locker.setSeparator()` - Resets to lockerConfig default
 
+```typescript
+locker.setSeparator('myName')
+locker.setSeparator() // Resets to lockerConfig default
+```
 
 ####`useDriver`
 ```typescript
-// for more info on drivers look for static methods
-var driver = locker.useDriver(Locker.DRIVERS.LOCAL)
+const driver = locker.useDriver(Locker.DRIVERS.LOCAL)
 
 driver.set('keey', 'value')
 ```
