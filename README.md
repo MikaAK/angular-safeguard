@@ -25,7 +25,7 @@ class App {
 }
 
 @NgModule({
-  providers: [LockerModule],
+  imports: [LockerModule],
   declarations: [App],
   bootstrap: [App]
 })
@@ -41,7 +41,7 @@ import {LockerModule, LockerConfig, DRIVERS} from 'angular2-locker'
 const lockerConfig = new LockerConfig('nameSpace', DRIVERS.MEMORY, '-')
 
 @NgModule({
-  providers: [LockModule.forRoot(lockerConfig)]
+  imports: [LockModule.forRoot(lockerConfig)]
   ...
 })
 class SomeModule {
