@@ -41,7 +41,7 @@ import {LockerModule, LockerConfig, DRIVERS} from 'angular2-locker'
 const lockerConfig = new LockerConfig('nameSpace', DRIVERS.MEMORY, '-')
 
 @NgModule({
-  imports: [LockModule.forRoot(lockerConfig)]
+  imports: [LockerModule.forRoot(lockerConfig)]
   ...
 })
 class SomeModule {
