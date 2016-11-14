@@ -2,6 +2,7 @@ export interface IStorageSetConfig {
  secure?: boolean
  maxAge?: number
  domain?: string
+ path?: string
  expires?: Date
 }
 

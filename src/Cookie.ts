@@ -17,7 +17,7 @@ export class Cookie {
   }
 
   public static set(key, value, config = DEFAULT_CONFIG): void {
-    const {secure, maxAge, domain, expires} = config
+    const {secure, maxAge, domain, path, expires} = config
 
     var cookie = `${encode(key)}=${encode(value)}`
 
@@ -29,6 +29,9 @@ export class Cookie {
 
     if (domain)
       cookie += `;domain=${domain}`
+
+    if (path)
+      cookie += `;path=${path}`
 
     if (expires)
       cookie += `;expires=${isString(expires) ? expires : toString(expires)}`
