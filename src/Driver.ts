@@ -42,8 +42,7 @@ export class Driver {
       this.get(LOCKER_TEST_KEY)
       this.remove(LOCKER_TEST_KEY)
     } catch (e) {
-      if (__DEV__)
-        console.error(e)
+      __DEV__ && console.error(e)
 
       return false
     }
@@ -57,4 +56,22 @@ export const DRIVERS = {
   SESSION: new Driver(sessionStorage),
   MEMORY: new Driver(new MemoryStorage()),
   COOKIE: new Driver(new CookieStorage())
+}
+
+export function determineDriver(defaultDriverType?: any): Driver {
+  let hasFallback = Array.isArray(defaultDriverType)
+
+  if (!hasFallback) {
+    return defaultDriverType.isSupported() ? defaultDriverType: DRIVERS.MEMORY
+  }
+
+  let driver = DRIVERS.MEMORY
+  for (let _driver of defaultDriverType) {
+    if (_driver.isSupported()) {
+      driver = _driver
+      break
+    }
+  }
+
+  return driver
 }
