@@ -3,7 +3,7 @@ declare const sessionStorage, localStorage
 import {Injectable, Optional} from '@angular/core'
 
 import {IStorageSetConfig} from './IStorage'
-import {Driver} from './Driver'
+import {Driver, determineDriver} from './Driver'
 import {PollyfillDriver} from './PolyfillDriver'
 import {MemoryStorage} from './MemoryStorage'
 import {CookieStorage} from './CookieStorage'
@@ -23,14 +23,17 @@ export class LockerConfig {
     @Optional() public defaultDriverType?: Driver,
     @Optional() public namespaceSeparator?: string
   ) {
-    if (isNil(this.driverNamespace))
+    if (isNil(this.driverNamespace)) {
       this.driverNamespace = ''
+    }
 
-    if (isNil(this.defaultDriverType))
+    if (isNil(this.defaultDriverType)) {
       this.defaultDriverType = DRIVERS.SESSION
+    }
 
-    if (isNil(this.namespaceSeparator))
+    if (isNil(this.namespaceSeparator)) {
       this.namespaceSeparator = ':'
+    }
   }
 }
 
@@ -51,7 +54,7 @@ export class Locker {
     this.setNamespace()
     this.setSeparator()
 
-    this.driver = defaultDriverType.isSupported() ? defaultDriverType : DRIVERS.MEMORY
+    this.driver = determineDriver(defaultDriverType, DRIVERS.MEMORY)
   }
 
   public setNamespace(namespace: string = this.lockerConfig.driverNamespace) {
@@ -64,7 +67,7 @@ export class Locker {
 
   public useDriver(driver: Driver) {
     return new Locker({
-      defaultDriverType: driver.isSupported() ? driver : DRIVERS.MEMORY,
+      defaultDriverType: determineDriver(driver, DRIVERS.MEMORY),
       driverNamespace: this.namespace,
       namespaceSeparator: this.separator
     })
