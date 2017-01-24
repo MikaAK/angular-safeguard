@@ -1,19 +1,15 @@
-declare const __DEV__
+declare const __DEV__: boolean, __TEST__: boolean
 
 import {IStorage, IStorageSetConfig} from './IStorage'
-import {convertFromJSON} from './helpers'
-import {MemoryStorage} from './MemoryStorage'
-import {CookieStorage} from './CookieStorage'
+import {convertFromJSON, serializeDataToString} from './helpers'
 
 const LOCKER_TEST_KEY = 'LOCKER_TEST_KEY'
 
 export class Driver {
-  constructor(private storage: IStorage) {}
+  constructor(public storage: IStorage) {}
 
   public set(key: string, data: any, config?: IStorageSetConfig): void {
-    const cookieData: string = typeof data === 'object' ? JSON.stringify(data) : data.toString()
-
-    this.storage.setItem(key, cookieData, config)
+    this.storage.setItem(key, serializeDataToString(data), config)
   }
 
   public get(key: string): any {
@@ -38,11 +34,12 @@ export class Driver {
 
   public isSupported(): boolean {
     try {
-      this.set(LOCKER_TEST_KEY, LOCKER_TEST_KEY)
-      this.get(LOCKER_TEST_KEY)
-      this.remove(LOCKER_TEST_KEY)
+      this.storage.setItem(LOCKER_TEST_KEY, LOCKER_TEST_KEY)
+      this.storage.getItem(LOCKER_TEST_KEY)
+      this.storage.removeItem(LOCKER_TEST_KEY)
     } catch (e) {
-      __DEV__ && console.error(e)
+      if (__DEV__ || __TEST__)
+        console.error(e)
 
       return false
     }
@@ -51,27 +48,13 @@ export class Driver {
   }
 }
 
-export const DRIVERS = {
-  LOCAL: new Driver(localStorage),
-  SESSION: new Driver(sessionStorage),
-  MEMORY: new Driver(new MemoryStorage()),
-  COOKIE: new Driver(new CookieStorage())
-}
-
-export function determineDriver(defaultDriverType?: any): Driver {
-  let hasFallback = Array.isArray(defaultDriverType)
+export function determineDriver(preferredDrivers: any, defaultDriver: Driver): Driver {
+  let hasFallback = Array.isArray(preferredDrivers)
 
   if (!hasFallback) {
-    return defaultDriverType.isSupported() ? defaultDriverType: DRIVERS.MEMORY
+    return preferredDrivers.isSupported() ? preferredDrivers: defaultDriver
   }
 
-  let driver = DRIVERS.MEMORY
-  for (let _driver of defaultDriverType) {
-    if (_driver.isSupported()) {
-      driver = _driver
-      break
-    }
-  }
-
-  return driver
+  return preferredDrivers
+          .find(driver => driver.isSupported()) || defaultDriver
 }

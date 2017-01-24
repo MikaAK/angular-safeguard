@@ -3,7 +3,7 @@ export interface IStorageSetConfig {
  maxAge?: number
  domain?: string
  path?: string
- expires?: Date
+ expires?: Date|string
 }
 
 export interface IStorage {

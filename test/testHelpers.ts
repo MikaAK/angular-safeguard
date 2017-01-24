@@ -5,5 +5,5 @@ import {LockerConfig} from 'Locker'
 
 
 export const initTestBed = (lockerConfig?: LockerConfig) => TestBed
-  .configureTestingModule(LockerModule.forRoot(lockerConfig))
+  .configureTestingModule(lockerConfig ? LockerModule.withConfig(lockerConfig) : LockerModule.forRoot())
 

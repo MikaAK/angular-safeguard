@@ -1,5 +1,5 @@
 import path from 'path'
-import {DefinePlugin} from 'webpack'
+import {DefinePlugin, ContextReplacementPlugin} from 'webpack'
 import {devDependencies} from './package.json'
 
 const CONTEXT = path.resolve(__dirname),
@@ -17,26 +17,30 @@ var config = {
 
   output: {
     path: createPath('dist'),
-    library: 'angular2-locker',
+    library: 'angular-safeguard',
     libraryTarget: 'umd',
     filename: 'locker.js'
   },
 
   plugins: [
     new DefinePlugin({
-      __DEV__: IS_DEV || IS_TEST
-    })
+      __DEV__: IS_DEV
+    }),
+    new ContextReplacementPlugin(
+      /angular(\\|\/)core(\\|\/)src(\\|\/)linker/,
+      createPath('src')
+    )
   ],
 
   module: {
-    loaders: [{
+    rules: [{
       test: /\.ts/,
-      loader: 'babel!ts',
+      use: 'ts',
       include: [SRC_PATH, createPath('test')],
       exclude: [NODE_MODULES_PATH]
     }, {
       test: /\.js/,
-      loader: 'babel',
+      use: 'babel',
       include: [createPath('karma-shim')],
       exclude: [NODE_MODULES_PATH]
     }]
@@ -45,9 +49,16 @@ var config = {
   externals: IS_TEST ? [] : Object.keys(devDependencies),
 
   resolve: {
-    extensions: ['.ts', '.js',''],
-    root: SRC_PATH
+    modules: ['node_modules', SRC_PATH],
+    extensions: ['.ts', '.js']
+  },
+
+  resolveLoader: {
+    moduleExtensions: ['-loader']
   }
 }
+
+if (IS_TEST)
+  config.performance = {hints: false}
 
 module.exports = config
