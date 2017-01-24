@@ -5,16 +5,18 @@ angular-safeguard
 
 ***Note: This library was renamed from angular2-locker to angular-safeguard***
 
-Wrapper around sessionStorage and localStorage for angular. If both are unavailable will use an in memory storage.
+Wrapper around sessionStorage, localStorage and cookies for angular. If both are unavailable will use an in memory storage.
+
+Expiry is also implemented for all drivers not just cookies
 
 ## Getting Started
 ```bash
-$ npm i --save angular2-locker
+$ npm i --save angular-safeguard
 ```
 
 ```typescript
 import {NgModule} from '@angular/core'
-import {LockerModule, Locker, LockerConfig} from 'angular2-locker'
+import {LockerModule, Locker, LockerConfig} from 'angular-safeguard'
 
 @Component({
   selector: 'app',
@@ -38,12 +40,12 @@ class AppModule {
 
 ### With Custom Config
 ```typescript
-import {LockerModule, LockerConfig, DRIVERS} from 'angular2-locker'
+import {LockerModule, LockerConfig, DRIVERS} from 'angular-safeguard'
 
 const lockerConfig = new LockerConfig('nameSpace', DRIVERS.MEMORY, '-')
 
 @NgModule({
-  imports: [LockerModule.forRoot(lockerConfig)]
+  imports: [LockerModule.withConfig(lockerConfig)]
   ...
 })
 class SomeModule {
@@ -59,6 +61,14 @@ class SomeModule {
 ```typescript
 locker.set('myKey', 'value')
 locker.set('myKey', {object: 'value'})
+
+const expiry = new Date()
+
+expiry.setHours(expiry.getHours() + 1)
+
+locker.set('myKey', 'value', {expiry}) // will work with every driver type
+
+// You can also use set to pass options for cookies like maxAge and such
 ```
 
 ####`key`
@@ -100,7 +110,7 @@ driver.set('keey', 'value')
 ## Static Methods
 #### `DRIVERS`
 These are the types of drivers available. If you try to set it to a driver that is unsupported it will fallback to the memory driver
-Types are available under `Locker.DRIVERS` or `import {DRIVERS} from 'angular2-locker'`
+Types are available under `Locker.DRIVERS` or `import {DRIVERS} from 'angular-safeguard'`
 
 - `DRIVERS.SESSION` - Session Cache
 - `DRIVERS.LOCAL` - Local Storage

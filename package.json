@@ -17,6 +17,9 @@
     "angular2",
     "ng2",
     "sessionStorage",
+    "cookies",
+    "safeguard",
+    "angular-locker",
     "localStorage",
     "locker"
   ],
