@@ -1,6 +1,10 @@
 language: node_js
 node_js:
-- 5
+  - 5
+
+before_script:
+  - node node_modules/phantomjs-prebuilt/install.js
+
 cache:
   directories:
   - node_modules
