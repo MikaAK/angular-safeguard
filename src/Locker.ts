@@ -3,37 +3,27 @@ declare const sessionStorage, localStorage
 import {Injectable, Optional} from '@angular/core'
 
 import {IStorageSetConfig} from './IStorage'
-import {Driver, determineDriver} from './Driver'
+import {Driver} from './Driver'
 import {PollyfillDriver} from './PolyfillDriver'
-import {MemoryStorage} from './MemoryStorage'
-import {CookieStorage} from './CookieStorage'
-import {isNil} from './helpers'
+import {DRIVERS} from './DriverTypes'
 
-export const DRIVERS = {
-  LOCAL: new PollyfillDriver(localStorage),
-  SESSION: new PollyfillDriver(sessionStorage),
-  MEMORY: new PollyfillDriver(new MemoryStorage()),
-  COOKIE: new Driver(new CookieStorage())
-}
+import {isNil} from './helpers'
 
 @Injectable()
 export class LockerConfig {
   constructor(
     @Optional() public driverNamespace?: string,
-    @Optional() public defaultDriverType?: Driver,
+    @Optional() public defaultDriverType?: Driver|Driver[],
     @Optional() public namespaceSeparator?: string
   ) {
-    if (isNil(this.driverNamespace)) {
+    if (isNil(this.driverNamespace))
       this.driverNamespace = ''
-    }
 
-    if (isNil(this.defaultDriverType)) {
+    if (isNil(this.defaultDriverType))
       this.defaultDriverType = DRIVERS.SESSION
-    }
 
-    if (isNil(this.namespaceSeparator)) {
+    if (isNil(this.namespaceSeparator))
       this.namespaceSeparator = ':'
-    }
   }
 }
 
@@ -54,7 +44,7 @@ export class Locker {
     this.setNamespace()
     this.setSeparator()
 
-    this.driver = determineDriver(defaultDriverType, DRIVERS.MEMORY)
+    this.driver = this._determineDriver(defaultDriverType)
   }
 
   public setNamespace(namespace: string = this.lockerConfig.driverNamespace) {
@@ -65,9 +55,9 @@ export class Locker {
     this.separator = separator
   }
 
-  public useDriver(driver: Driver) {
+  public useDriver(driver: Driver|Driver[]) {
     return new Locker({
-      defaultDriverType: determineDriver(driver, DRIVERS.MEMORY),
+      defaultDriverType: this._determineDriver(driver),
       driverNamespace: this.namespace,
       namespaceSeparator: this.separator
     })
@@ -107,5 +97,17 @@ export class Locker {
       return key.slice(this.namespace.length + this.separator.length)
     else
       return key
+  }
+
+  private _determineDriver(preferredDrivers: Driver|Driver[]): Driver {
+    if (Array.isArray(preferredDrivers))
+      return preferredDrivers
+        .find(driver => driver.isSupported()) || DRIVERS.MEMORY
+
+    else if (preferredDrivers)
+      return preferredDrivers.isSupported() ? preferredDrivers : DRIVERS.MEMORY
+
+    else
+      return DRIVERS.MEMORY
   }
 }

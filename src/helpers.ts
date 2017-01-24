@@ -29,10 +29,14 @@ export const isExpired = (data: ExpiryData): boolean => {
   return isInPast(expires instanceof Date ? expires : new Date(expires))
 }
 
+export const is = (ctor, value) => value &&
+                                   value.constructor === ctor ||
+                                   value instanceof ctor
+
 export const convertFromJSON = function(data: any) {
-  if (typeof data !== 'string')
+  if (typeof data !== 'string') {
     return data
-  else {
+  } else {
     try {
       return JSON.parse(data)
     } catch (e) {

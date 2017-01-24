@@ -1,6 +1,7 @@
 import path from 'path'
 import {DefinePlugin, ContextReplacementPlugin} from 'webpack'
 import {devDependencies} from './package.json'
+import {AotPlugin} from '@ngtools/webpack'
 
 const CONTEXT = path.resolve(__dirname),
       {NODE_ENV} = process.env,
@@ -13,7 +14,7 @@ const CONTEXT = path.resolve(__dirname),
 var config = {
   context: CONTEXT,
   entry: './src/index.ts',
-  devtool: IS_TEST ? '#inline-source-map' : false,
+  devtool: IS_TEST ? '#inline-source-map' : '#source-map',
 
   output: {
     path: createPath('dist'),
@@ -24,22 +25,28 @@ var config = {
 
   plugins: [
     new DefinePlugin({
-      __DEV__: IS_DEV
+      __DEV__: IS_DEV,
+      __TEST__: IS_TEST
     }),
+
     new ContextReplacementPlugin(
       /angular(\\|\/)core(\\|\/)src(\\|\/)linker/,
       createPath('src')
     )
+
+    // new AotPlugin({
+    //   tsConfigPath: './tsconfig.json'
+    // })
   ],
 
   module: {
     rules: [{
-      test: /\.ts/,
+      test: /\.ts$/,
       use: 'ts',
       include: [SRC_PATH, createPath('test')],
       exclude: [NODE_MODULES_PATH]
     }, {
-      test: /\.js/,
+      test: /\.js$/,
       use: 'babel',
       include: [createPath('karma-shim')],
       exclude: [NODE_MODULES_PATH]

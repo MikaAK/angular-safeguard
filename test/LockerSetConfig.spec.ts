@@ -1,5 +1,7 @@
+import {Locker, LockerConfig} from 'Locker'
+import {DRIVERS} from 'DriverTypes'
+
 import {TestDriverSetConfig} from './TestDriverSetConfig'
-import {DRIVERS, Locker, LockerConfig} from 'Locker'
 import {initTestBed} from './testHelpers'
 
 describe('Locker Set Config', function() {

@@ -48,13 +48,3 @@ export class Driver {
   }
 }
 
-export function determineDriver(preferredDrivers: any, defaultDriver: Driver): Driver {
-  let hasFallback = Array.isArray(preferredDrivers)
-
-  if (!hasFallback) {
-    return preferredDrivers.isSupported() ? preferredDrivers: defaultDriver
-  }
-
-  return preferredDrivers
-          .find(driver => driver.isSupported()) || defaultDriver
-}

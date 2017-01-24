@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES5",
-    "module": "commonjs",
+    "module": "es2015",
     "declaration": true,
     "sourceMap": true,
     "moduleResolution": "node",
@@ -10,8 +10,13 @@
     "lib": ["es2017", "dom"]
   },
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "dist"
   ],
   "compileOnSave": false,
-  "buildOnSave": false
+  "buildOnSave": false,
+  "angularCompilerOptions": {
+    "genDir": "./ngfactory",
+    "debug": true
+  }
 }

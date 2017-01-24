@@ -1,7 +1,9 @@
 import {inject} from '@angular/core/testing'
-import {TestDriver} from './TestDriver'
-import {DRIVERS} from 'Locker'
+
 import {Locker} from 'Locker'
+import {DRIVERS} from 'DriverTypes'
+
+import {TestDriver} from './TestDriver'
 import {initTestBed} from './testHelpers'
 
 describe('Locker', function() {

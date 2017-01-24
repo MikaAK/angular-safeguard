@@ -7,8 +7,7 @@
   "scripts": {
     "test": "NODE_ENV='test' karma start --single-run",
     "devTest": "NODE_ENV='test' karma start",
-    "build": "NODE_ENV='production' webpack --progress && rm -rf ./dist/test",
-    "tsd": "dts-generator --name angular-safeguard --project ./ --out dist/locker.d.ts"
+    "build": "NODE_ENV='production' webpack --progress && rm -rf ./dist/test"
   },
   "repository": {
     "type": "git",
@@ -31,11 +30,12 @@
   },
   "homepage": "https://github.com/MikaAK/angular-safeguard#readme",
   "devDependencies": {
-    "@angular/common": "^2.4.1",
-    "@angular/compiler": "^2.4.1",
-    "@angular/core": "^2.4.1",
-    "@angular/platform-browser": "^2.4.1",
-    "@angular/platform-browser-dynamic": "^2.4.1",
+    "@angular/common": "^2.4.4",
+    "@angular/compiler": "^2.4.4",
+    "@angular/core": "^2.4.4",
+    "@angular/platform-browser": "^2.4.4",
+    "@angular/platform-browser-dynamic": "^2.4.4",
+    "@ngtools/webpack": "~1.2.4",
     "@types/jasmine": "^2.5.38",
     "babel-core": "^6.21.0",
     "babel-loader": "^6.2.10",
@@ -43,7 +43,6 @@
     "babel-preset-es2015": "^6.18.0",
     "babel-preset-stage-2": "^6.18.0",
     "babel-register": "^6.18.0",
-    "dts-generator": "^2.0.0",
     "es6-shim": "^0.35.2",
     "jasmine-core": "^2.5.2",
     "json-loader": "^0.5.4",
@@ -56,14 +55,16 @@
     "karma-webpack": "^1.8.0",
     "phantomjs-polyfill": "^0.0.2",
     "phantomjs-prebuilt": "^2.1.14",
-    "reflect-metadata": "^0.1.8",
     "rxjs": "~5.0.0",
     "ts-loader": "^1.3.3",
     "typescript": "^2.1.4",
-    "webpack": "^2.2.0-rc.3",
+    "webpack": "^2.2.0",
     "zone.js": "^0.7.2"
   },
   "peerDependencies": {
     "@angular/core": "^2.0.0"
+  },
+  "dependencies": {
+    "core-js": "~2.4.1"
   }
 }
