@@ -6,10 +6,17 @@ import {Locker, LockerConfig} from './Locker'
   providers: [Locker, LockerConfig]
 })
 export class LockerModule {
-  public static forRoot(lockerConfig?: LockerConfig): ModuleWithProviders {
+  public static forRoot() {
+    return {
+      ngModule: LockerModule,
+      providers: [Locker, LockerConfig]
+    }
+  }
+
+  public static withConfig(lockerConfig?: LockerConfig): ModuleWithProviders {
     const config = {
       provide: LockerConfig,
-      useFactory: () => lockerConfig || new LockerConfig()
+      useFactory: () => lockerConfig
     }
 
     return {

@@ -1,19 +1,15 @@
-declare const __DEV__
+declare const __DEV__: boolean, __TEST__: boolean
 
 import {IStorage, IStorageSetConfig} from './IStorage'
-import {convertFromJSON} from './helpers'
-import {MemoryStorage} from './MemoryStorage'
-import {CookieStorage} from './CookieStorage'
+import {convertFromJSON, serializeDataToString} from './helpers'
 
 const LOCKER_TEST_KEY = 'LOCKER_TEST_KEY'
 
 export class Driver {
-  constructor(private storage: IStorage) {}
+  constructor(public storage: IStorage) {}
 
   public set(key: string, data: any, config?: IStorageSetConfig): void {
-    const cookieData: string = typeof data === 'object' ? JSON.stringify(data) : data.toString()
-
-    this.storage.setItem(key, cookieData, config)
+    this.storage.setItem(key, serializeDataToString(data), config)
   }
 
   public get(key: string): any {
@@ -38,11 +34,11 @@ export class Driver {
 
   public isSupported(): boolean {
     try {
-      this.set(LOCKER_TEST_KEY, LOCKER_TEST_KEY)
-      this.get(LOCKER_TEST_KEY)
-      this.remove(LOCKER_TEST_KEY)
+      this.storage.setItem(LOCKER_TEST_KEY, LOCKER_TEST_KEY)
+      this.storage.getItem(LOCKER_TEST_KEY)
+      this.storage.removeItem(LOCKER_TEST_KEY)
     } catch (e) {
-      if (__DEV__)
+      if (__DEV__ || __TEST__)
         console.error(e)
 
       return false
@@ -50,11 +46,4 @@ export class Driver {
 
     return true
   }
-}
-
-export const DRIVERS = {
-  LOCAL: new Driver(localStorage),
-  SESSION: new Driver(sessionStorage),
-  MEMORY: new Driver(new MemoryStorage()),
-  COOKIE: new Driver(new CookieStorage())
 }

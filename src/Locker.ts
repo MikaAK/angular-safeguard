@@ -1,9 +1,20 @@
 declare const sessionStorage, localStorage
 
 import {Injectable, Optional} from '@angular/core'
+
 import {IStorageSetConfig} from './IStorage'
-import {Driver, DRIVERS} from './Driver'
+import {Driver} from './Driver'
+import {PollyfillDriver} from './PolyfillDriver'
+import {MemoryStorage} from './MemoryStorage'
+import {CookieStorage} from './CookieStorage'
 import {isNil} from './helpers'
+
+export const DRIVERS = {
+  LOCAL: new PollyfillDriver(localStorage),
+  SESSION: new PollyfillDriver(sessionStorage),
+  MEMORY: new PollyfillDriver(new MemoryStorage()),
+  COOKIE: new Driver(new CookieStorage())
+}
 
 @Injectable()
 export class LockerConfig {
@@ -32,6 +43,9 @@ export class Locker {
   private separator: string
 
   constructor(public lockerConfig: LockerConfig) {
+    if (!lockerConfig)
+      lockerConfig = new LockerConfig()
+
     const {defaultDriverType} = lockerConfig
 
     this.setNamespace()
@@ -56,8 +70,8 @@ export class Locker {
     })
   }
 
-  public set(key, data) { // , config?: IStorageSetConfig
-    this.driver.set(this._makeKey(key), data, {})
+  public set(key, data, config?: IStorageSetConfig) {
+    this.driver.set(this._makeKey(key), data, config)
   }
 
   public get(key) {
@@ -72,8 +86,9 @@ export class Locker {
     this.driver.remove(this._makeKey(key))
   }
 
+
   public key(index?) {
-    return this.driver.key(index)
+    return this._decodeKey(this.driver.key(index))
   }
 
   public clear() {
@@ -82,5 +97,12 @@ export class Locker {
 
   private _makeKey(key: string): string {
     return this.namespace ? `${this.namespace}${this.separator}${key}` : key
+  }
+
+  private _decodeKey(key: string): string {
+    if (this.namespace)
+      return key.slice(this.namespace.length + this.separator.length)
+    else
+      return key
   }
 }

@@ -1,6 +1,6 @@
 import {inject} from '@angular/core/testing'
 import {TestDriver} from './TestDriver'
-import {DRIVERS} from 'Driver'
+import {DRIVERS} from 'Locker'
 import {Locker} from 'Locker'
 import {initTestBed} from './testHelpers'
 
@@ -10,6 +10,10 @@ describe('Locker', function() {
     value: 'value'
   }
 
+  beforeAll(() => {
+    sessionStorage.clear()
+    localStorage.clear()
+  })
   beforeEach(() => initTestBed())
   afterEach(() => sessionStorage.clear())
 
@@ -47,14 +51,14 @@ describe('Locker', function() {
     it('can take in a custom namespace', inject([Locker], function(locker: Locker) {
       locker.set(TEST_DATA.key, TEST_DATA.value)
 
-      expect(locker.key()).toMatch(/^test/)
+      expect(sessionStorage.key(0)).toMatch(/^test/)
     }))
 
     it('can be passed undefined and uses default namespace', inject([Locker], function(locker: Locker) {
       locker.setNamespace()
       locker.set(TEST_DATA.key, TEST_DATA.value)
 
-      expect(locker.key()).toEqual(TEST_DATA.key)
+      expect(sessionStorage.key(0)).toEqual(TEST_DATA.key)
     }))
   })
 
@@ -69,14 +73,14 @@ describe('Locker', function() {
     it('can take in a custom seperator', inject([Locker], function(locker: Locker) {
       locker.set(TEST_DATA.key, TEST_DATA.value)
 
-      expect(locker.key()).toEqual(`${NAMESPACE}-${TEST_DATA.key}`)
+      expect(sessionStorage.key(0)).toEqual(`${NAMESPACE}-${TEST_DATA.key}`)
     }))
 
     it('can be passed undefined and uses default seperator', inject([Locker], function(locker: Locker) {
       locker.setSeparator()
       locker.set(TEST_DATA.key, TEST_DATA.value)
 
-      expect(locker.key()).toEqual(`${NAMESPACE}:${TEST_DATA.key}`)
+      expect(sessionStorage.key(0)).toEqual(`${NAMESPACE}:${TEST_DATA.key}`)
     }))
   })
 

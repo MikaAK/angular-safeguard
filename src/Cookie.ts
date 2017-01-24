@@ -1,5 +1,5 @@
 import {IStorageSetConfig} from './IStorage'
-import {COOKIE_SEP, encode, decode, toString, isString} from './helpers'
+import {COOKIE_SEP, encode, decode, toString, isString, isNumber} from './helpers'
 
 const DEFAULT_CONFIG: IStorageSetConfig = {}
 
@@ -24,7 +24,7 @@ export class Cookie {
     if (secure)
       cookie += ';secure'
 
-    if (!isNaN(maxAge))
+    if (isNumber(maxAge) && !isNaN(maxAge))
       cookie += `;max-age=${maxAge}`
 
     if (domain)
