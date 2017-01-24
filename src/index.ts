@@ -1,5 +1,3 @@
-import 'core-js/es7/reflect'
-
 import {Locker, LockerConfig} from './Locker'
 import {LockerModule} from './Locker.module'
 
