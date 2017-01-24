@@ -2,11 +2,12 @@
   "name": "angular-safeguard",
   "version": "0.6.0",
   "description": "angular library for managing session, locker and cookie storage, has backup for in-memory if none are supported",
-  "main": "dist/locker.js",
+  "main": "./dist/locker.js",
+  "types": "./dist/src/index.d.ts",
   "scripts": {
     "test": "NODE_ENV='test' karma start --single-run",
     "devTest": "NODE_ENV='test' karma start",
-    "build": "NODE_ENV='production' webpack --progress",
+    "build": "NODE_ENV='production' webpack --progress && rm -rf ./dist/test",
     "tsd": "dts-generator --name angular-safeguard --project ./ --out dist/locker.d.ts"
   },
   "repository": {
