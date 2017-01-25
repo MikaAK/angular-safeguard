@@ -1,21 +1,20 @@
 import {NgModule, ModuleWithProviders} from '@angular/core'
 
-import {Locker, LockerConfig} from './Locker'
-import {is} from './helpers'
+import {Locker, LockerConfig, LOCKER_USER_CONFIG, ILockerConfig} from './Locker'
 
 @NgModule({
   providers: [Locker, LockerConfig]
 })
 export class LockerModule {
-  public static forRoot(lockerConfig?: LockerConfig): ModuleWithProviders {
+  public static withConfig(userConfig: ILockerConfig): ModuleWithProviders {
     const config = {
-      provide: LockerConfig,
-      useFactory: () => is(LockerConfig, lockerConfig) ? lockerConfig : new LockerConfig()
+      provide: LOCKER_USER_CONFIG,
+      useValue: userConfig
     }
 
     return {
       ngModule: LockerModule,
-      providers: [Locker, config]
+      providers: [Locker, LockerConfig, config]
     }
   }
 }

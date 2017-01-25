@@ -6,7 +6,11 @@ import {initTestBed} from './testHelpers'
 const CUSTOM_NAMESPACE = 'angular2-locker'
 const SEPERATOR = ':'
 
-const createLockerConfig = (defaultNamespace: string, driver?: Driver) => new LockerConfig(defaultNamespace, driver, SEPERATOR)
+const createLockerConfig = (driverNamespace: string, defaultDriverType?: Driver) => ({
+  driverNamespace,
+  defaultDriverType,
+  namespaceSeparator: SEPERATOR
+})
 
 export const TestDriver = function(driverName, driver: Driver) {
   describe(driverName, function() {
@@ -17,7 +21,7 @@ export const TestDriver = function(driverName, driver: Driver) {
       beforeEach(() => initTestBed(createLockerConfig('', driver)))
       afterEach(() => driver.clear())
 
-      beforeEach(inject([Locker, LockerConfig], (lockerService) => locker = lockerService))
+      beforeEach(inject([Locker], (lockerService) => locker = lockerService))
 
       it(`sets driver to ${driverName}`, () => {
         expect(locker['driver']).toEqual(driver)
@@ -80,7 +84,7 @@ export const TestDriver = function(driverName, driver: Driver) {
     describe('Custom Namespace', function() {
       beforeEach(() => initTestBed(createLockerConfig(CUSTOM_NAMESPACE)))
 
-      it('when getting keys namespace is not included', inject([Locker, LockerConfig], (locker: Locker) => {
+      it('when getting keys namespace is not included', inject([Locker], (locker: Locker) => {
         var dummy = {
           key: 'TEST',
           data: `TEST-${Math.random() * 1000}`

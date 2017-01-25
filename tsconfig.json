@@ -1,4 +1,6 @@
 {
+  "compileOnSave": false,
+  "buildOnSave": false,
   "compilerOptions": {
     "target": "ES5",
     "module": "es2015",
@@ -13,10 +15,7 @@
     "node_modules",
     "dist"
   ],
-  "compileOnSave": false,
-  "buildOnSave": false,
   "angularCompilerOptions": {
-    "genDir": "./ngfactory",
-    "debug": true
+    "genDir": "./ngfactory"
   }
 }

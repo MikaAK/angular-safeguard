@@ -43,10 +43,18 @@ class AppModule {
 import {LockerModule, LockerConfig, DRIVERS} from 'angular-safeguard'
 
 // to set a single driver
-const lockerConfig = new LockerConfig('nameSpace', DRIVERS.MEMORY, '-')
+const lockerConfig = {
+  driverNamespace: 'nameSpace',
+  defaultDriverType: DRIVERS.MEMORY,
+  namespaceSeperator: '-'
+}
 
 // to set fallback drivers in order of preference, pass in an Array of Driver
-// const lockerConfig = new LockerConfig('nameSpace', [DRIVERS.LOCAL, DRIVERS.SESSION, DRIVERS.COOKIE], '-')
+const lockerConfig = {
+  driverNamespace: 'nameSpace',
+  defaultDriverType: [DRIVERS.LOCAL, DRIVERS.SESSION, DRIVERS.COOKIE],
+  namespaceSeperator: '-'
+}
 
 @NgModule({
   imports: [LockerModule.withConfig(lockerConfig)]
@@ -115,8 +123,6 @@ driver.set('keey', 'value')
 #### `DRIVERS`
 
 These are the types of drivers available. If you try to set it to a (single) driver that is unsupported it will fallback to the memory driver.  To set fallback drivers, pass in an Array of drivers in the order or preference:
-
-`const lockerConfig = new LockerConfig('nameSpace', [DRIVERS.LOCAL, DRIVERS.SESSION, DRIVERS.COOKIE], '-')`
 
 Again, if every driver in Array is unsupported, it will fall back to memory driver.
 

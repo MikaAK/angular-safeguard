@@ -1,6 +1,4 @@
-declare const sessionStorage, localStorage
-
-import {Injectable, Optional} from '@angular/core'
+import {Injectable, Inject, OpaqueToken} from '@angular/core'
 
 import {IStorageSetConfig} from './IStorage'
 import {Driver} from './Driver'
@@ -9,21 +7,30 @@ import {DRIVERS} from './DriverTypes'
 
 import {isNil} from './helpers'
 
+export const LOCKER_USER_CONFIG = new OpaqueToken('LOCKER_USER_CONFIG')
+
+export interface ILockerConfig {
+  driverNamespace?: string
+  defaultDriverType?: Driver|Driver
+  namespaceSeparator?: string
+}
+
 @Injectable()
 export class LockerConfig {
-  constructor(
-    @Optional() public driverNamespace?: string,
-    @Optional() public defaultDriverType?: Driver|Driver[],
-    @Optional() public namespaceSeparator?: string
-  ) {
-    if (isNil(this.driverNamespace))
+  public driverNamespace: string
+  public defaultDriverType: Driver|Driver[]
+  public namespaceSeparator: string
+
+  constructor(@Inject(LOCKER_USER_CONFIG) config: string|ILockerConfig) {
+    if (!config || typeof config === 'string') {
       this.driverNamespace = ''
-
-    if (isNil(this.defaultDriverType))
       this.defaultDriverType = DRIVERS.SESSION
-
-    if (isNil(this.namespaceSeparator))
       this.namespaceSeparator = ':'
+    } else {
+      this.driverNamespace = isNil(config.driverNamespace) ? '' : config.driverNamespace
+      this.defaultDriverType = isNil(config.defaultDriverType) ? DRIVERS.SESSION : config.defaultDriverType
+      this.namespaceSeparator = isNil(config.namespaceSeparator) ? ':' : config.namespaceSeparator
+    }
   }
 }
 
@@ -36,9 +43,6 @@ export class Locker {
   private separator: string
 
   constructor(public lockerConfig: LockerConfig) {
-    if (!lockerConfig)
-      lockerConfig = new LockerConfig()
-
     const {defaultDriverType} = lockerConfig
 
     this.setNamespace()

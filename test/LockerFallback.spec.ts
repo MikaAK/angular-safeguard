@@ -3,7 +3,7 @@ import {Locker, LockerConfig} from 'Locker'
 import {initTestBed} from './testHelpers'
 
 describe('LockerFallback', () => {
-  const createDefaultDriverConfig = (defaultDriverType) => new LockerConfig(null, defaultDriverType)
+  const createDefaultDriverConfig = (defaultDriverType) => new LockerConfig({defaultDriverType})
 
   describe('Single driver', () => {
     beforeEach(() => {

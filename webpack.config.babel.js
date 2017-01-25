@@ -1,5 +1,5 @@
 import path from 'path'
-import {DefinePlugin, ContextReplacementPlugin} from 'webpack'
+import {DefinePlugin, ContextReplacementPlugin, LoaderOptionsPlugin} from 'webpack'
 import {devDependencies} from './package.json'
 import {AotPlugin} from '@ngtools/webpack'
 

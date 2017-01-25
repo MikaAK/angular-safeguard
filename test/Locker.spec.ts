@@ -16,10 +16,12 @@ describe('Locker', function() {
     sessionStorage.clear()
     localStorage.clear()
   })
-  beforeEach(() => initTestBed())
+
   afterEach(() => sessionStorage.clear())
 
   describe('With Default Config', function() {
+    beforeEach(() => initTestBed())
+
     it('initializes in angular2', inject([Locker], function(locker: Locker) {
       locker.set(TEST_DATA.key, TEST_DATA.value)
 
@@ -29,23 +31,9 @@ describe('Locker', function() {
     }))
   })
 
-  describe('With Unsupported driver', function() {
-    beforeEach(function() {
-      spyOn(DRIVERS.LOCAL, 'isSupported').and.callFake(() => false)
-      spyOn(DRIVERS.SESSION, 'isSupported').and.callFake(() => false)
-      spyOn(DRIVERS.COOKIE, 'isSupported').and.callFake(() => false)
-    })
-
-    it('backs up to MemoryStorage', inject([Locker], function(locker: Locker) {
-      expect(locker['driver']).toEqual(DRIVERS.MEMORY)
-    }))
-
-    it('gives memory driver if trying to switch drivers', inject([Locker], function(locker: Locker) {
-      expect(locker.useDriver(DRIVERS.LOCAL)['driver']).toEqual(DRIVERS.MEMORY)
-    }))
-  })
-
   describe('#setNamespace', function() {
+    beforeEach(() => initTestBed())
+
     beforeEach(inject([Locker], function(locker: Locker) {
       locker.setNamespace('test')
     }))
@@ -66,6 +54,8 @@ describe('Locker', function() {
 
   describe('#setSeperator', function() {
     const NAMESPACE = 'test'
+
+    beforeEach(() => initTestBed())
 
     beforeEach(inject([Locker], function(locker: Locker) {
       locker.setNamespace(NAMESPACE)

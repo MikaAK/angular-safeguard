@@ -1,8 +1,10 @@
 import {TestBed} from '@angular/core/testing'
 
 import {LockerModule} from 'Locker.module'
-import {LockerConfig} from 'Locker'
+import {Locker, LockerConfig, ILockerConfig, LOCKER_USER_CONFIG} from 'Locker'
 
-export const initTestBed = (lockerConfig?: LockerConfig) => TestBed
-  .configureTestingModule(LockerModule.forRoot(lockerConfig))
+export const initTestBed = (lockerConfig?: ILockerConfig) => TestBed
+  .configureTestingModule(lockerConfig ? LockerModule.withConfig(lockerConfig) : {
+    providers: [Locker, LockerConfig, {provide: LOCKER_USER_CONFIG}]
+  })
 
