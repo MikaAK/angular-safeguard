@@ -1,11 +1,11 @@
-import {IStorage} from './IStorage'
+import {ICustomStorage} from './metadata'
 
 const _cache = new Map()
 
 const getKeys = () => Array.from(_cache.keys())
 
-export class MemoryStorage implements IStorage {
-  public hasOwnProperty(key) {
+export class MemoryStorage implements ICustomStorage {
+  public hasItem(key) {
     return _cache.has(key)
   }
 

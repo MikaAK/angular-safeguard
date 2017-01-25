@@ -1,9 +1,4 @@
-import {IStorageSetConfig} from './IStorage'
-
-export interface ExpiryData {
-  config?: IStorageSetConfig
-  data: any
-}
+import {IStorageSetConfig, ExpiryData} from './metadata'
 
 // Convenience
 export const encode = encodeURIComponent

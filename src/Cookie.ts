@@ -1,7 +1,7 @@
-import {IStorageSetConfig} from './IStorage'
+import {IStorageSetConfig} from './metadata'
 import {COOKIE_SEP, encode, decode, toString, isString, isNumber} from './helpers'
 
-const DEFAULT_CONFIG: IStorageSetConfig = {}
+export const DEFAULT_CONFIG: IStorageSetConfig = {}
 
 export class Cookie {
   public static getAll(): Object {

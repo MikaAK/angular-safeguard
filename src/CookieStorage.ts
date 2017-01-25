@@ -1,9 +1,9 @@
-import {IStorage} from './IStorage'
+import {ICustomStorage} from './metadata'
 import {Cookie} from './Cookie'
 
-export class CookieStorage implements IStorage {
-  public hasOwnProperty(key) {
-    return <boolean>Cookie.get(key)
+export class CookieStorage implements ICustomStorage {
+  public hasItem(key) {
+    return <boolean>!!Cookie.get(key)
   }
 
   public getItem(key) {

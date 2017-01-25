@@ -1,6 +1,6 @@
 import {Injectable, Inject, OpaqueToken} from '@angular/core'
 
-import {IStorageSetConfig} from './IStorage'
+import {IStorageSetConfig, ILockerConfig} from './metadata'
 import {Driver} from './Driver'
 import {PollyfillDriver} from './PolyfillDriver'
 import {DRIVERS} from './DriverTypes'
@@ -18,11 +18,6 @@ export const LOCKER_DEFAULT_CONFIG_PROVIDER = {
   }
 }
 
-export interface ILockerConfig {
-  driverNamespace?: string
-  defaultDriverType?: Driver|Driver
-  namespaceSeparator?: string
-}
 
 @Injectable()
 export class LockerConfig {
