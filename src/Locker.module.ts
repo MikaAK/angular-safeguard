@@ -1,9 +1,13 @@
 import {NgModule, ModuleWithProviders} from '@angular/core'
 
-import {Locker, LockerConfig, LOCKER_USER_CONFIG, ILockerConfig} from './Locker'
+import {Locker, LockerConfig, LOCKER_DEFAULT_CONFIG_PROVIDER, LOCKER_USER_CONFIG, ILockerConfig} from './Locker'
 
 @NgModule({
-  providers: [Locker, LockerConfig]
+  providers: [
+    Locker,
+    LockerConfig,
+    LOCKER_DEFAULT_CONFIG_PROVIDER
+  ]
 })
 export class LockerModule {
   public static withConfig(userConfig: ILockerConfig): ModuleWithProviders {

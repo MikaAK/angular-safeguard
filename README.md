@@ -132,3 +132,10 @@ Types are available under `Locker.DRIVERS` or `import {DRIVERS} from 'angular-sa
 - `DRIVERS.LOCAL` - Local Storage
 - `DRIVERS.MEMORY` - Memory Storage
 - `DRIVERS.COOKIE` - Cookies
+
+
+## FAQ
+
+**Why is my data getting set to {data: myDataHere} instead of just myDataHere?**:
+angular-safeguard provides expiry on more than just cookies, to do this it's necessary to create a bit of a more complex
+object so we can store expiry and more

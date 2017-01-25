@@ -9,6 +9,15 @@ import {isNil} from './helpers'
 
 export const LOCKER_USER_CONFIG = new OpaqueToken('LOCKER_USER_CONFIG')
 
+export const LOCKER_DEFAULT_CONFIG_PROVIDER = {
+  provide: LOCKER_USER_CONFIG,
+  useValue: {
+    namespaceSeparator: ':',
+    defaultDriverType: DRIVERS.SESSION,
+    driverNamespace: ''
+  }
+}
+
 export interface ILockerConfig {
   driverNamespace?: string
   defaultDriverType?: Driver|Driver
@@ -21,16 +30,10 @@ export class LockerConfig {
   public defaultDriverType: Driver|Driver[]
   public namespaceSeparator: string
 
-  constructor(@Inject(LOCKER_USER_CONFIG) config: string|ILockerConfig) {
-    if (!config || typeof config === 'string') {
-      this.driverNamespace = ''
-      this.defaultDriverType = DRIVERS.SESSION
-      this.namespaceSeparator = ':'
-    } else {
-      this.driverNamespace = isNil(config.driverNamespace) ? '' : config.driverNamespace
-      this.defaultDriverType = isNil(config.defaultDriverType) ? DRIVERS.SESSION : config.defaultDriverType
-      this.namespaceSeparator = isNil(config.namespaceSeparator) ? ':' : config.namespaceSeparator
-    }
+  constructor(@Inject(LOCKER_USER_CONFIG) config: ILockerConfig) {
+    this.driverNamespace = isNil(config.driverNamespace) ? '' : config.driverNamespace
+    this.defaultDriverType = isNil(config.defaultDriverType) ? DRIVERS.SESSION : config.defaultDriverType
+    this.namespaceSeparator = isNil(config.namespaceSeparator) ? ':' : config.namespaceSeparator
   }
 }
 
