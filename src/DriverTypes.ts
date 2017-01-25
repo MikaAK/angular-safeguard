@@ -3,9 +3,14 @@ import {Driver} from './Driver'
 import {MemoryStorage} from './MemoryStorage'
 import {CookieStorage} from './CookieStorage'
 
+export const LOCAL = new PollyfillDriver(localStorage)
+export const SESSION = new PollyfillDriver(sessionStorage)
+export const MEMORY = new PollyfillDriver(new MemoryStorage())
+export const COOKIE = new Driver(new CookieStorage())
+
 export const DRIVERS = {
-  LOCAL: new PollyfillDriver(localStorage),
-  SESSION: new PollyfillDriver(sessionStorage),
-  MEMORY: new PollyfillDriver(new MemoryStorage()),
-  COOKIE: new Driver(new CookieStorage())
+  LOCAL,
+  SESSION,
+  MEMORY,
+  COOKIE
 }

@@ -1,17 +1,37 @@
 import {IStorageSetConfig, ExpiryData} from './metadata'
 
 // Convenience
-export const encode = encodeURIComponent
-export const decode = decodeURIComponent
+export function encode(str: string): string {
+  return encodeURIComponent(str)
+}
+
+export function decode(str: string): string {
+  return decodeURIComponent(str)
+}
 
 export const COOKIE_SEP = '; '
-export const isInPast = (date: Date) => date <= new Date()
-export const isString = (str: string|Date): boolean => typeof str === 'string'
-export const toString = (obj: any): string => typeof obj.toUTCString === 'function' ? obj.toUTCString() : obj.toString()
-export const isNil = (item: any) => item === undefined || item === null
-export const isNumber = (item: any) => typeof item === 'number'
 
-export const isExpired = (data: ExpiryData): boolean => {
+export function isInPast(date: Date): boolean {
+  return date <= new Date()
+}
+
+export function isString(str: string|Date): boolean {
+  return typeof str === 'string'
+}
+
+export function toString(obj: any): string {
+  return typeof obj.toUTCString === 'function' ? obj.toUTCString() : obj.toString()
+}
+
+export function isNil(item: any) {
+  return item === undefined || item === null
+}
+
+export function isNumber(item: any) {
+  return typeof item === 'number'
+}
+
+export function isExpired(data: ExpiryData): boolean {
   if (!data.config)
     return false
 
@@ -24,11 +44,13 @@ export const isExpired = (data: ExpiryData): boolean => {
   return isInPast(expires instanceof Date ? expires : new Date(expires))
 }
 
-export const is = (ctor, value) => value &&
-                                   value.constructor === ctor ||
-                                   value instanceof ctor
+export function is(ctor, value): boolean {
+  return value &&
+         value.constructor === ctor ||
+         value instanceof ctor
+}
 
-export const convertFromJSON = function(data: any) {
+export function convertFromJSON(data: any): any {
   if (typeof data !== 'string') {
     return data
   } else {
@@ -40,4 +62,7 @@ export const convertFromJSON = function(data: any) {
   }
 }
 
-export const serializeDataToString = (data: any): string => typeof data === 'object' ? JSON.stringify(data) : data.toString()
+export function serializeDataToString(data: any): string {
+  return typeof data === 'object' ? JSON.stringify(data) : data.toString()
+}
+

@@ -34,8 +34,6 @@ export class LockerConfig {
 
 @Injectable()
 export class Locker {
-  public static DRIVERS = DRIVERS
-
   private driver: Driver
   private namespace: string
   private separator: string

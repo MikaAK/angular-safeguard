@@ -32,17 +32,17 @@ var config = {
     new ContextReplacementPlugin(
       /angular(\\|\/)core(\\|\/)src(\\|\/)linker/,
       createPath('src')
-    )
+    ),
 
-    // new AotPlugin({
-    //   tsConfigPath: './tsconfig.json'
-    // })
+    new AotPlugin({
+      tsConfigPath: './tsconfig.json'
+    })
   ],
 
   module: {
     rules: [{
       test: /\.ts$/,
-      use: 'ts',
+      use: '@ngtools/webpack',
       include: [SRC_PATH, createPath('test')],
       exclude: [NODE_MODULES_PATH]
     }, {
