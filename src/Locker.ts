@@ -31,9 +31,9 @@ export class LockerConfig {
   public namespaceSeparator: string
 
   constructor(@Inject(LOCKER_USER_CONFIG) config: ILockerConfig) {
-    this.driverNamespace = isNil(config.driverNamespace) ? '' : config.driverNamespace
-    this.defaultDriverType = isNil(config.defaultDriverType) ? DRIVERS.SESSION : config.defaultDriverType
-    this.namespaceSeparator = isNil(config.namespaceSeparator) ? ':' : config.namespaceSeparator
+    this.driverNamespace = !config || isNil(config.driverNamespace) ? '' : config.driverNamespace
+    this.defaultDriverType = !config || isNil(config.defaultDriverType) ? DRIVERS.SESSION : config.defaultDriverType
+    this.namespaceSeparator = !config || isNil(config.namespaceSeparator) ? ':' : config.namespaceSeparator
   }
 }
 
