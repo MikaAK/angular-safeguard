@@ -7,7 +7,8 @@
   "scripts": {
     "test": "NODE_ENV='test' karma start --single-run",
     "devTest": "NODE_ENV='test' karma start",
-    "build": "NODE_ENV='production' webpack --progress && rm -rf ./dist/test"
+    "build": "NODE_ENV='production' webpack --progress && rm -rf ./dist/test",
+    "prepublish": "npm test"
   },
   "repository": {
     "type": "git",
