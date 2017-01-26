@@ -1,4 +1,5 @@
 import {Driver} from './Driver'
+import {DRIVERS} from './DriverTypes'
 
 export interface IStorageSetConfig {
  secure?: boolean
@@ -28,11 +29,16 @@ export interface ICustomStorage extends IStorage {
 
 export interface ILockerConfig {
   driverNamespace?: string
-  defaultDriverType?: Driver|Driver
+  driverFallback?: DRIVERS
   namespaceSeparator?: string
 }
 
 export interface ExpiryData {
   config?: IStorageSetConfig
   data: any
+}
+
+export interface DriverType {
+  storage: Driver
+  type: number|string
 }

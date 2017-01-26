@@ -1,11 +1,11 @@
 import {inject} from '@angular/core/testing'
 
-import {Driver} from 'Driver'
-import {Locker, LockerConfig} from 'Locker'
+import {DRIVERS} from '../src/DriverTypes'
+import {Locker, LockerConfig} from '../src/Locker'
 
 import {initTestBed} from './testHelpers'
 
-export const TestDriverSetConfig = function(driverName, driver: Driver) {
+export const TestDriverSetConfig = function(driverName, driver: DRIVERS) {
   describe(driverName, function() {
     const createDummy = (expires) => ({
       key: 'hi',
@@ -15,33 +15,29 @@ export const TestDriverSetConfig = function(driverName, driver: Driver) {
 
     var locker: Locker
 
-    beforeEach(() => initTestBed({defaultDriverType: driver}))
+    beforeEach(() => initTestBed())
     beforeEach(inject([Locker], (lockerService: Locker) => locker = lockerService))
 
     it('can set expiry and have it expire at date', function() {
-      var cLocker = locker.useDriver(driver)
-
       const EXPIRY = new Date(),
             ADD_MINUTES = 10
 
       const DUMMY = createDummy(EXPIRY)
 
-      cLocker.set(DUMMY.key, DUMMY.data, DUMMY.config)
+      locker.set(driver, DUMMY.key, DUMMY.data, DUMMY.config)
 
-      expect(cLocker.get(DUMMY.key)).toBeFalsy()
+      expect(locker.get(driver, DUMMY.key)).toBeFalsy()
     })
 
     it('can set expiry and before date will still fetch data', function() {
-      var cLocker = locker.useDriver(driver)
-
       const EXPIRY = new Date()
 
       EXPIRY.setMinutes(EXPIRY.getMinutes() + 10)
 
       const DUMMY = createDummy(EXPIRY)
 
-      cLocker.set(DUMMY.key, DUMMY.data, DUMMY.config)
-      expect(cLocker.get(DUMMY.key)).toEqual(DUMMY.data)
+      locker.set(driver, DUMMY.key, DUMMY.data, DUMMY.config)
+      expect(locker.get(driver, DUMMY.key)).toEqual(DUMMY.data)
     })
   })
 }

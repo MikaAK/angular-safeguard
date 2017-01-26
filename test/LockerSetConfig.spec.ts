@@ -1,5 +1,5 @@
-import {Locker} from 'Locker'
-import {DRIVERS} from 'DriverTypes'
+import {Locker} from '../src/Locker'
+import {DRIVERS} from '../src/DriverTypes'
 
 import {TestDriverSetConfig} from './TestDriverSetConfig'
 import {initTestBed} from './testHelpers'

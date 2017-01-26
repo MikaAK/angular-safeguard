@@ -1,27 +1,28 @@
 import {inject} from '@angular/core/testing'
-import {Driver} from 'Driver'
-import {LockerConfig, Locker} from 'Locker'
+
+import {DRIVERS} from '../src/DriverTypes'
+import {LockerConfig, Locker} from '../src/Locker'
+
 import {initTestBed} from './testHelpers'
 
 const CUSTOM_NAMESPACE = 'angular2-locker'
 const SEPERATOR = ':'
 
-const createLockerConfig = (driverNamespace: string, defaultDriverType?: Driver) => ({
+const createLockerConfig = (driverNamespace: string) => ({
   driverNamespace,
-  defaultDriverType,
   namespaceSeparator: SEPERATOR
 })
 
-export const TestDriver = function(driverName, driver: Driver) {
+export const TestDriver = function(driverName, driver: DRIVERS) {
   describe(driverName, function() {
     describe('With DefaultDriverType', function() {
       const TEST_KEY = `${CUSTOM_NAMESPACE}-${Math.random() * 1000}`
       var locker: Locker
 
-      beforeEach(() => initTestBed(createLockerConfig('', driver)))
-      afterEach(() => driver.clear())
+      beforeEach(() => initTestBed())
 
       beforeEach(inject([Locker], (lockerService) => locker = lockerService))
+      afterEach(() => locker.clear(driver))
 
       it(`sets driver to ${driverName}`, () => {
         expect(locker['driver']).toEqual(driver)
@@ -31,9 +32,9 @@ export const TestDriver = function(driverName, driver: Driver) {
       it('sets key with string value into storage', () => {
         const TEST_VALUE = 'TEST'
 
-        locker.set(TEST_KEY, TEST_VALUE)
+        locker.set(driver, TEST_KEY, TEST_VALUE)
 
-        expect(locker.get(TEST_KEY)).toEqual(TEST_VALUE)
+        expect(locker.get(driver, TEST_KEY)).toEqual(TEST_VALUE)
       })
 
       it('sets key with object value into storage', () => {
@@ -42,31 +43,31 @@ export const TestDriver = function(driverName, driver: Driver) {
           myObject: 'Test'
         }
 
-        locker.set(TEST_KEY, TEST_VALUE)
+        locker.set(driver, TEST_KEY, TEST_VALUE)
 
-        expect(locker.get(TEST_KEY)).toEqual(TEST_VALUE)
+        expect(locker.get(driver, TEST_KEY)).toEqual(TEST_VALUE)
       })
 
       it('removes data from storage with .remove', () => {
         const TEST_VALUE = 'TEST'
 
-        locker.set(TEST_KEY, TEST_VALUE)
+        locker.set(driver, TEST_KEY, TEST_VALUE)
+        locker.remove(driver, TEST_KEY)
 
-        locker.remove(TEST_KEY)
-        expect(locker.get(TEST_KEY)).not.toEqual(TEST_VALUE)
+        expect(locker.get(driver, TEST_KEY)).not.toEqual(TEST_VALUE)
       })
 
       it('clears all data from the storage with .clear', () => {
         const TEST_VALUE = 'TEST',
               TEST_KEY_2 = `TEST_${TEST_KEY}`
 
-        locker.set(TEST_KEY, TEST_VALUE)
-        locker.set(TEST_KEY_2, TEST_VALUE)
+        locker.set(driver, TEST_KEY, TEST_VALUE)
+        locker.set(driver, TEST_KEY_2, TEST_VALUE)
 
-        locker.clear()
+        locker.clear(driver)
 
-        expect(locker.get(TEST_KEY)).not.toEqual(TEST_VALUE)
-        expect(locker.get(TEST_KEY_2)).not.toEqual(TEST_VALUE)
+        expect(locker.get(driver, TEST_KEY)).not.toEqual(TEST_VALUE)
+        expect(locker.get(driver, TEST_KEY_2)).not.toEqual(TEST_VALUE)
       })
 
       it('can fetch key by index', () => {
@@ -75,9 +76,9 @@ export const TestDriver = function(driverName, driver: Driver) {
           data: `TEST-${Math.random() * 1000}`
         }
 
-        locker.set(dummy.key, dummy.data)
+        locker.set(driver, dummy.key, dummy.data)
 
-        expect(locker.key()).toEqual(dummy.key)
+        expect(locker.key(driver)).toEqual(dummy.key)
       })
     })
 
@@ -90,9 +91,9 @@ export const TestDriver = function(driverName, driver: Driver) {
           data: `TEST-${Math.random() * 1000}`
         }
 
-        locker.set(dummy.key, dummy.data)
+        locker.set(driver, dummy.key, dummy.data)
 
-        expect(locker.key()).toEqual(dummy.key)
+        expect(locker.key(driver)).toEqual(dummy.key)
       }))
     })
   })
