@@ -1,6 +1,6 @@
 angular-safeguard
 =====
-[![Build Status](https://travis-ci.org/MikaAK/angular2-locker.svg?branch=master)](https://travis-ci.org/MikaAK/angular2-locker)
+[![Build Status](https://travis-ci.org/MikaAK/angular-safeguard.svg?branch=master)](https://travis-ci.org/MikaAK/angular-safeguard)
 [![Code Climate](https://codeclimate.com/github/MikaAK/angular2-locker/badges/gpa.svg)](https://codeclimate.com/github/MikaAK/angular2-locker)
 
 ***Note: This library was renamed from angular2-locker to angular-safeguard***
@@ -8,6 +8,14 @@ angular-safeguard
 Wrapper around sessionStorage, localStorage and cookies for angular. If both are unavailable will use an in memory storage.
 
 Expiry is also implemented for all drivers not just cookies
+
+***Breaking Changes in 2.0:***
+> With 2.0 this library supports AoT. As a result there was two options, one to create a
+> storage type for each different storage, and two to change `set/get` and other methods
+> to explicitly use a driver.
+> The latter means we can still provide in-memory fallback without
+> the hassle of you writing conditions everywhere.
+> All methods on locker now have an extra param for storage type such as `get(DRIVERS.SESSION, 'key')`
 
 ## Getting Started
 ```bash
@@ -110,7 +118,7 @@ locker.setSeparator() // Resets to lockerConfig default
 `locker.remove(DRIVERS.SESSION, 'key')`
 
 ####`clear`
-`locker.clear(DRIVERS.SESSION, )`
+`locker.clear(DRIVERS.SESSION)`
 
 ## Static Methods
 #### `DRIVERS`
@@ -119,7 +127,7 @@ These are the types of drivers available. If you try to set it to a (single) dri
 
 Again, if every driver in Array is unsupported, it will fall back to memory driver.
 
-Types are available under `Locker.DRIVERS` or `import {DRIVERS} from 'angular-safeguard'`
+Types are available from `import {DRIVERS} from 'angular-safeguard'`
 
 - `DRIVERS.SESSION` - Session Cache
 - `DRIVERS.LOCAL` - Local Storage
