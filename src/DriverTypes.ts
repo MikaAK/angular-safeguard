@@ -37,4 +37,22 @@ export class CookieStorageDriver implements DriverType {
   public type = DRIVERS.COOKIE
 }
 
-export const DRIVER_TYPES = new OpaqueToken('DRIVER_TYPES')
+export const LOCKER_DRIVER_TYPES = new OpaqueToken('LOCKER_DRIVER_TYPES')
+
+export const DRIVER_TYPES_PROVIDERS = [{
+  provide: LOCKER_DRIVER_TYPES,
+  multi: true,
+  useValue: LocalStorageDriver
+}, {
+  provide: LOCKER_DRIVER_TYPES,
+  multi: true,
+  useValue: SessionStorageDriver
+}, {
+  provide: LOCKER_DRIVER_TYPES,
+  multi: true,
+  useValue: MemoryStorageDriver
+}, {
+  provide: LOCKER_DRIVER_TYPES,
+  multi: true,
+  useValue: CookieStorageDriver
+}]

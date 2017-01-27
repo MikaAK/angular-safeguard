@@ -29,7 +29,7 @@ export interface ICustomStorage extends IStorage {
 
 export interface ILockerConfig {
   driverNamespace?: string
-  driverFallback?: DRIVERS
+  driverFallback?: DRIVERS|DRIVERS[]
   namespaceSeparator?: string
 }
 

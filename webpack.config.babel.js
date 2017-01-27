@@ -32,17 +32,13 @@ var config = {
     new ContextReplacementPlugin(
       /angular(\\|\/)core(\\|\/)src(\\|\/)linker/,
       createPath('src')
-    ),
-
-    new AotPlugin({
-      tsConfigPath: './tsconfig.json'
-    })
+    )
   ],
 
   module: {
     rules: [{
       test: /\.ts$/,
-      use: '@ngtools/webpack',
+      use: 'ts',
       include: [SRC_PATH, createPath('test')],
       exclude: [NODE_MODULES_PATH]
     }, {
@@ -65,7 +61,16 @@ var config = {
   }
 }
 
-if (IS_TEST)
+if (IS_TEST) {
   config.performance = {hints: false}
+} else {
+  config.plugins.push(
+    new AotPlugin({
+      tsConfigPath: './tsconfig.json'
+    })
+  )
+
+  config.module.rules.find(({use}) => use === 'ts').use = '@ngtools/webpack'
+}
 
 module.exports = config

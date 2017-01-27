@@ -1,7 +1,8 @@
 import {inject} from '@angular/core/testing'
 
 import {DRIVERS} from '../src/DriverTypes'
-import {Locker, LockerConfig} from '../src/Locker'
+import {Locker} from '../src/Locker'
+import {LockerConfig} from '../src/LockerConfig'
 
 import {initTestBed} from './testHelpers'
 

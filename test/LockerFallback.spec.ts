@@ -1,6 +1,6 @@
 import {inject, TestBed} from '@angular/core/testing'
 
-import {DRIVERS, DRIVER_TYPES} from '../src/DriverTypes'
+import {DRIVERS, LOCKER_DRIVER_TYPES} from '../src/DriverTypes'
 import {Locker} from '../src/Locker'
 import {LockerModule} from '../src/Locker.module'
 
@@ -10,7 +10,7 @@ describe('LockerFallback', () => {
 
     const localUnsupportedMock = {
       multi: true,
-      provide: DRIVER_TYPES,
+      provide: LOCKER_DRIVER_TYPES,
       useValue: {
         type: DRIVERS.LOCAL,
         storage: {isSupported: () => false}

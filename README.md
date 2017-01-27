@@ -45,14 +45,14 @@ import {LockerModule, LockerConfig, DRIVERS} from 'angular-safeguard'
 // to set a single driver
 const lockerConfig = {
   driverNamespace: 'nameSpace',
-  defaultDriverType: DRIVERS.MEMORY,
+  driverFallback: DRIVERS.MEMORY,
   namespaceSeperator: '-'
 }
 
 // to set fallback drivers in order of preference, pass in an Array of Driver
 const lockerConfig = {
   driverNamespace: 'nameSpace',
-  defaultDriverType: [DRIVERS.LOCAL, DRIVERS.SESSION, DRIVERS.COOKIE],
+  driverFallback: [DRIVERS.LOCAL, DRIVERS.SESSION, DRIVERS.COOKIE],
   namespaceSeperator: '-'
 }
 
@@ -67,31 +67,31 @@ class SomeModule {
 
 ## Methods
 ####`get`
-`locker.get('myKey')`
+`locker.get(DRIVERS.SESSION, 'myKey')`
 
 ####`set`
 ```typescript
-locker.set('myKey', 'value')
-locker.set('myKey', {object: 'value'})
+locker.set(DRIVERS.SESSION, 'myKey', 'value')
+locker.set(DRIVERS.SESSION, 'myKey', {object: 'value'})
 
 const expiry = new Date()
 
 expiry.setHours(expiry.getHours() + 1)
 
-locker.set('myKey', 'value', {expiry}) // will work with every driver type
+locker.set(DRIVERS.SESSION, 'myKey', 'value', {expiry}) // will work with every driver type
 
 // You can also use set to pass options for cookies like maxAge and such
 ```
 
 ####`key`
 ```typescript
-locker.set('key', 'value')
+locker.set(DRIVERS.COOKIES, 'key', 'value')
 
-locker.key(0) // 'key'
+locker.key(DRIVERS.COOKIES, 0) // 'key'
 ```
 
 ####`has`
-`locker.has('key')`
+`locker.has(DRIVERS.LOCAL, 'key')`
 
 ####`setNamespace`
 ```typescript
@@ -106,18 +106,11 @@ locker.setSeparator('myName')
 locker.setSeparator() // Resets to lockerConfig default
 ```
 
-####`useDriver`
-```typescript
-const driver = locker.useDriver(Locker.DRIVERS.LOCAL)
-
-driver.set('keey', 'value')
-```
-
 ####`remove`
-`locker.remove('key')`
+`locker.remove(DRIVERS.SESSION, 'key')`
 
 ####`clear`
-`locker.clear()`
+`locker.clear(DRIVERS.SESSION, )`
 
 ## Static Methods
 #### `DRIVERS`

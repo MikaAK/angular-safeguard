@@ -1,36 +1,10 @@
 import {Injectable, Inject, OpaqueToken} from '@angular/core'
 
-import {IStorageSetConfig, ILockerConfig, DriverType} from './metadata'
+import {IStorageSetConfig, DriverType} from './metadata'
 import {Driver} from './Driver'
 import {PollyfillDriver} from './PolyfillDriver'
-import {DRIVERS, DRIVER_TYPES} from './DriverTypes'
-
-import {isNil} from './helpers'
-
-export const LOCKER_USER_CONFIG = new OpaqueToken('LOCKER_USER_CONFIG')
-
-export const LOCKER_DEFAULT_CONFIG_PROVIDER = {
-  provide: LOCKER_USER_CONFIG,
-  useValue: {
-    namespaceSeparator: ':',
-    driverFallback: DRIVERS.SESSION,
-    driverNamespace: ''
-  }
-}
-
-
-@Injectable()
-export class LockerConfig {
-  public driverNamespace: string
-  public driverFallback: DRIVERS|DRIVERS[]
-  public namespaceSeparator: string
-
-  constructor(@Inject(LOCKER_USER_CONFIG) config: ILockerConfig) {
-    this.driverNamespace = !config || isNil(config.driverNamespace) ? '' : config.driverNamespace
-    this.driverFallback = !config || isNil(config.driverFallback) ? DRIVERS.SESSION : config.driverFallback
-    this.namespaceSeparator = !config || isNil(config.namespaceSeparator) ? ':' : config.namespaceSeparator
-  }
-}
+import {DRIVERS, LOCKER_DRIVER_TYPES} from './DriverTypes'
+import {LockerConfig} from './LockerConfig'
 
 @Injectable()
 export class Locker {
@@ -38,7 +12,7 @@ export class Locker {
   private namespace: string
   private separator: string
 
-  constructor(@Inject(DRIVER_TYPES) public driverTypes: DriverType[], public lockerConfig: LockerConfig) {
+  constructor(@Inject(LOCKER_DRIVER_TYPES) public driverTypes: DriverType[], public lockerConfig: LockerConfig) {
     this.setNamespace()
     this.setSeparator()
     this.setDriverFallback()
