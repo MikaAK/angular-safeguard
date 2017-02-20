@@ -4,52 +4,52 @@ import {DRIVERS, LOCKER_DRIVER_TYPES} from '../src/DriverTypes'
 import {Locker} from '../src/Locker'
 import {LockerModule} from '../src/Locker.module'
 
-describe('LockerFallback', () => {
-  describe('Single driver', () => {
-    var locker: Locker
+// describe('LockerFallback', () => {
+//   describe('Single driver', () => {
+//     var locker: Locker
 
-    const localUnsupportedMock = {
-      multi: true,
-      provide: LOCKER_DRIVER_TYPES,
-      useValue: {
-        type: DRIVERS.LOCAL,
-        storage: {isSupported: () => false}
-      }
-    }
+//     const localUnsupportedMock = {
+//       multi: true,
+//       provide: LOCKER_DRIVER_TYPES,
+//       useValue: {
+//         type: DRIVERS.LOCAL,
+//         storage: {isSupported: () => false}
+//       }
+//     }
 
-    describe('With supported driver', function() {
-      beforeEach(() => TestBed.configureTestingModule({
-        providers: [
-          LockerModule.withConfig({
-            driverFallback: DRIVERS.LOCAL
-          })
-        ]
-      }))
+//     describe('With supported driver', function() {
+//       beforeEach(() => TestBed.configureTestingModule({
+//         providers: [
+//           LockerModule.withConfig({
+//             driverFallback: DRIVERS.LOCAL
+//           })
+//         ]
+//       }))
 
-      it('should fallback to DRIVERS.LOCAL', inject([Locker], function(locker: Locker) {
-        const {type} = locker['_getFallbackDriverType']()
+//       it('should fallback to DRIVERS.LOCAL', inject([Locker], function(locker: Locker) {
+//         const {type} = locker['_getFallbackDriverType']()
 
-        expect(type).toEqual(DRIVERS.LOCAL)
-      }))
-    })
+//         expect(type).toEqual(DRIVERS.LOCAL)
+//       }))
+//     })
 
-    describe('With unsupported driver', function() {
-      beforeEach(() => TestBed.configureTestingModule({
-        providers: [
-          localUnsupportedMock,
-          LockerModule.withConfig({
-            driverFallback: DRIVERS.LOCAL
-          })
-        ]
-      }))
+//     describe('With unsupported driver', function() {
+//       beforeEach(() => TestBed.configureTestingModule({
+//         providers: [
+//           localUnsupportedMock,
+//           LockerModule.withConfig({
+//             driverFallback: DRIVERS.LOCAL
+//           })
+//         ]
+//       }))
 
-      it('should fallback to DRIVERS.MEMORY', function() {
-        const {type} = locker['_getFallbackDriverType']()
+//       it('should fallback to DRIVERS.MEMORY', function() {
+//         const {type} = locker['_getFallbackDriverType']()
 
-        expect(type).toEqual(DRIVERS.MEMORY)
-      })
-    })
-  })
+//         expect(type).toEqual(DRIVERS.MEMORY)
+//       })
+//     })
+//   })
 
   // describe('Multiple drivers', () => {
   //   var locker: Locker
@@ -103,5 +103,5 @@ describe('LockerFallback', () => {
   //       .toEqual(DRIVERS.MEMORY)
   //   })
   // })
-})
+// })
 

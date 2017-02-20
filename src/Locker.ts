@@ -1,8 +1,7 @@
-import {Injectable, Inject, OpaqueToken} from '@angular/core'
+import {Injectable, Inject} from '@angular/core'
 
 import {IStorageSetConfig, DriverType} from './metadata'
 import {Driver} from './Driver'
-import {PollyfillDriver} from './PolyfillDriver'
 import {DRIVERS, LOCKER_DRIVER_TYPES} from './DriverTypes'
 import {LockerConfig} from './LockerConfig'
 

@@ -18,7 +18,8 @@
     "dist"
   ],
   "angularCompilerOptions": {
-    "genDir": "./ngfactory",
+    "genDir": "./dist",
+    "skipTemplateCodegen": true,
     "entryModule": "./src/Locker.module.ts#LockerModule"
   }
 }
