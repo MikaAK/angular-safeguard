@@ -1,14 +1,21 @@
 {
+  "compileOnSave": false,
+  "buildOnSave": false,
   "compilerOptions": {
-    "target": "ES6",
-    "module": "commonjs",
+    "target": "ES5",
+    "module": "es2015",
+    "declaration": true,
     "sourceMap": true,
+    "moduleResolution": "node",
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "lib": ["es2017", "dom"]
   },
   "exclude": [
     "node_modules",
-    "typings/browser.d.ts",
-    "typings/browser"
-  ]
+    "dist"
+  ],
+  "angularCompilerOptions": {
+    "genDir": "./ngfactory"
+  }
 }

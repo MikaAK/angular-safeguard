@@ -1,40 +1,42 @@
-import {
-  it,
-  inject,
-  beforeEachProviders,
-  afterEach
-} from 'angular2/testing'
-
-import {provide} from 'angular2/core'
-
-import {Driver} from '../src/Driver'
-import {LockerConfig, Locker, DRIVERS} from '../src/Locker'
+import {inject} from '@angular/core/testing'
+import {Driver} from 'Driver'
+import {LockerConfig, Locker} from 'Locker'
+import {initTestBed} from './testHelpers'
 
 const CUSTOM_NAMESPACE = 'angular2-locker'
 const SEPERATOR = ':'
 
-const TestDriver = function(driverName, driver: Driver) {
+const createLockerConfig = (driverNamespace: string, defaultDriverType?: Driver) => ({
+  driverNamespace,
+  defaultDriverType,
+  namespaceSeparator: SEPERATOR
+})
+
+export const TestDriver = function(driverName, driver: Driver) {
   describe(driverName, function() {
     describe('With DefaultDriverType', function() {
       const TEST_KEY = `${CUSTOM_NAMESPACE}-${Math.random() * 1000}`
+      var locker: Locker
 
-      beforeEachProviders(() => [provide(LockerConfig, {useValue: new LockerConfig(null, driver)}), Locker])
+      beforeEach(() => initTestBed(createLockerConfig('', driver)))
       afterEach(() => driver.clear())
 
-      it(`sets driver to ${driverName}`, inject([Locker, LockerConfig], function(locker: Locker) {
+      beforeEach(inject([Locker], (lockerService) => locker = lockerService))
+
+      it(`sets driver to ${driverName}`, () => {
         expect(locker['driver']).toEqual(driver)
-      }))
+      })
 
 
-      it('sets key with string value into storage', inject([Locker], function(locker: Locker) {
+      it('sets key with string value into storage', () => {
         const TEST_VALUE = 'TEST'
 
         locker.set(TEST_KEY, TEST_VALUE)
 
         expect(locker.get(TEST_KEY)).toEqual(TEST_VALUE)
-      }))
+      })
 
-      it('sets key with object value into storage', inject([Locker], function(locker: Locker) {
+      it('sets key with object value into storage', () => {
         const TEST_VALUE = {
           object1: 'villa',
           myObject: 'Test'
@@ -43,18 +45,18 @@ const TestDriver = function(driverName, driver: Driver) {
         locker.set(TEST_KEY, TEST_VALUE)
 
         expect(locker.get(TEST_KEY)).toEqual(TEST_VALUE)
-      }))
+      })
 
-      it('removes data from storage with .remove', inject([Locker], function(locker: Locker) {
+      it('removes data from storage with .remove', () => {
         const TEST_VALUE = 'TEST'
 
         locker.set(TEST_KEY, TEST_VALUE)
 
         locker.remove(TEST_KEY)
         expect(locker.get(TEST_KEY)).not.toEqual(TEST_VALUE)
-      }))
+      })
 
-      it('clears all data from the storage with .clear', inject([Locker], function(locker: Locker) {
+      it('clears all data from the storage with .clear', () => {
         const TEST_VALUE = 'TEST',
               TEST_KEY_2 = `TEST_${TEST_KEY}`
 
@@ -65,9 +67,24 @@ const TestDriver = function(driverName, driver: Driver) {
 
         expect(locker.get(TEST_KEY)).not.toEqual(TEST_VALUE)
         expect(locker.get(TEST_KEY_2)).not.toEqual(TEST_VALUE)
-      }))
+      })
 
-      it('can fetch key by index', inject([Locker], function(locker: Locker) {
+      it('can fetch key by index', () => {
+        var dummy = {
+          key: 'TEST',
+          data: `TEST-${Math.random() * 1000}`
+        }
+
+        locker.set(dummy.key, dummy.data)
+
+        expect(locker.key()).toEqual(dummy.key)
+      })
+    })
+
+    describe('Custom Namespace', function() {
+      beforeEach(() => initTestBed(createLockerConfig(CUSTOM_NAMESPACE)))
+
+      it('when getting keys namespace is not included', inject([Locker], (locker: Locker) => {
         var dummy = {
           key: 'TEST',
           data: `TEST-${Math.random() * 1000}`
@@ -78,22 +95,5 @@ const TestDriver = function(driverName, driver: Driver) {
         expect(locker.key()).toEqual(dummy.key)
       }))
     })
-
-    describe('Custom Namespace', function() {
-      beforeEachProviders(() => [provide(LockerConfig, {useValue: new LockerConfig(CUSTOM_NAMESPACE)}), Locker])
-
-      it('uses namespace in keys', inject([LockerConfig, Locker], function(config: LockerConfig, locker: Locker) {
-        var dummy = {
-          key: 'TEST',
-          data: `TEST-${Math.random() * 1000}`
-        }
-
-        locker.set(dummy.key, dummy.data)
-
-        expect(locker.key()).toEqual(CUSTOM_NAMESPACE + SEPERATOR + dummy.key)
-      }))
-    })
   })
 }
-
-export {TestDriver}

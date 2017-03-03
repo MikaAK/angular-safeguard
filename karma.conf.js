@@ -1,6 +1,7 @@
 // Karma configuration
 // Generated on Wed Feb 17 2016 22:26:46 GMT-0800 (PST)
 require('babel-register')
+
 var preprocessors = {}
 var testEntry = './karma-shim.js'
 var webpackConfig = require('./webpack.config.babel')
@@ -11,7 +12,7 @@ module.exports = function(config) {
   config.set({
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
-    basePath: './',
+    basePath: '.',
 
 
     // frameworks to use
@@ -20,10 +21,10 @@ module.exports = function(config) {
 
 
     // list of files / patterns to load in the browser
-    files: [
-      {pattern: testEntry, watched: false},
-      {pattern: './test/*.spec.ts', watched: true, included: false}
-    ],
+    files: [{
+      pattern: testEntry,
+      watched: false
+    }],
 
     webpack: webpackConfig,
 
@@ -31,8 +32,9 @@ module.exports = function(config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: preprocessors,
 
-    webpackServer: {
-      noInfo: true // please don't spam the console when running in karma!
+    webpackMiddleware: {
+      noInfo: true,
+      stats: 'errors-only'
     },
 
 

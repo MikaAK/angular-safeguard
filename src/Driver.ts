@@ -1,26 +1,15 @@
-declare const __DEV__
+declare const __DEV__: boolean, __TEST__: boolean
 
-import {IStorage} from './IStorage'
+import {IStorage, IStorageSetConfig} from './IStorage'
+import {convertFromJSON, serializeDataToString} from './helpers'
 
 const LOCKER_TEST_KEY = 'LOCKER_TEST_KEY'
 
-const convertFromJSON = function(data: any) {
-  if (typeof data !== 'string')
-    return data
-  else {
-    try {
-      return JSON.parse(data)
-    } catch (e) {
-      return data
-    }
-  }
-}
+export class Driver {
+  constructor(public storage: IStorage) {}
 
-class Driver {
-  constructor(private storage: IStorage) {}
-
-  public set(key: string, data: any): void {
-    this.storage.setItem(key, typeof data === 'object' ? JSON.stringify(data) : data)
+  public set(key: string, data: any, config?: IStorageSetConfig): void {
+    this.storage.setItem(key, serializeDataToString(data), config)
   }
 
   public get(key: string): any {
@@ -45,11 +34,11 @@ class Driver {
 
   public isSupported(): boolean {
     try {
-      this.set(LOCKER_TEST_KEY, LOCKER_TEST_KEY)
-      this.get(LOCKER_TEST_KEY)
-      this.remove(LOCKER_TEST_KEY)
+      this.storage.setItem(LOCKER_TEST_KEY, LOCKER_TEST_KEY)
+      this.storage.getItem(LOCKER_TEST_KEY)
+      this.storage.removeItem(LOCKER_TEST_KEY)
     } catch (e) {
-      if (__DEV__)
+      if (__DEV__ || __TEST__)
         console.error(e)
 
       return false
@@ -59,4 +48,3 @@ class Driver {
   }
 }
 
-export {Driver}

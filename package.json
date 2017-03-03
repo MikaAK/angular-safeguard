@@ -1,59 +1,70 @@
 {
-  "name": "angular2-locker",
-  "version": "0.2.5",
-  "description": "angular2 library for managing session and locker storage, has backup for inmemory if neither are supported",
-  "main": "dist/locker.js",
+  "name": "angular-safeguard",
+  "version": "1.0.0",
+  "description": "angular library for managing session, locker and cookie storage, has backup for in-memory if none are supported",
+  "main": "./dist/locker.js",
+  "types": "./dist/src/index.d.ts",
   "scripts": {
     "test": "NODE_ENV='test' karma start --single-run",
     "devTest": "NODE_ENV='test' karma start",
-    "build": "NODE_ENV='production' webpack --progress",
-    "tsd": "dts-generator --name angular2-locker --project ./ --out dist/locker.d.ts"
+    "build": "NODE_ENV='production' webpack --progress && rm -rf ./dist/test"
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/MikaAK/angular2-locker.git"
+    "url": "git+ssh://git@github.com/MikaAK/angular-safeguard.git"
   },
   "keywords": [
     "angular2",
     "ng2",
     "sessionStorage",
+    "cookies",
+    "safeguard",
+    "angular-locker",
     "localStorage",
     "locker"
   ],
   "author": "Mika Kalathil <me@mikakalathil.ca>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/MikaAK/angular2-locker/issues"
+    "url": "https://github.com/MikaAK/angular-safeguard/issues"
   },
-  "homepage": "https://github.com/MikaAK/angular2-locker#readme",
+  "homepage": "https://github.com/MikaAK/angular-safeguard#readme",
   "devDependencies": {
-    "angular2": "^2.0.0-beta.14",
-    "babel-core": "^6.5.2",
-    "babel-loader": "^6.2.3",
-    "babel-preset-es2015": "^6.5.0",
-    "babel-preset-stage-2": "^6.5.0",
-    "babel-register": "^6.5.2",
-    "dts-generator": "^1.6.3",
-    "es6-shim": "^0.35.0",
-    "jasmine-core": "^2.4.1",
-    "karma": "^0.13.21",
-    "karma-cli": "^0.1.2",
-    "karma-jasmine": "^0.3.7",
-    "karma-phantomjs-launcher": "^1.0.0",
+    "@angular/common": "^2.4.4",
+    "@angular/compiler": "^2.4.4",
+    "@angular/compiler-cli": "~2.4.4",
+    "@angular/core": "^2.4.4",
+    "@angular/platform-browser": "^2.4.4",
+    "@angular/platform-browser-dynamic": "^2.4.4",
+    "@angular/tsc-wrapped": "~0.5.1",
+    "@ngtools/webpack": "~1.2.4",
+    "@types/jasmine": "^2.5.38",
+    "babel-core": "^6.21.0",
+    "babel-loader": "^6.2.10",
+    "babel-polyfill": "^6.20.0",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-stage-2": "^6.18.0",
+    "babel-register": "^6.18.0",
+    "es6-shim": "^0.35.2",
+    "jasmine-core": "^2.5.2",
+    "json-loader": "^0.5.4",
+    "karma": "^1.2.0",
+    "karma-cli": "^1.0.0",
+    "karma-jasmine": "^1.1.0",
+    "karma-phantomjs-launcher": "^1.0.2",
     "karma-sourcemap-loader": "^0.3.7",
-    "karma-spec-reporter": "0.0.24",
-    "karma-webpack": "^1.7.0",
-    "phantomjs-polyfill": "0.0.1",
-    "phantomjs-prebuilt": "^2.1.4",
-    "reflect-metadata": "^0.1.3",
-    "rxjs": "^5.0.0-beta.2",
-    "ts-loader": "^0.8.1",
-    "typescript": "^1.8.10",
-    "typings": "^0.6.8",
-    "webpack": "^1.12.13",
-    "zone.js": "^0.6.6"
+    "karma-spec-reporter": "0.0.26",
+    "karma-webpack": "^1.8.0",
+    "phantomjs-polyfill": "^0.0.2",
+    "phantomjs-prebuilt": "^2.1.14",
+    "reflect-metadata": "~0.1.9",
+    "rxjs": "~5.0.0",
+    "ts-loader": "^1.3.3",
+    "typescript": "~2.1.4",
+    "webpack": "^2.2.0",
+    "zone.js": "^0.7.2"
   },
   "peerDependencies": {
-    "angular2": "^2.0.0-beta.5"
+    "@angular/core": "^2.0.0"
   }
 }

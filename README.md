@@ -1,28 +1,67 @@
-angular2-locker
+angular-safeguard
 =====
 [![Build Status](https://travis-ci.org/MikaAK/angular2-locker.svg?branch=master)](https://travis-ci.org/MikaAK/angular2-locker)
 [![Code Climate](https://codeclimate.com/github/MikaAK/angular2-locker/badges/gpa.svg)](https://codeclimate.com/github/MikaAK/angular2-locker)
 
-Wrapper around sessionStorage and localStorage for angular2. If both are unavailable will use an in memory storage.
+***Note: This library was renamed from angular2-locker to angular-safeguard***
+
+Wrapper around sessionStorage, localStorage and cookies for angular. If both are unavailable will use an in memory storage.
+
+Expiry is also implemented for all drivers not just cookies
 
 ## Getting Started
 ```bash
-$ npm i --save angular2-locker
+$ npm i --save angular-safeguard
 ```
 
-```javascript
-import {bootsrap, provide} from 'angular2/core'
-import {Locker, LockerConfig} from 'angular2-locker'
+```typescript
+import {NgModule} from '@angular/core'
+import {LockerModule, Locker, LockerConfig} from 'angular-safeguard'
 
-bootstrap(App, [Locker])
-
-// If you need to specify more you can provide configuration
-bootstrap(App, [provide(LockerConfig, {
-  useValue: new LockerConfig('MyNamespace', Locker.DRIVERS.LOCAL)
-})), Locker])
-
+@Component({
+  selector: 'app',
+  template: `...`
+})
 class App {
+  constructor(locker: Locker) {
+    locker.set('something', value)
+  }
+}
+
+@NgModule({
+  imports: [LockerModule],
+  declarations: [App],
+  bootstrap: [App]
+})
+class AppModule {
   constructor(private locker: Locker) {}
+}
+```
+
+### With Custom Config
+```typescript
+import {LockerModule, LockerConfig, DRIVERS} from 'angular-safeguard'
+
+// to set a single driver
+const lockerConfig = {
+  driverNamespace: 'nameSpace',
+  defaultDriverType: DRIVERS.MEMORY,
+  namespaceSeperator: '-'
+}
+
+// to set fallback drivers in order of preference, pass in an Array of Driver
+const lockerConfig = {
+  driverNamespace: 'nameSpace',
+  defaultDriverType: [DRIVERS.LOCAL, DRIVERS.SESSION, DRIVERS.COOKIE],
+  namespaceSeperator: '-'
+}
+
+@NgModule({
+  imports: [LockerModule.withConfig(lockerConfig)]
+  ...
+})
+class SomeModule {
+
 }
 ```
 
@@ -31,13 +70,21 @@ class App {
 `locker.get('myKey')`
 
 ####`set`
-```javascript
+```typescript
 locker.set('myKey', 'value')
 locker.set('myKey', {object: 'value'})
+
+const expiry = new Date()
+
+expiry.setHours(expiry.getHours() + 1)
+
+locker.set('myKey', 'value', {expiry}) // will work with every driver type
+
+// You can also use set to pass options for cookies like maxAge and such
 ```
 
 ####`key`
-```javascript
+```typescript
 locker.set('key', 'value')
 
 locker.key(0) // 'key'
@@ -47,12 +94,21 @@ locker.key(0) // 'key'
 `locker.has('key')`
 
 ####`setNamespace`
-`locker.setNamespace('myName')`
+```typescript
+locker.setNamespace('myName')
+locker.setNamespace() // Resets to lockerConfig default
+```
+
+####`setSeparator`
+
+```typescript
+locker.setSeparator('myName')
+locker.setSeparator() // Resets to lockerConfig default
+```
 
 ####`useDriver`
-```javascript
-// for more info on drivers look for static methods
-var driver = locker.useDriver(Locker.DRIVERS.LOCAL)
+```typescript
+const driver = locker.useDriver(Locker.DRIVERS.LOCAL)
 
 driver.set('keey', 'value')
 ```
@@ -65,10 +121,21 @@ driver.set('keey', 'value')
 
 ## Static Methods
 #### `DRIVERS`
-These are the types of drivers available. If you try to set it to a driver that is unsupported it will fallback to the memory driver
-Types are available under `Locker.DRIVERS` or `import {DRIVERS} from 'angular2-locker'`
+
+These are the types of drivers available. If you try to set it to a (single) driver that is unsupported it will fallback to the memory driver.  To set fallback drivers, pass in an Array of drivers in the order or preference:
+
+Again, if every driver in Array is unsupported, it will fall back to memory driver.
+
+Types are available under `Locker.DRIVERS` or `import {DRIVERS} from 'angular-safeguard'`
 
 - `DRIVERS.SESSION` - Session Cache
 - `DRIVERS.LOCAL` - Local Storage
 - `DRIVERS.MEMORY` - Memory Storage
 - `DRIVERS.COOKIE` - Cookies
+
+
+## FAQ
+
+**Why is my data getting set to {data: myDataHere} instead of just myDataHere?**:
+angular-safeguard provides expiry on more than just cookies, to do this it's necessary to create a bit of a more complex
+object so we can store expiry and more

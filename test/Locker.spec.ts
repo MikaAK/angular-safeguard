@@ -1,44 +1,78 @@
-import {provide} from 'angular2/core'
-import {it, inject, beforeEachProviders} from 'angular2/testing'
+import {inject} from '@angular/core/testing'
+
+import {Locker} from 'Locker'
+import {DRIVERS} from 'DriverTypes'
+
 import {TestDriver} from './TestDriver'
-import {DRIVERS, Locker, LockerConfig} from '../src/Locker'
+import {initTestBed} from './testHelpers'
 
 describe('Locker', function() {
-  describe('With Default Config', function() {
-    beforeEachProviders(() => [Locker])
+  const TEST_DATA = {
+    key: 'key',
+    value: 'value'
+  }
 
-    //it('initializes in angular2', inject([Locker], function(locker: Locker) {
-      //const TEST_DATA = {
-        //key: 'key',
-        //value: 'value'
-      //}
-
-      //locker.set(TEST_DATA.key, TEST_DATA.value)
-      //expect(locker.has(TEST_DATA.key)).toBeTruthy()
-      //expect(locker.get(TEST_DATA.key)).toEqual(TEST_DATA.value)
-      //expect(locker.key()).toEqual(TEST_DATA.key)
-    //}))
+  beforeAll(() => {
+    sessionStorage.clear()
+    localStorage.clear()
   })
 
-  describe('With Unsupported driver', function() {
-    beforeEachProviders(function() {
-      spyOn(DRIVERS.LOCAL, 'isSupported').and.callFake(() => false)
-      spyOn(DRIVERS.SESSION, 'isSupported').and.callFake(() => false)
+  afterEach(() => sessionStorage.clear())
 
-      return [
-        provide(LockerConfig, {
-          useValue: new LockerConfig(null, DRIVERS.LOCAL)
-        }), 
-        Locker
-      ]
-    })
+  describe('With Default Config', function() {
+    beforeEach(() => initTestBed())
 
-    it('backs up to MemoryStorage', inject([Locker], function(locker: Locker) {
-      expect(locker['driver']).toEqual(DRIVERS.MEMORY)
+    it('initializes in angular2', inject([Locker], function(locker: Locker) {
+      locker.set(TEST_DATA.key, TEST_DATA.value)
+
+      expect(locker.has(TEST_DATA.key)).toBeTruthy()
+      expect(locker.get(TEST_DATA.key)).toEqual(TEST_DATA.value)
+      expect(locker.key()).toEqual(TEST_DATA.key)
+    }))
+  })
+
+  describe('#setNamespace', function() {
+    beforeEach(() => initTestBed())
+
+    beforeEach(inject([Locker], function(locker: Locker) {
+      locker.setNamespace('test')
     }))
 
-    it('gives memory driver if trying to switch drivers', inject([Locker], function(locker: Locker) {
-      expect(locker.useDriver(DRIVERS.LOCAL)['driver']).toEqual(DRIVERS.MEMORY)
+    it('can take in a custom namespace', inject([Locker], function(locker: Locker) {
+      locker.set(TEST_DATA.key, TEST_DATA.value)
+
+      expect(sessionStorage.key(0)).toMatch(/^test/)
+    }))
+
+    it('can be passed undefined and uses default namespace', inject([Locker], function(locker: Locker) {
+      locker.setNamespace()
+      locker.set(TEST_DATA.key, TEST_DATA.value)
+
+      expect(sessionStorage.key(0)).toEqual(TEST_DATA.key)
+    }))
+  })
+
+  describe('#setSeperator', function() {
+    const NAMESPACE = 'test'
+
+    beforeEach(() => initTestBed())
+
+    beforeEach(inject([Locker], function(locker: Locker) {
+      locker.setNamespace(NAMESPACE)
+      locker.setSeparator('-')
+    }))
+
+    it('can take in a custom seperator', inject([Locker], function(locker: Locker) {
+      locker.set(TEST_DATA.key, TEST_DATA.value)
+
+      expect(sessionStorage.key(0)).toEqual(`${NAMESPACE}-${TEST_DATA.key}`)
+    }))
+
+    it('can be passed undefined and uses default seperator', inject([Locker], function(locker: Locker) {
+      locker.setSeparator()
+      locker.set(TEST_DATA.key, TEST_DATA.value)
+
+      expect(sessionStorage.key(0)).toEqual(`${NAMESPACE}:${TEST_DATA.key}`)
     }))
   })
 

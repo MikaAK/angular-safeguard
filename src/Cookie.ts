@@ -1,8 +1,7 @@
-const COOKIE_SEP = '; '
+import {IStorageSetConfig} from './IStorage'
+import {COOKIE_SEP, encode, decode, toString, isString, isNumber} from './helpers'
 
-// Convenience
-var encode = encodeURIComponent
-var decode = decodeURIComponent
+const DEFAULT_CONFIG: IStorageSetConfig = {}
 
 export class Cookie {
   public static getAll(): Object {
@@ -17,20 +16,25 @@ export class Cookie {
     return this.getAll()[key]
   }
 
-  public static set(key, value, {secure, maxAge, domain, expires}: {secure?: boolean, maxAge?: number, domain?: string, expires?: Date}): void {
+  public static set(key, value, config = DEFAULT_CONFIG): void {
+    const {secure, maxAge, domain, path, expires} = config
+
     var cookie = `${encode(key)}=${encode(value)}`
 
     if (secure)
       cookie += ';secure'
 
-    if (!isNaN(maxAge))
+    if (isNumber(maxAge) && !isNaN(maxAge))
       cookie += `;max-age=${maxAge}`
 
     if (domain)
       cookie += `;domain=${domain}`
 
+    if (path)
+      cookie += `;path=${path}`
+
     if (expires)
-      cookie += `;expires=${expires.toUTCString()}`
+      cookie += `;expires=${isString(expires) ? expires : toString(expires)}`
 
     document.cookie = cookie
   }

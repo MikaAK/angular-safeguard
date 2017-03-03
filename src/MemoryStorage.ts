@@ -2,14 +2,7 @@ import {IStorage} from './IStorage'
 
 const _cache = new Map()
 
-const getKeys = function() {
-  var keys = []
-
-  for (let key of _cache.keys())
-    keys.push(key)
-
-  return keys
-}
+const getKeys = () => Array.from(_cache.keys())
 
 export class MemoryStorage implements IStorage {
   public hasOwnProperty(key) {
@@ -20,7 +13,7 @@ export class MemoryStorage implements IStorage {
     return _cache.get(key)
   }
 
-  public setItem(key, value) {
+  public setItem(key, value, config) {
     _cache.set(key, value)
   }
 

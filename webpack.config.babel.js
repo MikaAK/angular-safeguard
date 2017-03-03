@@ -1,47 +1,71 @@
 import path from 'path'
-import {DefinePlugin} from 'webpack'
+import {DefinePlugin, ContextReplacementPlugin, LoaderOptionsPlugin} from 'webpack'
+import {devDependencies} from './package.json'
+import {AotPlugin} from '@ngtools/webpack'
 
 const CONTEXT = path.resolve(__dirname),
-      {NODE_ENV} = process.env
-
-var createPath = function(nPath) {
-  return path.resolve(CONTEXT, nPath)
-}
+      {NODE_ENV} = process.env,
+      IS_DEV = NODE_ENV === 'development',
+      IS_TEST = NODE_ENV === 'test',
+      createPath = (nPath) => path.resolve(CONTEXT, nPath),
+      SRC_PATH = createPath('src'),
+      NODE_MODULES_PATH = createPath('node_modules')
 
 var config = {
   context: CONTEXT,
   entry: './src/index.ts',
+  devtool: IS_TEST ? '#inline-source-map' : '#source-map',
 
   output: {
     path: createPath('dist'),
-    library: 'angular2-locker',
+    library: 'angular-safeguard',
     libraryTarget: 'umd',
     filename: 'locker.js'
   },
 
   plugins: [
     new DefinePlugin({
-      __DEV__: NODE_ENV === 'development' || NODE_ENV === 'test'
-    })
+      __DEV__: IS_DEV,
+      __TEST__: IS_TEST
+    }),
+
+    new ContextReplacementPlugin(
+      /angular(\\|\/)core(\\|\/)src(\\|\/)linker/,
+      createPath('src')
+    )
+
+    // new AotPlugin({
+    //   tsConfigPath: './tsconfig.json'
+    // })
   ],
 
   module: {
-    loaders: [{
-      test: /\.ts/,
-      loader: 'babel!ts',
-      include: [createPath('src'), createPath('test')],
-      exclude: [createPath('node_modules')]
+    rules: [{
+      test: /\.ts$/,
+      use: 'ts',
+      include: [SRC_PATH, createPath('test')],
+      exclude: [NODE_MODULES_PATH]
+    }, {
+      test: /\.js$/,
+      use: 'babel',
+      include: [createPath('karma-shim')],
+      exclude: [NODE_MODULES_PATH]
     }]
   },
 
-  externals: NODE_ENV === 'test' ? [] : [
-    'angular2/core',
-    'angular2/http'
-  ],  
+  externals: IS_TEST ? [] : Object.keys(devDependencies),
 
   resolve: {
-    extensions: ['.ts', '.js','']
+    modules: ['node_modules', SRC_PATH],
+    extensions: ['.ts', '.js']
+  },
+
+  resolveLoader: {
+    moduleExtensions: ['-loader']
   }
 }
+
+if (IS_TEST)
+  config.performance = {hints: false}
 
 module.exports = config
