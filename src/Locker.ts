@@ -20,7 +20,7 @@ export const LOCKER_DEFAULT_CONFIG_PROVIDER = {
 
 export interface ILockerConfig {
   driverNamespace?: string
-  defaultDriverType?: Driver|Driver
+  defaultDriverType?: Driver|Driver[]
   namespaceSeparator?: string
 }
 
