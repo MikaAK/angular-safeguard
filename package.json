@@ -1,6 +1,6 @@
 {
   "name": "angular-safeguard",
-  "version": "1.0.2",
+  "version": "1.0.1",
   "description": "angular library for managing session, locker and cookie storage, has backup for in-memory if none are supported",
   "main": "./dist/locker.js",
   "types": "./dist/src/index.d.ts",
