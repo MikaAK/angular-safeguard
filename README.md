@@ -74,10 +74,10 @@ class SomeModule {
 ```
 
 ## Methods
-####`get`
+#### `get`
 `locker.get(DRIVERS.SESSION, 'myKey')`
 
-####`set`
+#### `set`
 ```typescript
 locker.set(DRIVERS.SESSION, 'myKey', 'value')
 locker.set(DRIVERS.SESSION, 'myKey', {object: 'value'})
@@ -91,33 +91,33 @@ locker.set(DRIVERS.SESSION, 'myKey', 'value', {expiry}) // will work with every 
 // You can also use set to pass options for cookies like maxAge and such
 ```
 
-####`key`
+#### `key`
 ```typescript
 locker.set(DRIVERS.COOKIES, 'key', 'value')
 
 locker.key(DRIVERS.COOKIES, 0) // 'key'
 ```
 
-####`has`
+#### `has`
 `locker.has(DRIVERS.LOCAL, 'key')`
 
-####`setNamespace`
+#### `setNamespace`
 ```typescript
 locker.setNamespace('myName')
 locker.setNamespace() // Resets to lockerConfig default
 ```
 
-####`setSeparator`
+#### `setSeparator`
 
 ```typescript
 locker.setSeparator('myName')
 locker.setSeparator() // Resets to lockerConfig default
 ```
 
-####`remove`
+#### `remove`
 `locker.remove(DRIVERS.SESSION, 'key')`
 
-####`clear`
+#### `clear`
 `locker.clear(DRIVERS.SESSION)`
 
 ## Static Methods
