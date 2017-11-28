@@ -1,0 +1,23 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../dist/spec",
+    "baseUrl": "./",
+    "module": "commonjs",
+    "rootDir": ".",
+    "target": "es5",
+    "types": [
+      "karma",
+      "mocha",
+      "node",
+      "webpack",
+      "webpack-env",
+      "assert"
+    ]
+  },
+  "files": ["./test/test.ts"],
+  "include": [
+    "**/*.d.ts",
+    "**/*.ts"
+  ]
+}

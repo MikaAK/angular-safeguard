@@ -1,107 +1,81 @@
-import {inject, TestBed} from '@angular/core/testing'
+import {inject} from '@angular/core/testing'
 
 import {DRIVERS, LOCKER_DRIVER_TYPES} from '../src/DriverTypes'
 import {Locker} from '../src/Locker'
-import {LockerModule} from '../src/Locker.module'
+import {IDriverType} from '../src/metadata'
 
-// describe('LockerFallback', () => {
-//   describe('Single driver', () => {
-//     var locker: Locker
+import {initTestBed, stubDriverSupport, resetDriverStubs, getFallbackDriverType} from './testHelpers'
 
-//     const localUnsupportedMock = {
-//       multi: true,
-//       provide: LOCKER_DRIVER_TYPES,
-//       useValue: {
-//         type: DRIVERS.LOCAL,
-//         storage: {isSupported: () => false}
-//       }
-//     }
+describe('LockerFallback', () => {
+  describe('Single driver', () => {
+    describe('With supported driver', function() {
+      beforeEach(() => initTestBed({
+        driverFallback: DRIVERS.LOCAL
+      }))
 
-//     describe('With supported driver', function() {
-//       beforeEach(() => TestBed.configureTestingModule({
-//         providers: [
-//           LockerModule.withConfig({
-//             driverFallback: DRIVERS.LOCAL
-//           })
-//         ]
-//       }))
+      it('should fallback to DRIVERS.LOCAL', inject([Locker], function(locker: Locker) {
+        assert(getFallbackDriverType(locker) === DRIVERS.LOCAL)
+      }))
+    })
 
-//       it('should fallback to DRIVERS.LOCAL', inject([Locker], function(locker: Locker) {
-//         const {type} = locker['_getFallbackDriverType']()
+    describe('With unsupported driver', function() {
+      beforeEach(() => initTestBed({driverFallback: DRIVERS.LOCAL}))
+      afterEach(resetDriverStubs)
 
-//         expect(type).toEqual(DRIVERS.LOCAL)
-//       }))
-//     })
+      it('should fallback to DRIVERS.MEMORY', inject([Locker, LOCKER_DRIVER_TYPES], function(locker: Locker, driverTypes: IDriverType[]) {
+        stubDriverSupport(driverTypes, DRIVERS.LOCAL, false)
+        stubDriverSupport(driverTypes, DRIVERS.SESSION, false)
+        stubDriverSupport(driverTypes, DRIVERS.COOKIE, false)
 
-//     describe('With unsupported driver', function() {
-//       beforeEach(() => TestBed.configureTestingModule({
-//         providers: [
-//           localUnsupportedMock,
-//           LockerModule.withConfig({
-//             driverFallback: DRIVERS.LOCAL
-//           })
-//         ]
-//       }))
+        assert(getFallbackDriverType(locker) === DRIVERS.MEMORY)
+      }))
+    })
+  })
 
-//       it('should fallback to DRIVERS.MEMORY', function() {
-//         const {type} = locker['_getFallbackDriverType']()
+  describe('Multiple drivers', () => {
+    var locker: Locker,
+        driverTypes: IDriverType[]
 
-//         expect(type).toEqual(DRIVERS.MEMORY)
-//       })
-//     })
-//   })
+    beforeEach(() => initTestBed({
+      driverFallback: DRIVERS.COOKIE
+    }))
 
-  // describe('Multiple drivers', () => {
-  //   var locker: Locker
+    beforeEach(inject([Locker, LOCKER_DRIVER_TYPES], (lockerService: Locker, driverTypesConfig: IDriverType[]) => {
+      locker = lockerService
+      driverTypes = driverTypesConfig
 
-  //   beforeEach(() => initTestBed({
-  //     driverFallback: DRIVERS.COOKIE
-  //   }))
-  //   beforeEach(inject([Locker], (lockerService: Locker) => lockerService = locker))
-  //   beforeEach(() => {
-  //     spyOn(DRIVERS.LOCAL, 'isSupported').and.callFake(() => false)
-  //     spyOn(DRIVERS.SESSION, 'isSupported').and.callFake(() => true)
-  //   })
+      stubDriverSupport(driverTypes, DRIVERS.LOCAL, false)
+      stubDriverSupport(driverTypes, DRIVERS.SESSION, false)
+      stubDriverSupport(driverTypes, DRIVERS.COOKIE, false)
+    }))
+    afterEach(resetDriverStubs)
 
-  //   it('should set single-item Array with supported DRIVERS.COOKIE correctly', () => {
-  //     spyOn(DRIVERS.COOKIE, 'isSupported').and.callFake(() => true)
+    it('should set single-item Array with supported DRIVERS.COOKIE correctly', inject([Locker, LOCKER_DRIVER_TYPES], function(locker: Locker, driverTypes: IDriverType[]) {
+      stubDriverSupport(driverTypes, DRIVERS.COOKIE, true)
 
-  //     const locker = new Locker(createDefaultDriverConfig([DRIVERS.COOKIE]))
+      assert(getFallbackDriverType(locker) === DRIVERS.COOKIE)
+    }))
 
-  //     expect(locker['driver']).toEqual(DRIVERS.COOKIE)
-  //   })
+    it('should set DRIVERS.COOKIE correctly since it comes before DRIVERS.SESSION', inject([Locker, LOCKER_DRIVER_TYPES], function(locker: Locker) {
+      stubDriverSupport(driverTypes, DRIVERS.SESSION, true)
+      stubDriverSupport(driverTypes, DRIVERS.COOKIE, true)
 
-  //   it('should set DRIVERS.COOKIE correctly since it comes before DRIVERS.SESSION', () => {
-  //     const locker = new Locker(createDefaultDriverConfig([
-  //       DRIVERS.LOCAL,
-  //       DRIVERS.COOKIE,
-  //       DRIVERS.SESSION
-  //     ]))
+      locker.setDriverFallback([
+        DRIVERS.LOCAL,
+        DRIVERS.COOKIE,
+        DRIVERS.SESSION
+      ])
 
-  //     expect(locker['driver']).toEqual(DRIVERS.COOKIE)
-  //   })
+      assert(getFallbackDriverType(locker) === DRIVERS.COOKIE)
+    }))
 
-  //   it('should set DRIVERS.MEMORY correctly when there is no supported driver in Array', () => {
-  //     spyOn(DRIVERS.COOKIE, 'isSupported').and.callFake(() => false)
+    it('should set DRIVERS.MEMORY correctly when there is no supported driver in Array', inject([Locker, LOCKER_DRIVER_TYPES], function(locker: Locker) {
+      locker.setDriverFallback([
+        DRIVERS.LOCAL,
+        DRIVERS.COOKIE
+      ])
 
-  //     const locker = new Locker(createDefaultDriverConfig([DRIVERS.LOCAL, DRIVERS.COOKIE]))
-  //     expect(locker['driver']).toEqual(DRIVERS.MEMORY)
-  //   })
-
-  //   it('should switch drivers correctly', () => {
-  //     spyOn(DRIVERS.COOKIE, 'isSupported').and.callFake(() => false)
-
-  //     const locker = new Locker(createDefaultDriverConfig([DRIVERS.COOKIE]))
-  //     const testOrder = [DRIVERS.LOCAL, DRIVERS.COOKIE]
-
-  //     expect(locker['driver']).toEqual(DRIVERS.MEMORY)
-
-  //     expect(locker.useDriver(testOrder.concat(DRIVERS.SESSION))['driver'])
-  //       .toEqual(DRIVERS.SESSION)
-
-  //     expect(locker.useDriver(testOrder)['driver'])
-  //       .toEqual(DRIVERS.MEMORY)
-  //   })
-  // })
-// })
-
+      assert(getFallbackDriverType(locker) === DRIVERS.MEMORY)
+    }))
+  })
+})

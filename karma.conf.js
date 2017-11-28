@@ -1,77 +1,80 @@
-// Karma configuration
-// Generated on Wed Feb 17 2016 22:26:46 GMT-0800 (PST)
-require('babel-register')
+const {default: webpackTestConfig} = require('./webpack-test.config')
+      // './test/*\.spec\.ts'
 
-var preprocessors = {}
-var testEntry = './karma-shim.js'
-var webpackConfig = require('./webpack.config.babel')
-
-preprocessors[testEntry] = ['webpack', 'sourcemap']
-
-module.exports = function(config) {
+module.exports = (config) => {
   config.set({
+    // Base path that will be used to resolve all patterns (eg. files, exclude).
+    basePath: './',
 
-    // base path that will be used to resolve all patterns (eg. files, exclude)
-    basePath: '.',
+    // Frameworks to use.
+    // Available frameworks: https://npmjs.org/browse/keyword/karma-adapter
+    frameworks: ['mocha', 'power-assert'],
 
+    // List of files to load in the browser.
+    files: [
+      './test/test.ts'
+    ],
 
-    // frameworks to use
-    // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['jasmine'],
+    plugins: [
+      require('karma-mocha'),
+      require('karma-power-assert'),
+      require('karma-sourcemap-loader'),
+      require('karma-chrome-launcher'),
+      require('karma-espower-preprocessor'),
+      require('karma-spec-reporter'),
+      require('karma-webpack')
+    ],
+    webpack: webpackTestConfig,
 
-
-    // list of files / patterns to load in the browser
-    files: [{
-      pattern: testEntry,
-      watched: false
-    }],
-
-    webpack: webpackConfig,
-
-    // preprocess matching files before serving them to the browser
-    // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-    preprocessors: preprocessors,
-
-    webpackMiddleware: {
-      noInfo: true,
-      stats: 'errors-only'
+    // Preprocess matching files before serving them to the browser.
+    // Available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
+    preprocessors: {
+      'test/test.ts': ['webpack', 'sourcemap', 'espower'],
+      './test/*\.spec\.ts': ['webpack', 'sourcemap', 'espower']
+    },
+    mime: {
+      'text/x-typescript': [ 'ts' ]
     },
 
+    coverageIstanbulReporter: {
+      reports: ['text-summary', 'html', 'lcovonly'],
+      fixWebpackSourcePaths: true
+    },
 
-    // test results reporter to use
-    // possible values: 'dots', 'progress'
-    // available reporters: https://npmjs.org/browse/keyword/karma-reporter
+    // Test results reporter to use.
+    // Possible values: 'dots', 'progress'.
+    // Available reporters: https://npmjs.org/browse/keyword/karma-reporter
     reporters: ['spec'],
 
+    // Level of logging
+    // Possible values:
+    // - config.LOG_DISABLE
+    // - config.LOG_ERROR
+    // - config.LOG_WARN
+    // - config.LOG_INFO
+    // - config.LOG_DEBUG
+    logLevel: config.LOG_WARN,
 
-    // web server port
-    port: 9876,
+    // Start these browsers.
+    // Available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
+    browsers: ['ChromeHeadlessNoSandbox'],
+    customLaunchers: {
+      ChromeHeadlessNoSandbox: {
+        base: 'ChromeHeadless',
+        flags: [
+          '--no-sandbox', // required to run without privileges in docker
+          '--user-data-dir=/tmp/chrome-test-profile',
+          '--disable-web-security'
+        ]
+      }
+    },
 
+    browserConsoleLogOptions: {
+      terminal: true,
+      level: 'log'
+    },
 
-    // enable / disable colors in the output (reporters and logs)
-    colors: true,
-
-
-    // level of logging
-    // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-    logLevel: config.LOG_INFO,
-
-
-    // enable / disable watching file and executing tests whenever any file changes
-    autoWatch: true,
-
-
-    // start these browsers
-    // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['PhantomJS'],
-
-
-    // Continuous Integration mode
-    // if true, Karma captures browsers, runs the tests and exits
-    singleRun: false,
-
-    // Concurrency level
-    // how many browser should be started simultaneous
-    concurrency: Infinity
+    singleRun: true,
+    colors: true
   })
 }

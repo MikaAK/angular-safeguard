@@ -1,4 +1,4 @@
-import {IStorageSetConfig, ExpiryData} from './metadata'
+import {IExpiryData} from './metadata'
 
 // Convenience
 export function encode(str: string): string {
@@ -15,7 +15,7 @@ export function isInPast(date: Date): boolean {
   return date <= new Date()
 }
 
-export function isString(str: string|Date): boolean {
+export function isString(str: string | Date): boolean {
   return typeof str === 'string'
 }
 
@@ -31,7 +31,7 @@ export function isNumber(item: any) {
   return typeof item === 'number'
 }
 
-export function isExpired(data: ExpiryData): boolean {
+export function isExpired(data: IExpiryData): boolean {
   if (!data.config)
     return false
 
@@ -40,11 +40,10 @@ export function isExpired(data: ExpiryData): boolean {
   if (!expires)
     return false
 
-
   return isInPast(expires instanceof Date ? expires : new Date(expires))
 }
 
-export function is(ctor, value): boolean {
+export function is(ctor: any, value: any): boolean {
   return value &&
          value.constructor === ctor ||
          value instanceof ctor
@@ -65,4 +64,3 @@ export function convertFromJSON(data: any): any {
 export function serializeDataToString(data: any): string {
   return typeof data === 'object' ? JSON.stringify(data) : data.toString()
 }
-

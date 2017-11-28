@@ -1,43 +1,43 @@
-import {Injectable, OpaqueToken} from '@angular/core'
+import {InjectionToken} from '@angular/core'
 
 import {PollyfillDriver} from './PolyfillDriver'
 import {Driver} from './Driver'
 import {MemoryStorage} from './MemoryStorage'
 import {CookieStorage} from './CookieStorage'
-import {DriverType} from './metadata'
+import {IDriverType} from './metadata'
 
 export const enum DRIVERS {
-  LOCAL,
-  SESSION,
-  MEMORY,
-  COOKIE
+  LOCAL = 'local',
+  SESSION = 'session',
+  MEMORY = 'memory',
+  COOKIE = 'cookie'
 }
 
-@Injectable()
-export class LocalStorageDriver implements DriverType {
-  public storage = new PollyfillDriver(localStorage)
-  public type = DRIVERS.LOCAL
+/* tslint:disable variable-name */
+
+export const LocalStorageDriver: IDriverType = {
+  storage: new PollyfillDriver(localStorage),
+  type: DRIVERS.LOCAL
 }
 
-@Injectable()
-export class SessionStorageDriver implements DriverType {
-  public storage = new PollyfillDriver(sessionStorage)
-  public type = DRIVERS.SESSION
+export const SessionStorageDriver: IDriverType = {
+  storage: new PollyfillDriver(sessionStorage),
+  type: DRIVERS.SESSION
 }
 
-@Injectable()
-export class MemoryStorageDriver implements DriverType {
-  public storage = new PollyfillDriver(new MemoryStorage())
-  public type = DRIVERS.MEMORY
+export const MemoryStorageDriver: IDriverType = {
+  storage: new PollyfillDriver(new MemoryStorage()),
+  type: DRIVERS.MEMORY
 }
 
-@Injectable()
-export class CookieStorageDriver implements DriverType {
-  public storage = new Driver(new CookieStorage())
-  public type = DRIVERS.COOKIE
+export const CookieStorageDriver: IDriverType = {
+  storage: new Driver(new CookieStorage()),
+  type: DRIVERS.COOKIE
 }
 
-export const LOCKER_DRIVER_TYPES = new OpaqueToken('LOCKER_DRIVER_TYPES')
+/* tslint:enable variable-name */
+
+export const LOCKER_DRIVER_TYPES = new InjectionToken('LOCKER_DRIVER_TYPES')
 
 export const DRIVER_TYPES_PROVIDERS = [{
   provide: LOCKER_DRIVER_TYPES,

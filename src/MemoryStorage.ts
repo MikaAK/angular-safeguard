@@ -1,23 +1,26 @@
 import {ICustomStorage} from './metadata'
 
+// This is dumb TODO: REMOVE
+declare const Map: any
+
 const _cache = new Map()
 
-const getKeys = () => Array.from(_cache.keys())
+const getKeys = (): any[] => Array.from(_cache.keys())
 
 export class MemoryStorage implements ICustomStorage {
-  public hasItem(key) {
+  public hasItem(key: string) {
     return _cache.has(key)
   }
 
-  public getItem(key) {
+  public getItem(key: string) {
     return _cache.get(key)
   }
 
-  public setItem(key, value, config) {
+  public setItem(key: string, value: string) {
     _cache.set(key, value)
   }
 
-  public removeItem(key) {
+  public removeItem(key: string) {
     _cache.delete(key)
   }
 
@@ -25,7 +28,7 @@ export class MemoryStorage implements ICustomStorage {
     _cache.clear()
   }
 
-  public key(index) {
+  public key(index: number) {
     return getKeys()[index]
   }
 

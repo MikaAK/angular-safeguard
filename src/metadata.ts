@@ -2,11 +2,11 @@ import {Driver} from './Driver'
 import {DRIVERS} from './DriverTypes'
 
 export interface IStorageSetConfig {
- secure?: boolean
- maxAge?: number
- domain?: string
- path?: string
- expires?: Date|string
+  secure?: boolean
+  maxAge?: number
+  domain?: string
+  path?: string
+  expires?: Date | string
 }
 
 export interface IStorage {
@@ -28,17 +28,18 @@ export interface ICustomStorage extends IStorage {
 }
 
 export interface ILockerConfig {
+  [key: string]: string | DRIVERS | DRIVERS[]
   driverNamespace?: string
-  driverFallback?: DRIVERS|DRIVERS[]
+  driverFallback?: DRIVERS | DRIVERS[]
   namespaceSeparator?: string
 }
 
-export interface ExpiryData {
+export interface IExpiryData {
   config?: IStorageSetConfig
   data: any
 }
 
-export interface DriverType {
+export interface IDriverType {
   storage: Driver
-  type: number|string
+  type: string
 }

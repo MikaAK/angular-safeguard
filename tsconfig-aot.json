@@ -1,0 +1,37 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "es2015",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "declaration": true,
+    "removeComments": false,
+    "noImplicitAny": true,
+    "experimentalDecorators": true,
+    "preserveConstEnums": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "emitDecoratorMetadata": true,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "pretty": true,
+    "stripInternal": true,
+    "skipLibCheck": true,
+    "lib": [
+      "es2017",
+      "dom"
+    ],
+    "outDir": "dist",
+    "rootDir": "./src"
+  },
+  "files": [
+    "./src/index.ts"
+  ],
+  "angularCompilerOptions": {
+    "genDir": "dist",
+    "debug": true,
+    "preserveWhitespace": false,
+    "skipTemplateCodegen": true,
+    "skipMetadataEmit": false
+  }
+}

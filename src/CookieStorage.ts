@@ -1,30 +1,30 @@
-import {ICustomStorage} from './metadata'
+import {ICustomStorage, IStorageSetConfig} from './metadata'
 import {Cookie} from './Cookie'
 
 export class CookieStorage implements ICustomStorage {
-  public hasItem(key) {
+  public hasItem(key: string) {
     return <boolean>!!Cookie.get(key)
   }
 
-  public getItem(key) {
+  public getItem(key: string) {
     return Cookie.get(key)
   }
 
-  public setItem(key, value, config) {
+  public setItem(key: string, value: any, config: IStorageSetConfig) {
     Cookie.set(key, value, config)
   }
 
-  public removeItem(key) {
+  public removeItem(key: string) {
     Cookie.remove(key)
   }
 
   public clear() {
     Object.keys(Cookie.getAll())
-      .forEach(key => Cookie.remove(key))
+      .forEach((key) => Cookie.remove(key))
   }
 
-  public key(index) {
-    var cookies = Object.keys(Cookie.getAll())
+  public key(index: number) {
+    const cookies = Object.keys(Cookie.getAll())
 
     return cookies[index]
   }
@@ -32,6 +32,4 @@ export class CookieStorage implements ICustomStorage {
   public get length() {
     return Object.keys(Cookie.getAll()).length
   }
-
 }
-

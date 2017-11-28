@@ -15,14 +15,12 @@ import {ILockerConfig} from './metadata'
 })
 export class LockerModule {
   public static withConfig(userConfig: ILockerConfig): ModuleWithProviders {
-    const config = {
-      provide: LOCKER_USER_CONFIG,
-      useValue: userConfig
-    }
-
     return {
       ngModule: LockerModule,
-      providers: [Locker, LockerConfig, ...DRIVER_TYPES_PROVIDERS, config]
+      providers: [Locker, LockerConfig, ...DRIVER_TYPES_PROVIDERS, {
+        provide: LOCKER_USER_CONFIG,
+        useValue: userConfig
+      }]
     }
   }
 }

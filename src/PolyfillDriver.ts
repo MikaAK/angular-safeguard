@@ -1,10 +1,14 @@
 import {Driver} from './Driver'
 import {serializeDataToString, convertFromJSON, isExpired} from './helpers'
-import {IStorageSetConfig, ICustomStorage} from './metadata'
+import {IStorageSetConfig, ICustomStorage, IStorage} from './metadata'
 
 // This driver is a special driver to handle expiry and other options (similar to cookies)
 // stores data as {data: myData, config: {expiry: new Date()}}
 export class PollyfillDriver extends Driver {
+  constructor(public storage: IStorage) {
+    super(storage)
+  }
+
   public set(key: string, data: any, config?: IStorageSetConfig): void {
     this.storage.setItem(key, serializeDataToString({data, config}))
   }
@@ -14,7 +18,7 @@ export class PollyfillDriver extends Driver {
 
     const data = convertFromJSON(this.storage.getItem(key))
 
-    return (data && Reflect.has(data, 'data')) ? data.data : data
+    return (data && data.data) ? data.data : data
   }
 
   public has(key: string): boolean {
@@ -33,7 +37,7 @@ export class PollyfillDriver extends Driver {
     return this.storage.key(index)
   }
 
-  private _checkExpiry(key) {
+  private _checkExpiry(key: string) {
     const data = convertFromJSON(this.storage.getItem(key))
 
     if (data && isExpired(data))
