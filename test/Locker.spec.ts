@@ -12,7 +12,7 @@ describe('Locker', function() {
     value: 'value'
   }
 
-  beforeAll(() => {
+  before(() => {
     sessionStorage.clear()
     localStorage.clear()
   })
@@ -25,9 +25,9 @@ describe('Locker', function() {
     it('initializes in angular2', inject([Locker], function(locker: Locker) {
       locker.set(DRIVERS.SESSION, TEST_DATA.key, TEST_DATA.value)
 
-      expect(locker.has(DRIVERS.SESSION, TEST_DATA.key)).toBeTruthy()
-      expect(locker.get(DRIVERS.SESSION, TEST_DATA.key)).toEqual(TEST_DATA.value)
-      expect(locker.key(DRIVERS.SESSION)).toEqual(TEST_DATA.key)
+      assert(locker.has(DRIVERS.SESSION, TEST_DATA.key))
+      assert(locker.get(DRIVERS.SESSION, TEST_DATA.key) === TEST_DATA.value)
+      assert(locker.key(DRIVERS.SESSION) === TEST_DATA.key)
     }))
   })
 
@@ -41,14 +41,14 @@ describe('Locker', function() {
     it('can take in a custom namespace', inject([Locker], function(locker: Locker) {
       locker.set(DRIVERS.SESSION, TEST_DATA.key, TEST_DATA.value)
 
-      expect(sessionStorage.key(0)).toMatch(/^test/)
+      assert(/^test/.test(sessionStorage.key(0)))
     }))
 
     it('can be passed undefined and uses default namespace', inject([Locker], function(locker: Locker) {
       locker.setNamespace()
       locker.set(DRIVERS.SESSION, TEST_DATA.key, TEST_DATA.value)
 
-      expect(sessionStorage.key(0)).toEqual(TEST_DATA.key)
+      assert(sessionStorage.key(0) === TEST_DATA.key)
     }))
   })
 
@@ -65,14 +65,14 @@ describe('Locker', function() {
     it('can take in a custom seperator', inject([Locker], function(locker: Locker) {
       locker.set(DRIVERS.SESSION, TEST_DATA.key, TEST_DATA.value)
 
-      expect(sessionStorage.key(0)).toEqual(`${NAMESPACE}-${TEST_DATA.key}`)
+      assert(sessionStorage.key(0) === `${NAMESPACE}-${TEST_DATA.key}`)
     }))
 
     it('can be passed undefined and uses default seperator', inject([Locker], function(locker: Locker) {
       locker.setSeparator()
       locker.set(DRIVERS.SESSION, TEST_DATA.key, TEST_DATA.value)
 
-      expect(sessionStorage.key(0)).toEqual(`${NAMESPACE}:${TEST_DATA.key}`)
+      assert(sessionStorage.key(0) === `${NAMESPACE}:${TEST_DATA.key}`)
     }))
   })
 

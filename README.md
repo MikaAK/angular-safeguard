@@ -24,7 +24,7 @@ $ npm i --save angular-safeguard
 
 ```typescript
 import {NgModule} from '@angular/core'
-import {LockerModule, Locker, LockerConfig} from 'angular-safeguard'
+import {LockerModule, Locker, DRIVERS} from 'angular-safeguard'
 
 @Component({
   selector: 'app',
@@ -32,7 +32,7 @@ import {LockerModule, Locker, LockerConfig} from 'angular-safeguard'
 })
 class App {
   constructor(locker: Locker) {
-    locker.set('something', value)
+    locker.set(DRIVERS.SESSION, 'something', value)
   }
 }
 

@@ -1,12 +1,10 @@
-declare const __DEV__: boolean, __TEST__: boolean
-
 import {IStorageSetConfig, IWebStorage, ICustomStorage} from './metadata'
 import {convertFromJSON, serializeDataToString} from './helpers'
 
 const LOCKER_TEST_KEY = 'LOCKER_TEST_KEY'
 
 export class Driver {
-  constructor(public storage: IWebStorage|ICustomStorage) {}
+  constructor(public storage: IWebStorage | ICustomStorage) { }
 
   public set(key: string, data: any, config?: IStorageSetConfig): void {
     this.storage.setItem(key, serializeDataToString(data), config)
@@ -40,13 +38,9 @@ export class Driver {
       this.storage.getItem(LOCKER_TEST_KEY)
       this.storage.removeItem(LOCKER_TEST_KEY)
     } catch (e) {
-      if (__DEV__ || __TEST__)
-        console.error(e)
-
       return false
     }
 
     return true
   }
 }
-

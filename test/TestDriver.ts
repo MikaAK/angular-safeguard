@@ -2,7 +2,6 @@ import {inject} from '@angular/core/testing'
 
 import {DRIVERS} from '../src/DriverTypes'
 import {Locker} from '../src/Locker'
-import {LockerConfig} from '../src/LockerConfig'
 
 import {initTestBed} from './testHelpers'
 
@@ -25,17 +24,12 @@ export const TestDriver = function(driverName, driver: DRIVERS) {
       beforeEach(inject([Locker], (lockerService) => locker = lockerService))
       afterEach(() => locker.clear(driver))
 
-      it(`sets driver to ${driverName}`, () => {
-        expect(locker['driver']).toEqual(driver)
-      })
-
-
       it('sets key with string value into storage', () => {
         const TEST_VALUE = 'TEST'
 
         locker.set(driver, TEST_KEY, TEST_VALUE)
 
-        expect(locker.get(driver, TEST_KEY)).toEqual(TEST_VALUE)
+        assert.deepEqual(locker.get(driver, TEST_KEY), TEST_VALUE)
       })
 
       it('sets key with object value into storage', () => {
@@ -46,7 +40,7 @@ export const TestDriver = function(driverName, driver: DRIVERS) {
 
         locker.set(driver, TEST_KEY, TEST_VALUE)
 
-        expect(locker.get(driver, TEST_KEY)).toEqual(TEST_VALUE)
+        assert.deepEqual(locker.get(driver, TEST_KEY), TEST_VALUE)
       })
 
       it('removes data from storage with .remove', () => {
@@ -55,7 +49,7 @@ export const TestDriver = function(driverName, driver: DRIVERS) {
         locker.set(driver, TEST_KEY, TEST_VALUE)
         locker.remove(driver, TEST_KEY)
 
-        expect(locker.get(driver, TEST_KEY)).not.toEqual(TEST_VALUE)
+        assert.notDeepEqual(locker.get(driver, TEST_KEY), TEST_VALUE)
       })
 
       it('clears all data from the storage with .clear', () => {
@@ -67,8 +61,8 @@ export const TestDriver = function(driverName, driver: DRIVERS) {
 
         locker.clear(driver)
 
-        expect(locker.get(driver, TEST_KEY)).not.toEqual(TEST_VALUE)
-        expect(locker.get(driver, TEST_KEY_2)).not.toEqual(TEST_VALUE)
+        assert.notDeepEqual(locker.get(driver, TEST_KEY), TEST_VALUE)
+        assert.notDeepEqual(locker.get(driver, TEST_KEY_2), TEST_VALUE)
       })
 
       it('can fetch key by index', () => {
@@ -79,7 +73,7 @@ export const TestDriver = function(driverName, driver: DRIVERS) {
 
         locker.set(driver, dummy.key, dummy.data)
 
-        expect(locker.key(driver)).toEqual(dummy.key)
+        assert(locker.key(driver) === dummy.key)
       })
     })
 
@@ -94,7 +88,7 @@ export const TestDriver = function(driverName, driver: DRIVERS) {
 
         locker.set(driver, dummy.key, dummy.data)
 
-        expect(locker.key(driver)).toEqual(dummy.key)
+        assert(locker.key(driver) === dummy.key)
       }))
     })
   })

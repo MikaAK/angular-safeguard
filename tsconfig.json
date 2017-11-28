@@ -1,20 +1,39 @@
 {
-  "compileOnSave": false,
-  "buildOnSave": false,
   "compilerOptions": {
-    "target": "ES5",
-    "module": "es2015",
-    "declaration": true,
-    "sourceMap": true,
+    "target": "es5",
+    "module": "commonjs",
     "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
     "preserveConstEnums": true,
     "pretty": true,
+    "noEmit": true,
+    "sourceMap": true,
+    "declaration": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitAny": false,
     "experimentalDecorators": true,
-    "lib": ["es2017", "dom"]
+    "emitDecoratorMetadata": true,
+    "rootDir": ".",
+    "lib": [
+      "es2017",
+      "dom"
+    ],
+    "typeRoots" : [
+      "./node_modules/@types"
+    ],
+    "types": [
+      "node",
+      "webpack",
+      "webpack-env"
+    ]
   },
+  "include": [
+    "src/**/*.ts"
+  ],
   "exclude": [
+    "src/**/*.spec.ts",
     "node_modules",
+    "demo",
     "dist"
   ],
   "angularCompilerOptions": {
