@@ -616,7 +616,7 @@ export const USER_CONFIG_PROVIDER &#x3D; {
   }
 }
 
-const configNotNil &#x3D; (config: ILockerConfig, prop: string): boolean &#x3D;&gt; !config || isNil(config[prop])
+const configNotNil &#x3D; (config: ILockerConfig, prop: keyof ILockerConfig): boolean &#x3D;&gt; !config || isNil(config[prop])
 
 @Injectable()
 export class LockerConfig {
