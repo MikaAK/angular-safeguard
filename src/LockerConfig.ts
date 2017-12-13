@@ -19,7 +19,7 @@ export const USER_CONFIG_PROVIDER = {
   }
 }
 
-const configNotNil = (config: ILockerConfig, prop: string): boolean => !config || isNil(config[prop])
+const configNotNil = (config: ILockerConfig, prop: keyof ILockerConfig): boolean => !config || isNil(config[prop])
 
 @Injectable()
 export class LockerConfig {
