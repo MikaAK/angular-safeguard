@@ -1,6 +1,7 @@
 angular-safeguard
 =====
 [![Build Status](https://travis-ci.org/MikaAK/angular-safeguard.svg?branch=master)](https://travis-ci.org/MikaAK/angular-safeguard)
+
 [![Code Climate](https://codeclimate.com/github/MikaAK/angular2-locker/badges/gpa.svg)](https://codeclimate.com/github/MikaAK/angular2-locker)
 
 ***Note: This library was renamed from angular2-locker to angular-safeguard***
