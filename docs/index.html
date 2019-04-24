@@ -390,8 +390,8 @@
                    <div class="content-data">
 
 <h1 id="angular-safeguard">angular-safeguard</h1>
-<p><a href="https://travis-ci.org/MikaAK/angular-safeguard"><img src="https://travis-ci.org/MikaAK/angular-safeguard.svg?branch=master" alt="Build Status" class="img-responsive"</a>
-<a href="https://codeclimate.com/github/MikaAK/angular2-locker"><img src="https://codeclimate.com/github/MikaAK/angular2-locker/badges/gpa.svg" alt="Code Climate" class="img-responsive"</a></p>
+<p><a href="https://travis-ci.org/MikaAK/angular-safeguard"><img src="https://travis-ci.org/MikaAK/angular-safeguard.svg?branch=master" alt="Build Status" class="img-responsive"</a></p>
+<p><a href="https://codeclimate.com/github/MikaAK/angular2-locker"><img src="https://codeclimate.com/github/MikaAK/angular2-locker/badges/gpa.svg" alt="Code Climate" class="img-responsive"</a></p>
 <p><strong><em>Note: This library was renamed from angular2-locker to angular-safeguard</em></strong></p>
 <p>Wrapper around sessionStorage, localStorage and cookies for angular. If both are unavailable will use an in memory storage.</p>
 <p>Expiry is also implemented for all drivers not just cookies</p>
@@ -449,9 +449,9 @@ const lockerConfig = {
 class SomeModule {
 
 }</code></pre><h2 id="methods">Methods</h2>
-<p>####<code>get</code>
-<code>locker.get(DRIVERS.SESSION, &#39;myKey&#39;)</code></p>
-<p>####<code>set</code></p>
+<h4 id="-get-"><code>get</code></h4>
+<p><code>locker.get(DRIVERS.SESSION, &#39;myKey&#39;)</code></p>
+<h4 id="-set-"><code>set</code></h4>
 <pre class="line-numbers"><code class="language-typescript">locker.set(DRIVERS.SESSION, &#39;myKey&#39;, &#39;value&#39;)
 locker.set(DRIVERS.SESSION, &#39;myKey&#39;, {object: &#39;value&#39;})
 
@@ -461,19 +461,19 @@ expiry.setHours(expiry.getHours() + 1)
 
 locker.set(DRIVERS.SESSION, &#39;myKey&#39;, &#39;value&#39;, {expiry}) // will work with every driver type
 
-// You can also use set to pass options for cookies like maxAge and such</code></pre><p>####<code>key</code></p>
+// You can also use set to pass options for cookies like maxAge and such</code></pre><h4 id="-key-"><code>key</code></h4>
 <pre class="line-numbers"><code class="language-typescript">locker.set(DRIVERS.COOKIES, &#39;key&#39;, &#39;value&#39;)
 
-locker.key(DRIVERS.COOKIES, 0) // &#39;key&#39;</code></pre><p>####<code>has</code>
-<code>locker.has(DRIVERS.LOCAL, &#39;key&#39;)</code></p>
-<p>####<code>setNamespace</code></p>
+locker.key(DRIVERS.COOKIES, 0) // &#39;key&#39;</code></pre><h4 id="-has-"><code>has</code></h4>
+<p><code>locker.has(DRIVERS.LOCAL, &#39;key&#39;)</code></p>
+<h4 id="-setnamespace-"><code>setNamespace</code></h4>
 <pre class="line-numbers"><code class="language-typescript">locker.setNamespace(&#39;myName&#39;)
-locker.setNamespace() // Resets to lockerConfig default</code></pre><p>####<code>setSeparator</code></p>
+locker.setNamespace() // Resets to lockerConfig default</code></pre><h4 id="-setseparator-"><code>setSeparator</code></h4>
 <pre class="line-numbers"><code class="language-typescript">locker.setSeparator(&#39;myName&#39;)
-locker.setSeparator() // Resets to lockerConfig default</code></pre><p>####<code>remove</code>
-<code>locker.remove(DRIVERS.SESSION, &#39;key&#39;)</code></p>
-<p>####<code>clear</code>
-<code>locker.clear(DRIVERS.SESSION)</code></p>
+locker.setSeparator() // Resets to lockerConfig default</code></pre><h4 id="-remove-"><code>remove</code></h4>
+<p><code>locker.remove(DRIVERS.SESSION, &#39;key&#39;)</code></p>
+<h4 id="-clear-"><code>clear</code></h4>
+<p><code>locker.clear(DRIVERS.SESSION)</code></p>
 <h2 id="static-methods">Static Methods</h2>
 <h4 id="-drivers-"><code>DRIVERS</code></h4>
 <p>These are the types of drivers available. If you try to set it to a (single) driver that is unsupported it will fallback to the memory driver.  To set fallback drivers, pass in an Array of drivers in the order or preference:</p>

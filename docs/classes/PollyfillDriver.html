@@ -923,7 +923,7 @@ export class PollyfillDriver extends Driver {
 
     const data &#x3D; convertFromJSON(this.storage.getItem(key))
 
-    return (data &amp;&amp; data.data) ? data.data : data
+    return (data &amp;&amp; data.hasOwnProperty(&#x27;data&#x27;)) ? data.data : data
   }
 
   public has(key: string): boolean {
