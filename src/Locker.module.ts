@@ -14,7 +14,7 @@ import {ILockerConfig} from './metadata'
   ]
 })
 export class LockerModule {
-  public static withConfig(userConfig: ILockerConfig): ModuleWithProviders {
+  public static withConfig(userConfig: ILockerConfig): ModuleWithProviders<ILockerConfig> {
     return {
       ngModule: LockerModule,
       providers: [Locker, LockerConfig, ...DRIVER_TYPES_PROVIDERS, {
