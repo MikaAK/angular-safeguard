@@ -1,13 +1,13 @@
 {
-  "name": "angular-safeguard",
-  "version": "2.1.0",
+  "name": "@sittingbool/angular-safeguard",
+  "version": "3.0.0",
   "description": "angular library for managing session, locker and cookie storage, has backup for in-memory if none are supported",
   "main": "./dist/index.umd.js",
   "module": "./dist/index.js",
   "typings": "./dist/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/MikaAK/angular-safeguard.git"
+    "url": "git+ssh://git@github.com/sittingbool/angular-safeguard.git"
   },
   "keywords": [
     "angular2",
@@ -20,7 +20,7 @@
     "localStorage",
     "locker"
   ],
-  "author": "Mika Kalathil <me@mikakalathil.ca>",
+  "author": "Richard Habermann <sittingbool@gmx.de>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/MikaAK/angular-safeguard/issues"
@@ -52,15 +52,15 @@
     "tslint": "tslint"
   },
   "peerDependencies": {
-    "@angular/core": ">= 5.0.0"
+    "@angular/core": ">= 9.0.0"
   },
   "devDependencies": {
-    "@angular/common": "^5.1.0",
-    "@angular/compiler": "^5.1.0",
-    "@angular/compiler-cli": "^5.1.0",
-    "@angular/core": "^5.1.0",
-    "@angular/platform-browser": "^5.1.0",
-    "@angular/platform-browser-dynamic": "^5.1.0",
+    "@angular/common": "^9.1.11",
+    "@angular/compiler": "^9.1.11",
+    "@angular/compiler-cli": "^9.1.11",
+    "@angular/core": "^9.1.11",
+    "@angular/platform-browser": "^9.1.11",
+    "@angular/platform-browser-dynamic": "^9.1.11",
     "@compodoc/compodoc": "^1.0.0-beta.9",
     "@types/assert": "0.0.31",
     "@types/jasmine": "^2.5.47",
@@ -97,10 +97,10 @@
     "source-map-explorer": "^1.3.3",
     "testdouble": "^3.2.6",
     "to-string-loader": "^1.1.5",
-    "ts-node": "^3.0.4",
+    "ts-node": "8.10.2",
     "tslint": "^5.2.0",
     "tslint-eslint-rules": "^4.1.1",
-    "typescript": "^2.4.2",
+    "typescript": "^3.8.3",
     "webpack": "^3.10.0",
     "webpack-angular-externals": "^1.0.2",
     "webpack-rxjs-externals": "^1.0.0",
