@@ -1,4 +1,4 @@
-import {NgModule, ModuleWithProviders} from '@angular/core'
+import {ModuleWithProviders, NgModule} from '@angular/core'
 
 import {Locker} from './Locker'
 import {LockerConfig, LOCKER_USER_CONFIG} from './LockerConfig'
@@ -7,7 +7,7 @@ import {ILockerConfig} from './metadata'
 
 @NgModule()
 export class LockerModule {
-  public static withConfig(userConfig: ILockerConfig): ModuleWithProviders {
+  public static withConfig(userConfig: ILockerConfig): ModuleWithProviders<LockerModule> {
     return {
       ngModule: LockerModule,
       providers: [Locker, LockerConfig, ...DRIVER_TYPES_PROVIDERS, {
