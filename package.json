@@ -74,7 +74,7 @@
     "codelyzer": "^4.0.2",
     "concurrently": "^3.4.0",
     "css-loader": "^0.28.1",
-    "gh-pages": "^1.0.0",
+    "gh-pages": "^4.0.0",
     "gulp": "^3.9.1",
     "istanbul-instrumenter-loader": "^3.0.0",
     "json-loader": "^0.5.4",
